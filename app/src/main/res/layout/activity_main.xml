@@ -12,21 +12,65 @@
     tools:context="com.example.ritwick.shutup.MainActivity">
 
     <Switch
-        android:text="Master control  "
+        android:text="@string/master_control"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:layout_alignParentTop="true"
         android:layout_alignParentRight="true" android:layout_alignParentEnd="true"
         android:id="@+id/masterswitch" android:onClick="MasterSwitchClicked"/>
     <TextView
+        android:text="@string/it_even_has_a_pocket_mode_so_that_your_calls_do_not_get_missed_when_your_phone_s_in_pocket"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:id="@+id/infoproximity"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:textAlignment="center"
+        android:layout_below="@+id/info" android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" android:layout_marginTop="46dp"
+        android:textSize="14sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
         android:id="@+id/info"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:text="This app uses the proximity sensor on your phone to silent phone when a call comes. Just Wave your hand over the proximity sensor."
+        android:text="@string/introinfo"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:fontFamily="sans-serif-condensed"
         android:layout_below="@+id/masterswitch" android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" android:textSize="18sp"
+        tools:targetApi="jelly_bean"/>
+    <TextView
+        android:text="@string/double_wave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp" android:id="@+id/doublewave"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:layout_below="@+id/singlewave" android:layout_alignLeft="@+id/singlewave"
+        android:layout_alignStart="@+id/singlewave" android:textSize="18sp"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/doublelist"
+        android:layout_alignTop="@+id/doublewave" android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" android:layout_toEndOf="@+id/singlewave"
+        android:layout_marginTop="2dp" android:layout_marginStart="5dp"
+        android:layout_toRightOf="@+id/singlewave" android:layout_marginLeft="5dp"/>
+    <TextView
+        android:text="@string/single_wave_or_nflip_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="21dp" android:layout_marginStart="21dp"
+        android:layout_marginTop="79dp" android:id="@+id/singlewave"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:textSize="18sp"
+        android:layout_below="@+id/infoproximity" android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/singlelist"
+        android:layout_alignTop="@+id/singlewave" android:layout_toRightOf="@+id/singlewave"
+        android:layout_toEndOf="@+id/singlewave" android:layout_marginTop="2dp"
+        android:layout_marginLeft="5dp"/>
 </RelativeLayout>
