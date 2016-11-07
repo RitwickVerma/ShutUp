@@ -1,4 +1,4 @@
-package com.example.ritwick.shutup;
+package com.laughingstock.ritwick.shutup;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

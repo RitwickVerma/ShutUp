@@ -1,20 +1,22 @@
 <resources>
     <string name="app_name">ShutUp!</string>
-    <string name="introinfo">Silence your phone without even touching. Just wave your hand over the
+    <string name="intro_info">Silence your phone without even touching. Just wave your hand over the
         proximity sensor or flip it down. But wait, you can do more! Turn on the master switch to
         see what.
     </string>
     <string name="double_wave">Double wave :</string>
-    <string name="single_wave_or_nflip_down">Single wave or :\nFlip down</string>
+    <string name="single_wave">Single wave or :\nFlip down</string>
     <string
-        name="it_even_has_a_pocket_mode_so_that_your_calls_do_not_get_missed_when_your_phone_s_in_pocket">
+        name="pocket_mode_info">
         It even has a pocket mode so that your calls do not get missed when your phone\'s in pocket
         :)
     </string>
-    <string name="master_control">Master control</string>
+    <string name="master_control">Master control\t</string>
     <string-array name="listoptions">
         <item>Silent phone</item>
+        <item>Answer call</item>
         <item>End call</item>
         <item>Do nothing</item>
+
     </string-array>
 </resources>

@@ -1,13 +1,9 @@
-package com.example.ritwick.shutup;
+package com.laughingstock.ritwick.shutup;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.telephony.TelephonyManager;
-
-/**
- * Created by ritwick on 10/7/16.
- */
 
 public class PhoneStateReceiver extends BroadcastReceiver
 {
