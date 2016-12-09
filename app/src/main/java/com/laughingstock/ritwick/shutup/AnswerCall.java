@@ -11,12 +11,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.KeyEvent;
-import android.view.WindowManager;
+
 
 import java.io.IOException;
 
-public class AnswerCall extends Activity
-{
+public class AnswerCall extends Activity {
+
 
     private static final String MANUFACTURER_HTC = "HTC";
 
@@ -25,8 +25,7 @@ public class AnswerCall extends Activity
     private CallStateReceiver callStateReceiver;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
@@ -34,8 +33,7 @@ public class AnswerCall extends Activity
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
 
         registerCallStateReceiver();
@@ -44,79 +42,55 @@ public class AnswerCall extends Activity
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         super.onPause();
 
-        if (callStateReceiver != null)
-        {
+        if (callStateReceiver != null) {
             unregisterReceiver(callStateReceiver);
             callStateReceiver = null;
         }
     }
 
-    private void registerCallStateReceiver()
-    {
+    private void registerCallStateReceiver() {
         callStateReceiver = new CallStateReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
         registerReceiver(callStateReceiver, intentFilter);
     }
 
-    private void updateWindowFlags()
-    {
-        if (keyguardManager.inKeyguardRestrictedInputMode())
-        {
-            getWindow().addFlags(
-                    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                            WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-        }
-        else
-        {
-            getWindow().clearFlags(
-                    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
-                            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+    private void updateWindowFlags() {
+        if (keyguardManager.inKeyguardRestrictedInputMode()) {
+            getWindow().addFlags(6815744);
+        } else {
+            getWindow().clearFlags(4718720);
         }
     }
 
-    private void acceptCall()
-    {
+    private void acceptCall() {
 
         // for HTC devices we need to broadcast a connected headset
         boolean broadcastConnected = MANUFACTURER_HTC.equalsIgnoreCase(Build.MANUFACTURER)
                 && !audioManager.isWiredHeadsetOn();
 
-        if (broadcastConnected)
-        {
+        if (broadcastConnected) {
             broadcastHeadsetConnected(false);
         }
 
         try {
-            try {
-                //logger.debug("execute input keycode headset hook");
-                Runtime.getRuntime().exec("input keyevent " +
-                        Integer.toString(KeyEvent.KEYCODE_HEADSETHOOK));
-
-            } catch (IOException e) {
-                // Runtime.exec(String) had an I/O problem, try to fall back
-                //logger.debug("send keycode headset hook intents");
-                String enforcedPerm = "android.permission.CALL_PRIVILEGED";
-                Intent btnDown = new Intent(Intent.ACTION_MEDIA_BUTTON).putExtra(
-                        Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_DOWN,
-                                KeyEvent.KEYCODE_HEADSETHOOK));
-                Intent btnUp = new Intent(Intent.ACTION_MEDIA_BUTTON).putExtra(
-                        Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP,
-                                KeyEvent.KEYCODE_HEADSETHOOK));
-
-                sendOrderedBroadcast(btnDown, enforcedPerm);
-                sendOrderedBroadcast(btnUp, enforcedPerm);
-            }
-        } finally {
+            Runtime.getRuntime().exec("input keyevent " + Integer.toString(79));
+        } catch (IOException e) {
+            String str = "android.permission.CALL_PRIVILEGED";
+            Intent putExtra = new Intent("android.intent.action.MEDIA_BUTTON").putExtra("android.intent.extra.KEY_EVENT", new KeyEvent(0, 79));
+            Intent putExtra2 = new Intent("android.intent.action.MEDIA_BUTTON").putExtra("android.intent.extra.KEY_EVENT", new KeyEvent(1, 79));
+            sendOrderedBroadcast(putExtra, str);
+            sendOrderedBroadcast(putExtra2, str);
+        } catch (Throwable th) {
             if (broadcastConnected) {
                 broadcastHeadsetConnected(false);
             }
+        }
+        if (broadcastConnected) {
+            broadcastHeadsetConnected(false);
         }
     }
 
@@ -134,7 +108,7 @@ public class AnswerCall extends Activity
     private class CallStateReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            finish();
+            finishAndRemoveTask();
         }
     }
 }

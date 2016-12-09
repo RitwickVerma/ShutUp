@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/blacklisttext1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16sp"
+        android:paddingRight="16sp"
+        android:paddingTop="10sp">
+
+        <TextView
+            android:text="Blacklist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/blacklisttext1"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"
+            android:paddingTop="15sp"
+            android:onClick="blacklisttextclicked"
+            android:paddingBottom="30sp"
+            android:layout_toLeftOf="@+id/blacklistswitch"/>
+
+        <TextView
+            android:text="for automatic speaker on/off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/blacklisttext2"
+            android:layout_below="@+id/blacklisttext1"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textSize="12sp"
+            android:textColor="@color/textColorSecondary"
+            android:layout_marginTop="-30sp"/>
+
+        <View
+            android:layout_width="0.4dp"
+            android:background="?android:listDivider"
+            android:layout_alignStart="@+id/blacklistswitch"
+            android:layout_marginTop="18sp"
+            android:layout_height="30sp"
+            android:layout_alignLeft="@+id/blacklistswitch"/>
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/blacklistswitch"
+            android:paddingLeft="40sp"
+            android:paddingTop="25sp"
+            android:paddingBottom="20sp"
+            android:onClick="blacklistswitchclicked"/>
+
+        <View style="@style/Divider"
+              android:background="?android:listDivider"
+              android:layout_below="@+id/blacklisttext1"
+            />
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/consecutivewavethresholdseekbar"
+            android:layout_below="@+id/default1.2sec"
+            android:max="30"
+            android:paddingTop="10sp"
+            android:paddingBottom="15sp"/>
+
+        <TextView
+            android:text="default 1.2 sec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/default1.2sec"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textSize="12sp"
+            android:textColor="@color/textColorSecondary"
+            android:layout_below="@+id/consecutivewavethresholdtext"
+            android:layout_marginTop="3sp"/>
+
+        <View style="@style/Divider"
+              android:background="?android:listDivider"
+              android:layout_below="@+id/consecutivewavethresholdseekbar"/>
+
+        <TextView
+            android:text="Consecutive wave threshold:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/consecutivewavethresholdtext"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textSize="16sp"
+            android:textColor="@color/textColorPrimary"
+            android:layout_below="@+id/blacklisttext1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:paddingTop="10sp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+
+</ScrollView>
+
+

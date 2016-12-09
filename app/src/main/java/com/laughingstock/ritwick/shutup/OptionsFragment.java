@@ -15,35 +15,43 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SettingsFragment extends Fragment
+public class OptionsFragment extends Fragment
 {
 
     SharedPreferences preferences;
-    Spinner singlelist,doublelist;
-    TextView singlewave,doublewave,protip;
-    ArrayAdapter<CharSequence> adapter;
+    Spinner singlelist,doublelist,flipdownlist;
+    TextView singlewave,doublewave,flipdowntext;
+    ArrayAdapter<CharSequence> waveadapter,flipdownadapter;
     Context context;
-    CheckBox silentonpick;
+    CheckBox silentonpick,speakeron;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState)
     {
-        View view= inflater.inflate(R.layout.fragment_settings,container,false);
+        View view= inflater.inflate(R.layout.fragment_options,container,false);
 
         context=getActivity();
         singlelist=(Spinner) view.findViewById(R.id.singlelist);
         doublelist=(Spinner) view.findViewById(R.id.doublelist);
+        flipdownlist=(Spinner) view.findViewById(R.id.flipdownlist);
         singlewave=(TextView) view.findViewById(R.id.singlewave);
         doublewave=(TextView) view.findViewById(R.id.doublewave);
-        protip=(TextView) view.findViewById(R.id.protipinfo);
+        flipdowntext=(TextView) view.findViewById(R.id.flipdowntext);
         silentonpick=(CheckBox) view.findViewById(R.id.silentonpickcheckbox);
+        speakeron=(CheckBox) view.findViewById(R.id.speakeroncheckbox);
 
-        adapter = ArrayAdapter.createFromResource(context,R.array.listoptions,  R.layout.spinner_item);//.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);//android.R.layout.simple_spinner_dropdown_item);
+        waveadapter = ArrayAdapter.createFromResource(context,R.array.wavelistoptions,  R.layout.spinner_item);//.R.layout.simple_spinner_item);
+        waveadapter.setDropDownViewResource(R.layout.spinner_dropdown_item);//android.R.layout.simple_spinner_dropdown_item);
 
-        singlelist.setAdapter(adapter);
-        doublelist.setAdapter(adapter);
+        flipdownadapter=ArrayAdapter.createFromResource(context,R.array.facedownlistoptions,R.layout.spinner_item);
+        flipdownadapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+        singlelist.setAdapter(waveadapter);
+        doublelist.setAdapter(waveadapter);
+
+        flipdownlist.setAdapter(flipdownadapter);
+
 
         singlelist.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
@@ -58,7 +66,7 @@ public class SettingsFragment extends Fragment
                 {
                     editor.putString("doublewaveselection","lol");
                     doublelist.setVisibility(View.INVISIBLE);
-                    doublewave.setVisibility(View.INVISIBLE);
+                    doublewave.setText("Double wave function not available");
                     if(parent.getItemAtPosition(position).toString().equals("Answer call"))
                     {
                         singlewave.setText("Single wave or :\nPut on ear");
@@ -69,10 +77,8 @@ public class SettingsFragment extends Fragment
                 {
                     editor.putString("doublewaveselection",doublelist.getSelectedItem().toString());
                     doublelist.setVisibility(View.VISIBLE);
-                    doublewave.setVisibility(View.VISIBLE);
+                    doublewave.setText(R.string.double_wave);
                 }
-
-                checkfornothingselected();
 
                 editor.apply();
             }
@@ -95,12 +101,30 @@ public class SettingsFragment extends Fragment
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("doublewaveselection",parent.getItemAtPosition(position).toString());
                 editor.apply();
-
-                checkfornothingselected();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent)
+            {
+                Toast.makeText(context,"Choice not changed",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        flipdownlist.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                preferences = context.getSharedPreferences("switchstatepref", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("flipdownlistselection",parent.getItemAtPosition(position).toString());
+                editor.apply();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView)
             {
                 Toast.makeText(context,"Choice not changed",Toast.LENGTH_SHORT).show();
             }
@@ -115,11 +139,11 @@ public class SettingsFragment extends Fragment
     {
         super.onResume();
         preferences = context.getSharedPreferences("switchstatepref",Context.MODE_PRIVATE);
-        singlelist.setSelection(adapter.getPosition(preferences.getString("singlewaveselection","")));
-        doublelist.setSelection(adapter.getPosition(preferences.getString("doublewaveselection","")));
+        singlelist.setSelection(waveadapter.getPosition(preferences.getString("singlewaveselection","")));
+        doublelist.setSelection(waveadapter.getPosition(preferences.getString("doublewaveselection","")));
         silentonpick.setChecked(preferences.getBoolean("silentonpickcheckboxstate",false));
-        if(silentonpick.isChecked()) protip.setVisibility(View.VISIBLE);
-        else protip.setVisibility(View.GONE);
+        speakeron.setChecked(preferences.getBoolean("speakeroncheckboxstate",false));
+        flipdownlist.setSelection(flipdownadapter.getPosition(preferences.getString("flipdownlistselection","")));
     }
 
 
@@ -129,19 +153,15 @@ public class SettingsFragment extends Fragment
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("silentonpickcheckboxstate", silentonpick.isChecked());
         editor.apply();
-
-        if(silentonpick.isChecked()) protip.setVisibility(View.VISIBLE);
-        else protip.setVisibility(View.GONE);
-
-        checkfornothingselected();
     }
 
-    public void checkfornothingselected()
+    public void speakeroncheckboxclicked(View v)
     {
-        if (singlelist.getSelectedItem().equals("Do nothing") && doublelist.getSelectedItem().equals("Do nothing") && !silentonpick.isChecked())
-        {
-            Toast.makeText(context, "I'd rather turn off master control if I were you", Toast.LENGTH_SHORT).show();
-        }
+        preferences = context.getSharedPreferences("switchstatepref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("speakeroncheckboxstate", speakeron.isChecked());
+        editor.apply();
     }
+
 
 }

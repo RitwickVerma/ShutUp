@@ -17,18 +17,19 @@ import android.widget.Toast;
 
 import java.lang.reflect.Method;
 
-public class ListenerService extends Service implements SensorEventListener
+public class RingingListenerService extends Service implements SensorEventListener
 {
 
     Context context;
     AudioManager mode;
-    int firstwave=(int)System.currentTimeMillis(),secondwave;
-    int currmode;
+    int firstwave=(int)System.currentTimeMillis(),secondwave,consecutivewavethreshold;
+    int currringermode;
     int pocketthreshold,stationarythreshold;
     SharedPreferences preferences;
     SensorManager sensorManager;
     Sensor proximity,linearacceleration;
-    boolean stationarycontrol=true,silentstatus=true;
+    double initialz;
+    boolean silentstatus=true,wasflat=false;
 
 
     @Nullable
@@ -44,16 +45,19 @@ public class ListenerService extends Service implements SensorEventListener
         context=getApplicationContext();
         preferences = getSharedPreferences("switchstatepref",Context.MODE_PRIVATE);
         mode = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        currmode=mode.getRingerMode();
+        currringermode=mode.getRingerMode();
+
+        consecutivewavethreshold=preferences.getInt("consecutivewavethresholdseekbarprogress",12);
+        consecutivewavethreshold*=100;
 
         pocketthreshold =(int)System.currentTimeMillis();
         stationarythreshold=pocketthreshold;
 
         sensorManager=(SensorManager) getSystemService(Context.SENSOR_SERVICE);
         proximity=sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-        linearacceleration=sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-        sensorManager.registerListener(ListenerService.this, proximity, SensorManager.SENSOR_DELAY_FASTEST);
-        sensorManager.registerListener(ListenerService.this, linearacceleration, SensorManager.SENSOR_DELAY_FASTEST);
+        linearacceleration=sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.registerListener(RingingListenerService.this, proximity, SensorManager.SENSOR_DELAY_FASTEST);
+        sensorManager.registerListener(RingingListenerService.this, linearacceleration, SensorManager.SENSOR_DELAY_FASTEST);
         return super.onStartCommand(intent, START_FLAG_REDELIVERY, startId);
     }
 
@@ -61,8 +65,8 @@ public class ListenerService extends Service implements SensorEventListener
     public void onDestroy()
     {
         super.onDestroy();
-        mode.setRingerMode(currmode);
-        sensorManager.unregisterListener(ListenerService.this);
+        mode.setRingerMode(currringermode);
+        sensorManager.unregisterListener(RingingListenerService.this);
     }
 
     @Override
@@ -77,10 +81,10 @@ public class ListenerService extends Service implements SensorEventListener
             if (((int) (System.currentTimeMillis()) - pocketthreshold) < 500)
                 pocketcontrol = false;
 
-            if (event.values[0] == 0 && pocketcontrol)
+            if (event.values[0] >= 0 && event.values[0]<proximity.getMaximumRange() && pocketcontrol)
             {
                 secondwave = (int) System.currentTimeMillis();
-                if (secondwave - firstwave >= 1200 && !preferences.getString("singlewaveselection", "").equals("Do nothing"))
+                if (secondwave - firstwave >= consecutivewavethreshold && !preferences.getString("singlewaveselection", "").equals("Do nothing"))
                 {
                     if (preferences.getString("singlewaveselection", "").equals("Silent phone"))
                         silentphone();
@@ -90,7 +94,7 @@ public class ListenerService extends Service implements SensorEventListener
                         endcall();
 
                 }
-                if (secondwave - firstwave < 1200 && !preferences.getString("doublewaveselection", "").equals("Do nothing"))
+                if (secondwave - firstwave < consecutivewavethreshold && !preferences.getString("doublewaveselection", "").equals("Do nothing"))
                 {
                     if (preferences.getString("doublewaveselection", "").equals("Silent phone"))
                         silentphone();
@@ -102,19 +106,20 @@ public class ListenerService extends Service implements SensorEventListener
                 firstwave = secondwave;
             }
         }
-        else if(sensor.getType()==Sensor.TYPE_LINEAR_ACCELERATION && preferences.getBoolean("silentonpickcheckboxstate",false))
+        else if(sensor.getType()==Sensor.TYPE_ACCELEROMETER && preferences.getBoolean("silentonpickcheckboxstate",false))
         {
-            double acc=Math.sqrt(event.values[0]*event.values[0]+event.values[1]*event.values[1]+event.values[2]*event.values[2]);
-            if (((int) (System.currentTimeMillis()) -stationarythreshold) < 500 && acc>=3)
-                stationarycontrol=false;
+            if(Math.abs(event.values[0])<=5 && Math.abs(event.values[1])<=5 && Math.abs(event.values[2])>=7 && ((int) (System.currentTimeMillis()) -stationarythreshold) < 500)
+            {
+                wasflat = true;
+                initialz=event.values[2];
+            }
 
-            if (acc>=5 && stationarycontrol && silentstatus)
+            if (wasflat && Math.abs(event.values[2]-initialz)>=4 && silentstatus && ((int) (System.currentTimeMillis()) -stationarythreshold) >= 500)
             {
                 silentphone();
                 silentstatus=false;
             }
         }
-
     }
 
 
@@ -161,7 +166,8 @@ public class ListenerService extends Service implements SensorEventListener
     public void answercall()
     {
         Intent intent = new Intent(context, AnswerCall.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
         context.startActivity(intent);
     }
 }

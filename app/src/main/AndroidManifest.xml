@@ -6,10 +6,10 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
 
     <application
         android:allowBackup="true"
@@ -19,16 +19,15 @@
         android:persistent="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-
-        <activity android:name="com.laughingstock.ritwick.shutup.AnswerCall"
-                  android:launchMode="singleTop"
-                  android:excludeFromRecents="true"
-                  android:taskAffinity=""
-                  android:configChanges="orientation|keyboardHidden|screenSize"
-                  android:theme="@style/Mysms.Invisible">
+        <activity
+            android:name=".AnswerCall"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:taskAffinity=""
+            android:theme="@style/Mysms">
         </activity>
-        <activity android:name="com.laughingstock.ritwick.shutup.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>
@@ -36,16 +35,39 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <meta-data android:name="android.app.shortcuts"
+                       android:resource="@xml/shortcuts" />
         </activity>
 
-        <service android:name="com.laughingstock.ritwick.shutup.ListenerService"/>
+        <service android:name=".RingingListenerService"/>
 
-        <receiver android:name="com.laughingstock.ritwick.shutup.PhoneStateReceiver">
-            <intent-filter android:priority="999">
-                <action android:name="android.intent.action.PHONE_STATE"/>
+        <receiver android:name=".PhoneStateReceiver">
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
 
+        <service
+            android:name=".OffhookListenerService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
+
+        <activity
+            android:name=".Settings"
+            android:label="@string/Settings_title">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.laughingstock.ritwick.shutup.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".Blacklist"
+            android:label="Blacklist">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.laughingstock.ritwick.shutup.Settings" />
+        </activity>
     </application>
 
 </manifest>

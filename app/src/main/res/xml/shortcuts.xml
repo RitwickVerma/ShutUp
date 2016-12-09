@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:tools="http://schemas.android.com/tools"
+           xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="Settingsshortcut"
+        android:enabled="true"
+        android:icon="@mipmap/ic_settings_shortcut"
+        android:shortcutShortLabel="@string/Settings_title"
+        android:shortcutLongLabel="@string/Settings_shortcutlongLabel"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.laughingstock.ritwick.shutup"
+            android:targetClass="com.laughingstock.ritwick.shutup.Settings" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="Blacklistshortcut"
+        android:enabled="true"
+        android:icon="@mipmap/ic_blacklist_shortcut"
+        android:shortcutShortLabel="@string/Blacklist_title"
+        android:shortcutLongLabel="@string/Blacklist_shortcutlongLabel"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.laughingstock.ritwick.shutup"
+            android:targetClass="com.laughingstock.ritwick.shutup.Blacklist" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+</shortcuts>
+

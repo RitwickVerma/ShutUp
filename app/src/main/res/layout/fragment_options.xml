@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:layout_below="@+id/masterswitch"
+    android:background="?android:attr/colorBackground">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/settingsFragment"
+        android:paddingLeft="16sp"
+        android:paddingRight="16sp"
+        android:clipToPadding="false"
+        >
+
+        <TextView
+            android:text="When phone is ringing (incoming call)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/phoneringingsmalltext"
+            android:layout_marginTop="30sp"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textSize="12sp"
+            android:textColor="#757575"
+            android:layout_centerHorizontal="true"
+            />
+
+        <TextView
+            android:text="@string/single_wave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/singlewave"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textSize="16sp"
+            android:textColor="@color/textColorPrimary"
+            android:layout_marginTop="30dp"
+            android:layout_below="@+id/phoneringingsmalltext"/>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/singlelist"
+            android:layout_alignTop="@+id/singlewave" android:layout_toRightOf="@+id/singlewave"
+            android:layout_toEndOf="@+id/singlewave"
+            android:animateLayoutChanges="false"
+            android:spinnerMode="dialog"
+            android:layout_marginLeft="20sp"
+            android:layout_marginTop="5sp"/>
+
+        <View style="@style/Divider"
+              android:background="?android:listDivider"
+              android:layout_below="@+id/singlewave"
+              android:layout_marginTop="15sp"
+            />
+
+        <TextView
+            android:text="@string/double_wave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp" android:id="@+id/doublewave"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textSize="16sp"
+            android:textColor="@color/textColorPrimary"
+            android:layout_below="@+id/singlewave"
+            android:layout_alignLeft="@+id/singlewave"
+            android:layout_alignStart="@+id/singlewave"/>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/doublelist"
+            android:layout_alignTop="@+id/doublewave" android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" android:layout_toEndOf="@+id/singlewave"
+            android:layout_toRightOf="@+id/singlewave"
+            android:animateLayoutChanges="false"
+            android:spinnerMode="dialog"
+            android:layout_alignStart="@+id/singlelist"
+            android:layout_alignLeft="@+id/singlelist"/>
+
+        <View style="@style/Divider"
+              android:background="?android:listDivider"
+              android:layout_below="@+id/doublewave"
+              android:layout_marginTop="15sp"
+            />
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/silentonpickcheckbox"
+            android:layout_alignParentBottom="false"
+            android:onClick="silentonpickcheckboxclicked"
+            android:text="Silent on picking up from\nflat surface"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textSize="16sp"
+            android:textColor="@color/textColorPrimary"
+            android:button="@null"
+            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+            android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
+            android:layout_below="@+id/doublewave"
+            android:layout_alignLeft="@+id/speakeroncheckbox"
+            android:layout_marginTop="35sp"
+            android:layout_alignParentEnd="false"
+            android:paddingRight="8sp"
+            android:layout_alignParentRight="false"/>
+
+        <View
+            android:background="?android:listDivider"
+            android:layout_below="@+id/silentonpickcheckbox"
+            android:layout_marginTop="25sp"
+            android:layout_marginLeft="-16sp"
+            android:layout_marginRight="-16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="1sp"/>
+
+        <TextView
+            android:text="While in call or during outgoing call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/phoneoutgoingorincallsmalltext"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:layout_marginTop="55dp"
+            android:layout_below="@+id/silentonpickcheckbox"
+            android:layout_centerHorizontal="true"
+            android:textColor="#757575"
+            android:textSize="12sp"/>
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/speakeroncheckbox"
+            android:button="@null"
+            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+            android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
+            android:onClick="speakeroncheckboxclicked"
+            android:text="Automatic speaker toggle"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textSize="16sp"
+            android:textColor="@color/textColorPrimary"
+            android:layout_below="@+id/phoneoutgoingorincallsmalltext"
+            android:layout_marginTop="30sp"
+            android:paddingRight="8sp"/>
+
+        <View style="@style/Divider"
+              android:background="?android:listDivider"
+              android:layout_below="@+id/speakeroncheckbox"
+              android:layout_marginTop="20sp"
+            />
+
+
+        <TextView
+            android:text="Phone kept :\nfacing down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/flipdowntext"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textSize="16sp"
+            android:textColor="@color/textColorPrimary"
+            android:layout_below="@+id/speakeroncheckbox"
+            android:layout_marginTop="40sp"/>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/flipdownlist"
+            android:spinnerMode="dialog"
+            android:layout_alignTop="@+id/flipdowntext"
+            android:layout_alignStart="@+id/doublelist"
+            android:layout_marginTop="5sp"
+            android:layout_alignLeft="@+id/doublelist"/>
+
+        <View style="@style/Divider"
+              android:background="?android:listDivider"
+              android:layout_below="@+id/flipdowntext"
+              android:layout_marginTop="20sp"
+            />
+
+    </RelativeLayout>
+
+</ScrollView>

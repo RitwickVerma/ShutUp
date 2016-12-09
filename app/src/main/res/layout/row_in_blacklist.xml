@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="16sp"
+                android:paddingRight="16sp"
+                android:paddingEnd="16sp"
+                android:paddingLeft="16sp"
+                android:paddingTop="16sp"
+                android:paddingStart="16sp">
+
+    <TextView
+        android:text="Contact name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/contactname"
+        android:textAppearance="@android:style/TextAppearance.Holo.Large"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/contactnumber"
+        android:textAppearance="@android:style/TextAppearance.Holo.Large"
+        android:textColor="@color/textColorSecondary"
+        android:textSize="13sp"
+        android:layout_below="@+id/contactname"
+        android:layout_alignStart="@+id/contactname"
+        android:layout_alignLeft="@+id/contactname"/>
+
+    <View
+        android:background="?android:listDivider"
+        android:layout_alignStart="@+id/contactdeletebutton"
+        android:layout_alignLeft="@+id/contactdeletebutton"
+        android:layout_height="40sp"
+        android:layout_width="0.5sp"
+        android:layout_marginTop="5sp"/>
+
+    <ImageButton
+        app:srcCompat="@mipmap/ic_blacklistdelete"
+        android:id="@+id/contactdeletebutton"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:paddingLeft="23sp"
+        android:layout_alignTop="@+id/contactname"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentRight="true"
+        android:paddingRight="23sp"
+        android:layout_marginRight="-16sp"
+        android:layout_marginTop="-16sp"
+        android:layout_marginBottom="-16sp"
+        android:layout_width="70sp"
+        android:paddingTop="10sp"
+        android:layout_height="70sp"/>
+</RelativeLayout>

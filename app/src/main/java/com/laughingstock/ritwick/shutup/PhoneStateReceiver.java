@@ -11,15 +11,32 @@ public class PhoneStateReceiver extends BroadcastReceiver
     public void onReceive(final Context context, final Intent intent)
     {
         //Toast.makeText(context, "Broadcast Received", Toast.LENGTH_SHORT).show();
-        Intent service=new Intent(context,ListenerService.class);
+        Intent ringinglistenerservice=new Intent(context,RingingListenerService.class);
+        Intent offhooklistenerservice=new Intent(context,OffhookListenerService.class);
+
+        offhooklistenerservice.putExtra("callnumber",intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER).toString());
 
         if(intent.getStringExtra(TelephonyManager.EXTRA_STATE).equals(TelephonyManager.EXTRA_STATE_RINGING))
         {
-            context.startService(service);
+            context.startService(ringinglistenerservice);
         }
-        else
+        else if(intent.getStringExtra(TelephonyManager.EXTRA_STATE).equals(TelephonyManager.EXTRA_STATE_OFFHOOK))
         {
-            context.stopService(service);
+            context.stopService(ringinglistenerservice);
+            context.startService(offhooklistenerservice);
+        }
+        else if(intent.getStringExtra(TelephonyManager.EXTRA_STATE).equals(TelephonyManager.EXTRA_STATE_IDLE))
+        {
+            try{
+                context.stopService(offhooklistenerservice);
+            }catch (Exception e){
+
+            }
+            try{
+                context.stopService(ringinglistenerservice);
+            }catch (Exception e){
+
+            }
         }
 
     }

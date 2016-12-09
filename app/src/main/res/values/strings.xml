@@ -1,22 +1,52 @@
 <resources>
     <string name="app_name">ShutUp!</string>
-    <string name="intro_info">Silence your phone without even touching. Just wave your hand over the
-        proximity sensor or flip it down. But wait, you can do more! Turn on the master switch to
-        see what.
-    </string>
+
     <string name="double_wave">Double wave :</string>
     <string name="single_wave">Single wave or :\nFlip down</string>
-    <string
-        name="pocket_mode_info">
-        It even has a pocket mode so that your calls do not get missed when your phone\'s in pocket
-        :)
-    </string>
-    <string name="master_control">Master control\t</string>
-    <string-array name="listoptions">
-        <item>Silent phone</item>
-        <item>Answer call</item>
-        <item>End call</item>
-        <item>Do nothing</item>
 
+    <string name="master_switch">Master switch\t</string>
+    <string name="instructionstext">1. Single wave:\nwave over the proximity sensor (generally located near the front camera)
+        to tell me what to do by selecting one of the functions from the list. Note that you can use anything to wave.
+        A book will also work. You can also flip the phone down and the chosen function will be performed. Same will happen
+        if you put phone on ear (useful during answer call)\n\n
+
+        2. Double wave:\nwave over the proximity sensor two times
+        consecutively with a time interval of less then 1.2 (by default) seconds to perform the selected function.\n\n
+
+        3. Silent on pick up:\nthe phone will automatically silent when you pick it up from
+        a flat surface. This will be ignored if the phone is already moving.\n\n
+
+        4. Automatic speaker toggle:\nThe
+        speaker phone will automatically turn on if the device is moved away from the ear. It will turn off if device is
+        again brought back to the ear. It will only work after putting phone on ear at least once which, is to protect privacy.\n
+        Note:\nThis does not work if headset is connected or audio is routed by bluetooth.
+        So, I\'ve got you covered!\n\n
+
+        5. Phone kept facing down:\nYou can end call or mute microphone during a call by putting phone on a flat
+        surface facing down.\n\n
+
+        Blacklist- You can blacklist contacts for which you do not want automatic speaker toggle to work.
+        Thus, prevent embarrassing situations with sensitive contacts!\n\n
+
+        Consecutive wave threshold- The time gap between two consecutive waves so that they are counted as double wave.
+        </string>
+
+    <string-array name="wavelistoptions">
+        <item>Do nothing</item>
+        <item>Silent phone</item>
+        <item>End call</item>
+        <item>Answer call</item>
     </string-array>
+
+    <string-array name="facedownlistoptions">
+        <item>Do nothing</item>
+        <item>End call</item>
+        <item>Mute microphone</item>
+    </string-array>
+
+    <string name="Settings_title">Settings</string>
+    <string name="Settings_shortcutlongLabel">Open Settings in ShutUp!</string>
+
+    <string name="Blacklist_title">Blacklist</string>
+    <string name="Blacklist_shortcutlongLabel">Open Blacklist for automatic speaker on/off</string>
 </resources>
