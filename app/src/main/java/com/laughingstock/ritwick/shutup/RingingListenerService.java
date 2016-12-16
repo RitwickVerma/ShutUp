@@ -108,13 +108,13 @@ public class RingingListenerService extends Service implements SensorEventListen
         }
         else if(sensor.getType()==Sensor.TYPE_ACCELEROMETER && preferences.getBoolean("silentonpickcheckboxstate",false))
         {
-            if(Math.abs(event.values[0])<=5 && Math.abs(event.values[1])<=5 && Math.abs(event.values[2])>=7 && ((int) (System.currentTimeMillis()) -stationarythreshold) < 500)
+            if(Math.abs(event.values[0])<=3 && Math.abs(event.values[1])<=3 && Math.abs(event.values[2])>=9 && ((int) (System.currentTimeMillis()) -stationarythreshold) < 500)
             {
                 wasflat = true;
                 initialz=event.values[2];
             }
 
-            if (wasflat && Math.abs(event.values[2]-initialz)>=4 && silentstatus && ((int) (System.currentTimeMillis()) -stationarythreshold) >= 500)
+            if (wasflat && Math.abs(event.values[2]-initialz)>=3 && silentstatus && ((int) (System.currentTimeMillis()) -stationarythreshold) >= 500)
             {
                 silentphone();
                 silentstatus=false;
@@ -131,6 +131,7 @@ public class RingingListenerService extends Service implements SensorEventListen
     {
         try
         {
+
             mode.setRingerMode(0);
             Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
             v.vibrate(1);

@@ -10,18 +10,18 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.laughingstock.ritwick.shutup.Blacklist"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    >
 
     <Button
         android:text="Add Contact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/addcontactbutton"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:textColor="#ffffff"
         android:backgroundTint="@color/colorAccent"
-        android:onClick="addcontactbuttonclicked"/>
+        android:onClick="addcontactbuttonclicked"
+        android:layout_centerHorizontal="true"/>
 
     <View
         android:background="?android:listDivider"

@@ -7,5 +7,7 @@
         android:title="Help"/>
     <item
         android:title="Rate"/>
+    <item
+        android:title="About"/>
 
 </menu>

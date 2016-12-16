@@ -1,25 +1,28 @@
 package com.laughingstock.ritwick.shutup;
 
+import android.Manifest;
 import android.app.Service;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.IBinder;
-import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Set;
 
 public class OffhookListenerService extends Service implements SensorEventListener
 {
@@ -28,14 +31,13 @@ public class OffhookListenerService extends Service implements SensorEventListen
     Sensor proximity,accelerometer;
     AudioManager audioManager;
     SharedPreferences preferences;
-    String callnumber,callname;
+    String callnumber;
     int currmode;
     boolean firstonear=false,iscovered,numberblacklisted=false;
 
     @Override
     public IBinder onBind(Intent intent)
     {
-        // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
@@ -44,8 +46,7 @@ public class OffhookListenerService extends Service implements SensorEventListen
     {
         context=getApplicationContext();
 
-        callnumber=intent.getStringExtra("callnumber");
-        callname=getContactName(context,callnumber);
+        callnumber=intent.getStringExtra("callnumber").replaceAll("[-() ]", "");
 
         preferences = getSharedPreferences("switchstatepref",Context.MODE_PRIVATE);
         sensorManager=(SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -93,9 +94,10 @@ public class OffhookListenerService extends Service implements SensorEventListen
             iscovered=event.values[0]!=proximity.getMaximumRange();
         }
 
-        else if(sensor.getType()==Sensor.TYPE_ACCELEROMETER && preferences.getBoolean("endonflipdowncheckboxstate", false))
+        else if(sensor.getType()==Sensor.TYPE_ACCELEROMETER)
         {
-            if(iscovered && Math.abs(event.values[0])<=5 && Math.abs(event.values[1])<=5 && event.values[2]<=-7)
+            if(iscovered && Math.abs(event.values[0])<=3 && Math.abs(event.values[1])<=3 && event.values[2]<=-9
+                    && !audioManager.isWiredHeadsetOn() && !audioManager.isBluetoothA2dpOn())
             {
                 if (preferences.getString("flipdownlistselection", "").equals("End call"))
                 {
@@ -146,16 +148,18 @@ public class OffhookListenerService extends Service implements SensorEventListen
         if(!preferences.getBoolean("blacklistswitchstate",false))
             return false;
 
-        Set<String> tempcontactnameset = preferences.getStringSet("blacklistcontactnamespref", null);
-        Set<String> tempcontactnumberset = preferences.getStringSet("blacklistcontactnumberspref", null);
-        if(tempcontactnumberset!=null && tempcontactnameset!=null)
+
+        String tempcontactnumberjson = preferences.getString("blacklistcontactnumberspref",null);
+        Gson gson=new Gson();
+        Type type = new TypeToken<ArrayList<String>>(){}.getType();
+
+        if(tempcontactnumberjson!=null)
         {
-            ArrayList<String> contactnames = new ArrayList<String>(tempcontactnameset);
-            ArrayList<String> contactnumbers = new ArrayList<String>(tempcontactnumberset);
+            ArrayList<String> contactnumbers= gson.fromJson(tempcontactnumberjson, type);
 
             for(int i=0;i<contactnumbers.size();i++)
             {
-                if(contactnumbers.get(i).equals(callnumber) || contactnames.get(i).equals(callname))
+                if(contactnumbers.get(i).contains(callnumber))
                     return true;
             }
         }
@@ -163,23 +167,4 @@ public class OffhookListenerService extends Service implements SensorEventListen
 
     }
 
-    public static String getContactName(Context context, String phoneNumber)
-    {
-        ContentResolver cr = context.getContentResolver();
-        Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
-        Cursor cursor = cr.query(uri, new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME}, null, null, null);
-        if (cursor == null) {
-            return null;
-        }
-        String contactName = null;
-        if(cursor.moveToFirst()) {
-            contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
-        }
-
-        if(cursor != null && !cursor.isClosed()) {
-            cursor.close();
-        }
-
-        return contactName;
-    }
 }

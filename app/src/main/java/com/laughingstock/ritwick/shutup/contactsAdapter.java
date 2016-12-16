@@ -2,16 +2,18 @@ package com.laughingstock.ritwick.shutup;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 
 public class contactsAdapter extends BaseAdapter
@@ -19,16 +21,17 @@ public class contactsAdapter extends BaseAdapter
 
     Context context;
 
-    ArrayList<String> contactnames, contactnumbers;
+    ArrayList<String> contactnames, contactnumbers,contactphotos;
 
     private static LayoutInflater inflater = null;
 
-    public contactsAdapter(Context context, ArrayList<String> contactnames,ArrayList<String> contactnumbers)
+    public contactsAdapter(Context context, ArrayList<String> contactnames, ArrayList<String> contactnumbers, ArrayList<String> contactphotos)
     {
         // TODO Auto-generated constructor stub
         this.context = context;
         this.contactnames=contactnames;
         this.contactnumbers=contactnumbers;
+        this.contactphotos=contactphotos;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -43,6 +46,7 @@ public class contactsAdapter extends BaseAdapter
         TextView contactnametext = (TextView) vi.findViewById(R.id.contactname);
         TextView contactnumbertext=(TextView) vi.findViewById(R.id.contactnumber);
         final ImageButton contactdeletebutton=(ImageButton) vi.findViewById(R.id.contactdeletebutton);
+        ImageView contactphotoimage=(ImageView) vi.findViewById(R.id.contactphotopic);
 
         contactdeletebutton.setOnClickListener(new View.OnClickListener (){
             @Override
@@ -50,21 +54,32 @@ public class contactsAdapter extends BaseAdapter
             {
                 contactnames.remove(position);
                 contactnumbers.remove(position);
+                contactphotos.remove(position);
 
                 SharedPreferences preferences = context.getSharedPreferences("switchstatepref",Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
 
-                Set<String> contactnameset = new HashSet<String>();
-                Set<String> contactnumberset = new HashSet<String>();
-                contactnameset.addAll(contactnames);
-                contactnumberset.addAll(contactnumbers);
-                editor.putStringSet("blacklistcontactnamespref", contactnameset);
-                editor.putStringSet("blacklistcontactnumberspref", contactnumberset);
+                Gson gson = new Gson();
+                String contactnamejson = gson.toJson(contactnames);
+                String contactnumberjson = gson.toJson(contactnumbers);
+                String contactphotojson = gson.toJson(contactphotos);
+
+                editor.putString("blacklistcontactnamespref", contactnamejson);
+                editor.putString("blacklistcontactnumberspref", contactnumberjson);
+                editor.putString("blacklistcontactphotospref", contactphotojson);
                 editor.apply();
 
                 notifyDataSetChanged();
             }
         });
+
+
+       // if (contactphotos.get(position) != null)
+        {
+            Uri temp = Uri.parse(contactphotos.get(position));
+            contactphotoimage.setImageURI(temp);
+        }
+
 
         contactnametext.setText(contactnames.get(position));
         contactnumbertext.setText(contactnumbers.get(position));

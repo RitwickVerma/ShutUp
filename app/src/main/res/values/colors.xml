@@ -5,4 +5,17 @@
     <color name="colorAccent">#2c3e50</color>
     <color name="textColorPrimary">#2c3e50</color>
     <color name="textColorSecondary">#386074</color>
+
+    <color name="BlacklistcolorPrimary">#000000</color>
+    <color name="BlacklistcolorPrimaryDark">#000000</color>
+    <color name="BlacklistcolorAccent">#000000</color>
+    <color name="BlacklisttextColorPrimary">#2c3e50</color>
+    <color name="BlacklisttextColorSecondary">#386074</color>
+
+    <color name="WhitelistcolorPrimary">#FFEB3B</color>
+    <color name="WhitelistcolorPrimaryDark">#FFEB3B</color>
+    <color name="WhitelistcolorAccent">#FFEB3B</color>
+    <color name="WhitelisttextColorPrimary">#2c3e50</color>
+    <color name="WhitelisttextColorSecondary">#386074</color>
+
 </resources>

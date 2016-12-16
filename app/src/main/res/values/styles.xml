@@ -20,6 +20,42 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+
+
+
+
+    <!-- Base Blacklist theme. -->
+    <style name="BlacklistAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/BlacklistcolorPrimary</item>
+        <item name="colorPrimaryDark">@color/BlacklistcolorPrimaryDark</item>
+        <item name="colorAccent">@color/BlacklistcolorAccent</item>
+    </style>
+
+    <style name="BlacklistAppTheme.NoActionBar" parent="@style/AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
+
+    <!-- Base Whitelist theme. -->
+    <style name="WhilelistAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/WhitelistcolorPrimary</item>
+        <item name="colorPrimaryDark">@color/WhitelistcolorPrimaryDark</item>
+        <item name="colorAccent">@color/WhitelistcolorAccent</item>
+
+    </style>
+
+    <style name="WhitelistAppTheme.NoActionBar" parent="@style/AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
+
+
     <style name="Masterswitch" parent="Theme.AppCompat.Light">
         <item name="colorControlActivated">#ffffff</item>
         <item name="android:colorForeground">#ffffff

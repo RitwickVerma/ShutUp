@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -17,10 +16,12 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Random;
 
 
 public class Blacklist extends AppCompatActivity
@@ -28,9 +29,9 @@ public class Blacklist extends AppCompatActivity
 
     ListView blacklistcontactslistview;
     contactsAdapter adapter;
-    ArrayList<String> contactnames, contactnumbers;
+    ArrayList<String> contactnames, contactnumbers,contactphotos;
 
-    String name,number;
+    String name,number,photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,21 +50,25 @@ public class Blacklist extends AppCompatActivity
 
         SharedPreferences preferences = getSharedPreferences("switchstatepref",MODE_PRIVATE);
 
-        Set<String> tempcontactnameset = preferences.getStringSet("blacklistcontactnamespref", null);
-        Set<String> tempcontactnumberset = preferences.getStringSet("blacklistcontactnumberspref", null);
+        String tempcontactnamejson = preferences.getString("blacklistcontactnamespref",null);
+        String tempcontactnumberjson = preferences.getString("blacklistcontactnumberspref",null);
+        String tempcontactphotojson = preferences.getString("blacklistcontactphotospref", null);
 
-        if(tempcontactnameset!=null && tempcontactnumberset!=null)
+        Gson gson=new Gson();
+        Type type = new TypeToken<ArrayList<String>>(){}.getType();
+
+        contactnames = new ArrayList<String>();
+        contactnumbers = new ArrayList<String>();
+        contactphotos = new ArrayList<String>();
+
+        if(tempcontactnamejson!=null && tempcontactnumberjson!=null)
         {
-            contactnames = new ArrayList<String>(tempcontactnameset);
-            contactnumbers = new ArrayList<String>(tempcontactnumberset);
-        }
-        else
-        {
-            contactnames = new ArrayList<String>();
-            contactnumbers = new ArrayList<String>();
+            contactnames= gson.fromJson(tempcontactnamejson, type);
+            contactnumbers= gson.fromJson(tempcontactnumberjson, type);
+            contactphotos= gson.fromJson(tempcontactphotojson, type);
         }
 
-        adapter = new contactsAdapter(this,contactnames,contactnumbers);
+        adapter = new contactsAdapter(this,contactnames,contactnumbers,contactphotos);
         blacklistcontactslistview.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
@@ -98,11 +103,12 @@ public class Blacklist extends AppCompatActivity
                 Uri contactData = data.getData();
                 number = "";
                 name = "";
+                photo = "";
                 Cursor cursor = getContentResolver().query(contactData, null, null, null, null);
                 cursor.moveToFirst();
                 String hasPhone = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.HAS_PHONE_NUMBER));
                 String contactId = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
-                if (hasPhone.equals("1"))
+                if (Integer.parseInt(hasPhone) > 0)
                 {
                     Cursor phones = getContentResolver().query
                             (ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
@@ -110,18 +116,36 @@ public class Blacklist extends AppCompatActivity
                                             + " = " + contactId, null, null);
                     while (phones.moveToNext())
                     {
-                        number = phones.getString(phones.getColumnIndex
-                                (ContactsContract.CommonDataKinds.Phone.NUMBER));//.replaceAll("[-() ]", "");
-                        name= phones.getString(phones.getColumnIndex
+                        String tempnum = phones.getString(phones.getColumnIndex
+                                (ContactsContract.CommonDataKinds.Phone.NUMBER)).replaceAll("[-() ]", "");
+
+                        number = number + (number.equals("") || number.contains(tempnum) ? "" : "\n") + (number.contains(tempnum) ? "" : tempnum);
+                        name = phones.getString(phones.getColumnIndex
                                 (ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY));//.replaceAll("[-() ]","");
+
+                        photo = phones.getString(phones.getColumnIndex
+                                (ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
                     }
                     phones.close();
                     //Do something with number
-                    contactnames.add(name);
-                    contactnumbers.add(number);
-                    adapter.notifyDataSetChanged();
 
-                    savetosharedpreference();
+                    if (contactnames.contains(name) && contactnumbers.get(contactnames.lastIndexOf(name)).equals(number))
+                    {
+                        Toast.makeText(this, "Contact already added!", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Random r=new Random();
+                        String randimguri = "android.resource://"+getPackageName()+"/drawable/contactphoto"+(r.nextInt(5)+1);
+
+                        contactnames.add(name);
+                        contactnumbers.add(number);
+                        if(photo==null)
+                            photo=randimguri;
+                        contactphotos.add(photo);
+                        adapter.notifyDataSetChanged();
+                        savetosharedpreference();
+                    }
                 }
                 else
                 {
@@ -139,12 +163,14 @@ public class Blacklist extends AppCompatActivity
         SharedPreferences preferences = getSharedPreferences("switchstatepref",MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
-        Set<String> contactnameset = new HashSet<String>();
-        Set<String> contactnumberset = new HashSet<String>();
-        contactnameset.addAll(contactnames);
-        contactnumberset.addAll(contactnumbers);
-        editor.putStringSet("blacklistcontactnamespref", contactnameset);
-        editor.putStringSet("blacklistcontactnumberspref", contactnumberset);
+        Gson gson = new Gson();
+        String contactnamejson = gson.toJson(contactnames);
+        String contactnumberjson = gson.toJson(contactnumbers);
+        String contactphotojson = gson.toJson(contactphotos);
+
+        editor.putString("blacklistcontactnamespref", contactnamejson);
+        editor.putString("blacklistcontactnumberspref", contactnumberjson);
+        editor.putString("blacklistcontactphotospref", contactphotojson);
         editor.apply();
     }
 

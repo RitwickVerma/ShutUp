@@ -14,7 +14,7 @@ public class PhoneStateReceiver extends BroadcastReceiver
         Intent ringinglistenerservice=new Intent(context,RingingListenerService.class);
         Intent offhooklistenerservice=new Intent(context,OffhookListenerService.class);
 
-        offhooklistenerservice.putExtra("callnumber",intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER).toString());
+        offhooklistenerservice.putExtra("callnumber",intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER));
 
         if(intent.getStringExtra(TelephonyManager.EXTRA_STATE).equals(TelephonyManager.EXTRA_STATE_RINGING))
         {
@@ -22,8 +22,13 @@ public class PhoneStateReceiver extends BroadcastReceiver
         }
         else if(intent.getStringExtra(TelephonyManager.EXTRA_STATE).equals(TelephonyManager.EXTRA_STATE_OFFHOOK))
         {
-            context.stopService(ringinglistenerservice);
-            context.startService(offhooklistenerservice);
+            try
+            {
+                context.stopService(ringinglistenerservice);
+            }catch (Exception e){
+
+            }
+                context.startService(offhooklistenerservice);
         }
         else if(intent.getStringExtra(TelephonyManager.EXTRA_STATE).equals(TelephonyManager.EXTRA_STATE_IDLE))
         {

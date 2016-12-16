@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" android:layout_alignParentTop="true"
         android:layout_alignParentRight="true" android:layout_alignParentEnd="true"
-        android:id="@+id/masterswitch" android:onClick="MasterSwitchClicked"
+        android:id="@+id/masterswitch"
         android:textColor="#ffffff" android:checked="false"
         android:textSize="18sp"
         android:theme="@style/Masterswitch"
@@ -31,8 +31,7 @@
         android:paddingRight="17sp"
         android:paddingEnd="17sp"
         android:paddingLeft="17sp"
-        android:paddingStart="17sp"
-        android:fontFamily="sans-serif-medium"/>
+        android:paddingStart="17sp"/>
 
 
     <RelativeLayout
