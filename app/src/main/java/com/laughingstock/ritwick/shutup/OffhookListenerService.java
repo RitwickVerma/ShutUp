@@ -1,13 +1,9 @@
 package com.laughingstock.ritwick.shutup;
 
-import android.Manifest;
 import android.app.Service;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -33,7 +29,7 @@ public class OffhookListenerService extends Service implements SensorEventListen
     SharedPreferences preferences;
     String callnumber;
     int currmode;
-    boolean firstonear=false,iscovered,numberblacklisted=false;
+    boolean firstonear=false,iscovered,numberinlist=false;
 
     @Override
     public IBinder onBind(Intent intent)
@@ -46,7 +42,14 @@ public class OffhookListenerService extends Service implements SensorEventListen
     {
         context=getApplicationContext();
 
-        callnumber=intent.getStringExtra("callnumber").replaceAll("[-() ]", "");
+        try
+        {
+            callnumber = intent.getStringExtra("callnumber").replaceAll("[-() ]", "");
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+            callnumber="1234567890";
+        }
 
         preferences = getSharedPreferences("switchstatepref",Context.MODE_PRIVATE);
         sensorManager=(SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -57,9 +60,9 @@ public class OffhookListenerService extends Service implements SensorEventListen
         audioManager=(AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         currmode=audioManager.getMode();
 
-        numberblacklisted=checkblacklistednumber();
+        numberinlist=checklistednumber();
 
-        return super.onStartCommand(intent, flags, startId);
+        return super.onStartCommand(intent, START_FLAG_REDELIVERY, startId);
     }
 
     public void onDestroy()
@@ -76,7 +79,11 @@ public class OffhookListenerService extends Service implements SensorEventListen
         Sensor sensor=event.sensor;
         if(sensor.getType()==Sensor.TYPE_PROXIMITY)
         {
-            if ( !numberblacklisted && preferences.getBoolean("speakeroncheckboxstate", false) && !audioManager.isWiredHeadsetOn() && !audioManager.isBluetoothA2dpOn())
+            if (!(((preferences.getInt("blacklistwhitelistradiogrouppref",R.id.blacklistradiobutton)==R.id.blacklistradiobutton && numberinlist)
+                    ||(preferences.getInt("blacklistwhitelistradiogrouppref",R.id.blacklistradiobutton)==R.id.whitelistradiobutton && !numberinlist))
+                    && preferences.getBoolean("blacklistwhitelistswitchstate",false))
+                    && preferences.getBoolean("speakeroncheckboxstate", false)
+                    && !audioManager.isWiredHeadsetOn() && !audioManager.isBluetoothA2dpOn())
             {
                 if (event.values[0] == proximity.getMaximumRange() && firstonear)
                 {
@@ -143,13 +150,10 @@ public class OffhookListenerService extends Service implements SensorEventListen
     }
 
 
-    public boolean checkblacklistednumber()
+    public boolean checklistednumber()
     {
-        if(!preferences.getBoolean("blacklistswitchstate",false))
-            return false;
 
-
-        String tempcontactnumberjson = preferences.getString("blacklistcontactnumberspref",null);
+        String tempcontactnumberjson = preferences.getString("listcontactnumberspref",null);
         Gson gson=new Gson();
         Type type = new TypeToken<ArrayList<String>>(){}.getType();
 

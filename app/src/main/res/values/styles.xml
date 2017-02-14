@@ -7,7 +7,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:itemTextAppearance">@style/AppTheme.ItemTextStyle</item>
-
     </style>
 
     <style name="AppTheme.NoActionBar" parent="@style/AppTheme">
@@ -21,40 +20,10 @@
     </style>
 
 
-
-
-
-    <!-- Base Blacklist theme. -->
-    <style name="BlacklistAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/BlacklistcolorPrimary</item>
-        <item name="colorPrimaryDark">@color/BlacklistcolorPrimaryDark</item>
-        <item name="colorAccent">@color/BlacklistcolorAccent</item>
-    </style>
-
-    <style name="BlacklistAppTheme.NoActionBar" parent="@style/AppTheme">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-
-
-    <!-- Base Whitelist theme. -->
-    <style name="WhilelistAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/WhitelistcolorPrimary</item>
-        <item name="colorPrimaryDark">@color/WhitelistcolorPrimaryDark</item>
-        <item name="colorAccent">@color/WhitelistcolorAccent</item>
+    <style name="Drawertext">
+        <item name="android:textSize">14sp</item>
 
     </style>
-
-    <style name="WhitelistAppTheme.NoActionBar" parent="@style/AppTheme">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-
-
 
     <style name="Masterswitch" parent="Theme.AppCompat.Light">
         <item name="colorControlActivated">#ffffff</item>

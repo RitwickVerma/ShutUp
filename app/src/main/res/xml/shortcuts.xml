@@ -19,13 +19,13 @@
         android:shortcutId="Blacklistshortcut"
         android:enabled="true"
         android:icon="@mipmap/ic_blacklist_shortcut"
-        android:shortcutShortLabel="@string/Blacklist_title"
-        android:shortcutLongLabel="@string/Blacklist_shortcutlongLabel"
+        android:shortcutShortLabel="@string/list_title"
+        android:shortcutLongLabel="@string/list_shortcutlongLabel"
         tools:targetApi="n_mr1">
         <intent
             android:action="android.intent.action.VIEW"
             android:targetPackage="com.laughingstock.ritwick.shutup"
-            android:targetClass="com.laughingstock.ritwick.shutup.Blacklist" />
+            android:targetClass="com.laughingstock.ritwick.shutup.BlacklistWhitelist" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 

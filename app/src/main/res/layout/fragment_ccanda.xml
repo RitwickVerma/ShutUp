@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scrollView"
-    android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:fillViewport="true"
-    android:layout_below="@+id/masterswitch"
-    android:background="?android:attr/colorBackground">
+    android:clipToPadding="false"
+    android:id="@+id/settingsFragment">
+
+    <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:attr/colorBackground"
+            android:fillViewport="true">
+
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/settingsFragment"
         android:paddingLeft="16sp"
         android:paddingRight="16sp"
         android:clipToPadding="false"
-        >
+        android:animateLayoutChanges="true">
 
         <TextView
             android:text="When phone is ringing (incoming call)"
@@ -110,7 +116,7 @@
         <View
             android:background="?android:listDivider"
             android:layout_below="@+id/silentonpickcheckbox"
-            android:layout_marginTop="25sp"
+            android:layout_marginTop="35sp"
             android:layout_marginLeft="-16sp"
             android:layout_marginRight="-16sp"
             android:layout_width="wrap_content"
@@ -122,7 +128,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/phoneoutgoingorincallsmalltext"
             android:textAppearance="@android:style/TextAppearance.Holo.Large"
-            android:layout_marginTop="55dp"
+            android:layout_marginTop="75dp"
             android:layout_below="@+id/silentonpickcheckbox"
             android:layout_centerHorizontal="true"
             android:textColor="#757575"
@@ -144,11 +150,73 @@
             android:layout_marginTop="30sp"
             android:paddingRight="8sp"/>
 
+        <View
+            android:background="@color/colorAccent"
+            android:layout_below="@+id/speakeroncheckbox"
+            android:layout_alignLeft="@+id/speakeroncheckbox"
+            android:layout_marginLeft="5sp"
+            android:layout_above="@+id/blacklistwhitelisttext1"
+            android:layout_marginBottom="-15sp"
+            android:id="@+id/looksniceview"
+            android:layout_height="20sp"
+            android:layout_marginTop="-5sp"
+            android:layout_width="0.4sp"/>
+
+        <TextView
+            android:text="Blacklist or Whitelist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/blacklistwhitelisttext1"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="14sp"
+            android:paddingTop="15sp"
+            android:onClick="blacklistwhitelisttextclicked"
+            android:paddingBottom="30sp"
+            android:layout_toLeftOf="@+id/blacklistwhitelistswitch"
+            android:layout_below="@+id/speakeroncheckbox"
+            />
+
+        <TextView
+            android:text="for automatic speaker on/off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/blacklistwhitelisttext2"
+            android:layout_below="@+id/blacklistwhitelisttext1"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textSize="10sp"
+            android:textColor="@color/textColorSecondary"
+            android:layout_marginTop="-30sp"
+            android:layout_alignStart="@+id/blacklistwhitelisttext1"/>
+
+        <View
+            android:layout_width="0.4dp"
+            android:background="?android:listDivider"
+            android:layout_alignStart="@+id/blacklistwhitelistswitch"
+            android:layout_marginTop="20sp"
+            android:layout_height="30sp"
+            android:layout_alignLeft="@+id/blacklistwhitelistswitch"
+            android:layout_alignTop="@+id/blacklistwhitelistswitch"/>
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:id="@+id/blacklistwhitelistswitch"
+            android:paddingLeft="40sp"
+            android:paddingTop="25sp"
+            android:paddingBottom="20sp"
+            android:onClick="blacklistwhitelistswitchclicked"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@id/blacklistwhitelisttext1"
+            />
+
+
         <View style="@style/Divider"
               android:background="?android:listDivider"
-              android:layout_below="@+id/speakeroncheckbox"
-              android:layout_marginTop="20sp"
-            />
+              android:layout_below="@+id/blacklistwhitelisttext1"
+              android:id="@+id/viewview"
+              android:layout_marginTop="20sp"/>
 
 
         <TextView
@@ -159,8 +227,8 @@
             android:textAppearance="@android:style/TextAppearance.Holo.Large"
             android:textSize="16sp"
             android:textColor="@color/textColorPrimary"
-            android:layout_below="@+id/speakeroncheckbox"
-            android:layout_marginTop="40sp"/>
+            android:layout_below="@+id/viewview"
+            android:layout_marginTop="20sp"/>
 
         <Spinner
             android:layout_width="match_parent"
@@ -181,3 +249,5 @@
     </RelativeLayout>
 
 </ScrollView>
+
+</RelativeLayout>

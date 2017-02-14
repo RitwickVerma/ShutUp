@@ -58,6 +58,7 @@ public class RingingListenerService extends Service implements SensorEventListen
         linearacceleration=sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(RingingListenerService.this, proximity, SensorManager.SENSOR_DELAY_FASTEST);
         sensorManager.registerListener(RingingListenerService.this, linearacceleration, SensorManager.SENSOR_DELAY_FASTEST);
+
         return super.onStartCommand(intent, START_FLAG_REDELIVERY, startId);
     }
 

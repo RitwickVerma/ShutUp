@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 
-public class contactsAdapter extends BaseAdapter
+public class bwcontactsAdapter extends BaseAdapter
 {
 
     Context context;
@@ -25,7 +25,7 @@ public class contactsAdapter extends BaseAdapter
 
     private static LayoutInflater inflater = null;
 
-    public contactsAdapter(Context context, ArrayList<String> contactnames, ArrayList<String> contactnumbers, ArrayList<String> contactphotos)
+    public bwcontactsAdapter(Context context, ArrayList<String> contactnames, ArrayList<String> contactnumbers, ArrayList<String> contactphotos)
     {
         // TODO Auto-generated constructor stub
         this.context = context;
@@ -42,7 +42,7 @@ public class contactsAdapter extends BaseAdapter
         // TODO Auto-generated method stub
         View vi = convertView;
         if (vi == null)
-            vi = inflater.inflate(R.layout.row_in_blacklist,parent,false);
+            vi = inflater.inflate(R.layout.row_in_bwlist,parent,false);
         TextView contactnametext = (TextView) vi.findViewById(R.id.contactname);
         TextView contactnumbertext=(TextView) vi.findViewById(R.id.contactnumber);
         final ImageButton contactdeletebutton=(ImageButton) vi.findViewById(R.id.contactdeletebutton);
@@ -64,9 +64,9 @@ public class contactsAdapter extends BaseAdapter
                 String contactnumberjson = gson.toJson(contactnumbers);
                 String contactphotojson = gson.toJson(contactphotos);
 
-                editor.putString("blacklistcontactnamespref", contactnamejson);
-                editor.putString("blacklistcontactnumberspref", contactnumberjson);
-                editor.putString("blacklistcontactphotospref", contactphotojson);
+                editor.putString("listcontactnamespref", contactnamejson);
+                editor.putString("listcontactnumberspref", contactnumberjson);
+                editor.putString("listcontactphotospref", contactphotojson);
                 editor.apply();
 
                 notifyDataSetChanged();

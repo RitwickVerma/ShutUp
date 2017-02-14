@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/menu_top"
+        android:checkableBehavior="single">
+
+        <item
+            android:title="Call control and automation"
+            android:checkable="true"
+            android:checked="true"
+            android:icon="@mipmap/ic_ccanda"/>
+        <item
+            android:title="Call Scheduling"
+            android:checkable="true"
+            android:icon="@mipmap/ic_cs"/>
+
+    </group>
+
+    <group
+        android:id="@+id/menu_bottom"
+        android:checkableBehavior="none">
+        <item
+            android:title="Settings"
+            android:icon="@mipmap/ic_settings_shortcut"/>
+    </group>
+</menu>

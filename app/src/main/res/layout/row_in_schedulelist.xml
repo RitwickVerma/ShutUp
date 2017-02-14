@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/swipe">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#EF5350"
+        android:id="@+id/deletelayout"
+        android:padding="16sp">
+
+        <ImageView
+            app:srcCompat="@drawable/dustbin"
+            android:id="@+id/imageView4"
+            android:layout_width="20sp"
+            android:layout_height="20sp"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:text="Deleted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/canceltext"
+            android:textColor="#ffffff"
+            android:textAlignment="center"
+            android:layout_centerInParent="true"
+            android:textSize="18sp"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="16sp"
+        android:paddingStart="16sp"
+        android:paddingLeft="16sp"
+        android:animateLayoutChanges="true"
+        android:paddingBottom="16sp"
+        android:clipToPadding="true"
+        android:paddingEnd="16sp"
+        android:paddingRight="16sp">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/schlistcontactphoto"
+        app:cardCornerRadius="36sp"
+        android:shape="ring"
+        app:cardUseCompatPadding="true"
+        android:clipToPadding="false"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:layout_marginLeft="-11sp">
+        <ImageView
+            android:layout_height="match_parent"
+            android:id="@+id/schlistcontactphotopic"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="-2sp"
+            android:layout_marginRight="-2sp"
+            android:layout_marginTop="-2sp"
+            android:layout_marginBottom="-2sp"
+            android:layout_marginEnd="-2sp"
+            android:layout_marginStart="-2sp"/>
+    </android.support.v7.widget.CardView>
+
+
+    <TextView
+        android:text="sched info here"
+        android:layout_height="wrap_content"
+        android:id="@+id/schedinfotextview"
+        android:textAppearance="@android:style/TextAppearance.Holo.Large"
+        android:textSize="16sp"
+        android:textColor="@color/textColorPrimary"
+        android:layout_toRightOf="@+id/schlistcontactphoto"
+        android:layout_alignTop="@+id/schlistcontactphoto"
+        android:layout_marginTop="20sp"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="5sp"
+        android:textAllCaps="false"
+        android:layout_toLeftOf="@+id/imageView2"/>
+
+        <ImageView
+            app:srcCompat="@drawable/uparrow"
+            android:id="@+id/imageView2"
+            android:rotation="-90"
+            android:layout_width="10sp"
+            android:layout_height="20sp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+</com.daimajia.swipe.SwipeLayout>

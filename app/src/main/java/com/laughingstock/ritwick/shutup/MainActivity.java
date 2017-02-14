@@ -14,11 +14,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,7 +40,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
     Switch masterswitch;
     SharedPreferences preferences;
@@ -44,7 +48,10 @@ public class MainActivity extends AppCompatActivity
     BroadcastReceiver phonestaterecevier;
     NotificationManager notificationManager;
     RelativeLayout fragmentcontainer;
-    OptionsFragment settingsFragment;
+    CCandAFragment cCandAFragment;
+    CSFragment csFragment;
+    NavigationView leftnav;
+    DrawerLayout drawerLayout;
     int versionCode=0;
     String versionName="";
 
@@ -52,32 +59,46 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_drawer);
 
+        preferences = getSharedPreferences("switchstatepref", MODE_PRIVATE);
         masterswitch=(Switch) findViewById(R.id.masterswitch);
         welcome1=(TextView) findViewById(R.id.welcome1);
         welcome2=(TextView) findViewById(R.id.welcome2);
+        leftnav=(NavigationView) findViewById(R.id.navigation_view);
+        drawerLayout=(DrawerLayout) findViewById(R.id.drawer_layout);
 
         fragmentcontainer=(RelativeLayout) findViewById(R.id.fragmentcontainer);
 
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-
         if (findViewById(R.id.fragmentcontainer) != null)
         {
-            if(savedInstanceState == null)
+            if (savedInstanceState == null)
             {
-                settingsFragment = new OptionsFragment();
-                getFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, settingsFragment,"settingsFragment").commit();
+                cCandAFragment = new CCandAFragment();
+                csFragment = new CSFragment();
+                getFragmentManager().beginTransaction().replace(R.id.fragmentcontainer,
+                        (preferences.getString("fragmenttoinflate", "Call control and automation")
+                                .equals("Call control and automation")) ? cCandAFragment : csFragment, "settingsFragment").commit();
+
             }
             else
             {
-                settingsFragment = (OptionsFragment) getFragmentManager().findFragmentByTag("settingsFragment");
+                if (preferences.getString("fragmenttoinflate", "Call control and automation").equals("Call control and automation"))
+                    cCandAFragment = (CCandAFragment) getFragmentManager().findFragmentByTag("settingsFragment");
+                else
+                    csFragment = (CSFragment) getFragmentManager().findFragmentByTag("settingsFragment");
             }
+
+            leftnav.getMenu().getItem((preferences.getString("fragmenttoinflate", "Call control and automation")
+                    .equals("Call control and automation")) ? 0 : 1).setChecked(true);
+
         }
+
         phonestaterecevier = new PhoneStateReceiver();
 
         masterswitch.setOnClickListener(new View.OnClickListener()
@@ -87,12 +108,18 @@ public class MainActivity extends AppCompatActivity
             {
                 if(permissionmanage())
                 {
-                    ComponentName component = new ComponentName(getApplication(), PhoneStateReceiver.class);
+                    ComponentName componenta = new ComponentName(MainActivity.this, PhoneStateReceiver.class);
+                    ComponentName componentb = new ComponentName(MainActivity.this, SchedAlarmReciever.class);
+
                     preferences = getSharedPreferences("switchstatepref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putBoolean("switchstate", masterswitch.isChecked());
 
-                    getPackageManager().setComponentEnabledSetting(component,
+                    PackageManager pm  = MainActivity.this.getPackageManager();
+                    pm.setComponentEnabledSetting(componenta,
+                            masterswitch.isChecked()?PackageManager.COMPONENT_ENABLED_STATE_ENABLED:
+                                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+                    pm.setComponentEnabledSetting(componentb,
                             masterswitch.isChecked()?PackageManager.COMPONENT_ENABLED_STATE_ENABLED:
                                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
 
@@ -100,6 +127,11 @@ public class MainActivity extends AppCompatActivity
 
                     fragmentmanage();
                     masterswitch.setBackgroundColor(Color.parseColor((masterswitch.isChecked())?"#26A69A":"#EF5350"));
+
+                    if(masterswitch.isChecked())
+                        setTitle(preferences.getString("fragmenttoinflate", "Call control and automation").equals("Call control and automation")?"Automation":"Scheduling");
+                    else
+                        setTitle("ShutUp!");
 
                 }
                 else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !notificationManager.isNotificationPolicyAccessGranted()
@@ -112,6 +144,15 @@ public class MainActivity extends AppCompatActivity
         });
 
 
+        leftnav.setNavigationItemSelectedListener(this);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.setDrawerListener(toggle);
+        toggle.syncState();
     }
 
     protected void onPause()
@@ -132,8 +173,12 @@ public class MainActivity extends AppCompatActivity
         masterswitch.setBackgroundColor(Color.parseColor(masterswitch.isChecked()?"#26A69A":"#EF5350"));
         fragmentmanage();
 
-        SharedPreferences.Editor editor = preferences.edit();
+        if(masterswitch.isChecked())
+            setTitle(preferences.getString("fragmenttoinflate", "Call control and automation").equals("Call control and automation")?"Automation":"Scheduling");
+        else
+            setTitle("ShutUp!");
 
+        SharedPreferences.Editor editor = preferences.edit();
 
         try
         {
@@ -148,9 +193,19 @@ public class MainActivity extends AppCompatActivity
 
         if(preferences.getInt("VC",0)!=versionCode)
         {
-            if(versionCode-preferences.getInt("VC",0)==2)
+            if(versionCode-preferences.getInt("VC",0)<3 && versionCode-preferences.getInt("VC",0)!=0)
             {
-                String tempcontactphotojson = preferences.getString("blacklistcontactphotospref", null);
+                editor.putString("listcontactnamespref", preferences.getString("blacklistcontactnamespref",null));
+                editor.putString("listcontactnumberspref", preferences.getString("blacklistcontactnumberspref",null));
+                editor.putString("listcontactphotospref", preferences.getString("blacklistcontactphotospref",null));
+                editor.remove("blacklistcontactnamespref");
+                editor.remove("blacklistcontactnumberspref");
+                editor.remove("blacklistcontactphotospref");
+                editor.apply();
+            }
+            else if(versionCode-preferences.getInt("VC",0)==3)
+            {
+                String tempcontactphotojson = preferences.getString("listcontactphotospref", null);
 
                 Gson gson=new Gson();
                 Type type = new TypeToken<ArrayList<String>>(){}.getType();
@@ -171,18 +226,18 @@ public class MainActivity extends AppCompatActivity
                     }
 
                     String contactphotojson = gson.toJson(contactphotos);
-                    editor.putString("blacklistcontactphotospref", contactphotojson).apply();
+                    editor.putString("listcontactphotospref", contactphotojson).apply();
                 }
             }
-            else if(versionCode-preferences.getInt("VC",0)>2 && preferences.contains("switchstate"))
+            else if(versionCode-preferences.getInt("VC",0)>3 && preferences.contains("switchstate"))
             {
-                editor.remove("blacklistcontactnamespref").apply();
-                editor.remove("blacklistcontactnumberspref").apply();
-                editor.remove("blacklistcontactphotospref").apply();
+                editor.remove("listcontactnamespref").apply();
+                editor.remove("listcontactnumberspref").apply();
+                editor.remove("listcontactphotospref").apply();
 
                 AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
                 alertDialog.setTitle("Update:");
-                alertDialog.setMessage("Because of the addition of contact photos in blacklist, it has to be cleared. I apologize for discomfort.");
+                alertDialog.setMessage("Because of the addition of contact photos in list, it has to be cleared. I apologize for discomfort.");
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Okay",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -228,94 +283,143 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item)
+    {
+        if(item.getTitle().equals("Call control and automation") || item.getTitle().equals("Call Scheduling"))
+        {
+            if (findViewById(R.id.fragmentcontainer) != null)
+            {
+                cCandAFragment = new CCandAFragment();
+                csFragment = new CSFragment();
+                if (masterswitch.isChecked())
+                {
+                    preferences = getSharedPreferences("switchstatepref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("fragmenttoinflate", item.getTitle().toString());
+                    editor.apply();
+
+                    getFragmentManager().beginTransaction().replace(R.id.fragmentcontainer,
+                            (item.getTitle().equals("Call control and automation")) ? cCandAFragment : csFragment, "settingsFragment").commit();
+
+                    item.setChecked(true);
+
+                    setTitle(item.getTitle().equals("Call control and automation") ? "Automation" : "Scheduling");
+                } else
+                    Toast.makeText(MainActivity.this, "Master Switch is off", Toast.LENGTH_SHORT).show();
+
+            }
+        }
+
+        else if(item.getTitle().equals("Settings"))
+        {
+            if(masterswitch.isChecked())
+            {
+                Intent intent = new Intent(MainActivity.this, Settings.class);
+                startActivity(intent);
+            }
+            else
+            {
+                Toast.makeText(MainActivity.this,"Master switch is off",Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+        drawerLayout.closeDrawers();
+
+        return false;
+    }
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        getMenuInflater().inflate(R.menu.overflow_menu, menu);
+        getMenuInflater().inflate(R.menu.overflow, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        if(item.getTitle().equals("Settings"))
+        if (item.getTitle().equals("Help"))
         {
-            if(masterswitch.isChecked())
-            {
-                Intent intent = new Intent(this, Settings.class);
-                startActivity(intent);
-            }
-            else
-            {
-                Toast.makeText(this,"Master switch is off",Toast.LENGTH_SHORT).show();
-            }
-        }
-        else if(item.getTitle().equals("Help"))
-        {
-            final Dialog dialog = new Dialog(this);
+            final Dialog dialog = new Dialog(MainActivity.this);
             dialog.setContentView(R.layout.help_dialog);
             dialog.setTitle("Instructions:");
-            dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+            dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
             Button dialogButton = (Button) dialog.findViewById(R.id.helpclosebutton);
-            dialogButton.setOnClickListener(new View.OnClickListener() {
+            dialogButton.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v)
+                {
                     dialog.dismiss();
                 }
             });
 
             dialog.show();
-        }
-        else if(item.getTitle().equals("Rate"))
+        } else if (item.getTitle().equals("Rate"))
         {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("market://details?id="+getPackageName()));
+            intent.setData(Uri.parse("market://details?id=" + getPackageName()));
             startActivity(intent);
             //Toast.makeText(this,"Thank you!",Toast.LENGTH_SHORT).show();
 
-            new Handler().postDelayed(new Runnable() {
+            new Handler().postDelayed(new Runnable()
+            {
 
                 @Override
                 public void run()
                 {
-                    Toast.makeText(MainActivity.this,"Thank you!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Thank you!", Toast.LENGTH_SHORT).show();
                 }
             }, 1000);
-        }
-
-        else if(item.getTitle().equals("About"))
+        } else if (item.getTitle().equals("About"))
         {
             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
             alertDialog.setTitle("About:");
-            alertDialog.setMessage("Created by: Ritwick Verma\nbecause he likes coding (still learning) and is a college student and is mostly free as he doesn't study.\n\nApp version: v"+versionName);
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Great!", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL,"Rate", new DialogInterface.OnClickListener(){
+            alertDialog.setMessage("Created by: Ritwick Verma\nbecause he likes coding (still learning) and is a college student and is mostly free as he doesn't study.\n\nApp version: v" + versionName);
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Great!", new DialogInterface.OnClickListener()
+            {
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    dialog.dismiss();
+                }
+            });
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Rate", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i)
+                {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("market://details?id=" + getPackageName()));
+                    startActivity(intent);
+                    //Toast.makeText(this,"Thank you!",Toast.LENGTH_SHORT).show();
+
+                    new Handler().postDelayed(new Runnable()
+                    {
+
                         @Override
-                        public void onClick(DialogInterface dialogInterface, int i)
+                        public void run()
                         {
-                            Intent intent = new Intent(Intent.ACTION_VIEW);
-                            intent.setData(Uri.parse("market://details?id="+getPackageName()));
-                            startActivity(intent);
-                            //Toast.makeText(this,"Thank you!",Toast.LENGTH_SHORT).show();
-
-                            new Handler().postDelayed(new Runnable() {
-
-                                @Override
-                                public void run()
-                                {
-                                    Toast.makeText(MainActivity.this,"Thank you!",Toast.LENGTH_SHORT).show();
-                                }
-                            }, 1000);
+                            Toast.makeText(MainActivity.this, "Thank you!", Toast.LENGTH_SHORT).show();
                         }
-                    });
+                    }, 1000);
+                }
+            });
             alertDialog.show();
         }
+
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        if(drawerLayout.isDrawerOpen(leftnav))
+            drawerLayout.closeDrawers();
+        else
+            super.onBackPressed();
+    }
 
     public void fragmentmanage()
     {
@@ -331,18 +435,33 @@ public class MainActivity extends AppCompatActivity
             welcome2.setVisibility(View.VISIBLE);
             welcome1.setVisibility(View.VISIBLE);
         }
-
     }
 
 
     public void silentonpickcheckboxclicked(View v)
     {
-        settingsFragment.silentonpickcheckboxclicked(v);
+        cCandAFragment.silentonpickcheckboxclicked(v);
     }
 
     public void speakeroncheckboxclicked(View v)
     {
-        settingsFragment.speakeroncheckboxclicked(v);
+        cCandAFragment.speakeroncheckboxclicked(v);
     }
 
+    public void blacklistwhitelisttextclicked(View v)
+    {
+        cCandAFragment.blacklistwhitelisttextclicked(v);
+    }
+
+    public void blacklistwhitelistswitchclicked(View v)
+    {
+        cCandAFragment.blacklistwhitelistswitchclicked(v);
+    }
+
+    public void addschedulebuttonclicked(View v)
+    {
+        csFragment.addschedulebuttonclicked(v);
+    }
 }
+
+
