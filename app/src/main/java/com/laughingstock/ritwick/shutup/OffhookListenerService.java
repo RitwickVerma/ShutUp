@@ -46,7 +46,14 @@ public class OffhookListenerService extends Service implements SensorEventListen
     {
         context=getApplicationContext();
 
-        callnumber=intent.getStringExtra("callnumber").replaceAll("[-() ]", "");
+        try
+        {
+            callnumber = intent.getStringExtra("callnumber").replaceAll("[-() ]", "");
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+            callnumber="1234567890";
+        }
 
         preferences = getSharedPreferences("switchstatepref",Context.MODE_PRIVATE);
         sensorManager=(SensorManager) getSystemService(Context.SENSOR_SERVICE);

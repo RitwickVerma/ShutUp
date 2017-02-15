@@ -29,12 +29,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -145,54 +139,7 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-
-        if(preferences.getInt("VC",0)!=versionCode)
-        {
-            if(versionCode-preferences.getInt("VC",0)==2)
-            {
-                String tempcontactphotojson = preferences.getString("blacklistcontactphotospref", null);
-
-                Gson gson=new Gson();
-                Type type = new TypeToken<ArrayList<String>>(){}.getType();
-
-                ArrayList<String> contactphotos = new ArrayList<String>();
-
-                if(tempcontactphotojson!=null)
-                {
-                    Random r=new Random();
-                    contactphotos= gson.fromJson(tempcontactphotojson, type);
-                    for(int i=0;i<contactphotos.size();i++)
-                    {
-                        if(contactphotos.get(i)==null)
-                        {
-                            String randimguri = "android.resource://"+getPackageName()+"/drawable/contactphoto"+(r.nextInt(5)+1);
-                            contactphotos.set(i,randimguri);
-                        }
-                    }
-
-                    String contactphotojson = gson.toJson(contactphotos);
-                    editor.putString("blacklistcontactphotospref", contactphotojson).apply();
-                }
-            }
-            else if(versionCode-preferences.getInt("VC",0)>2 && preferences.contains("switchstate"))
-            {
-                editor.remove("blacklistcontactnamespref").apply();
-                editor.remove("blacklistcontactnumberspref").apply();
-                editor.remove("blacklistcontactphotospref").apply();
-
-                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-                alertDialog.setTitle("Update:");
-                alertDialog.setMessage("Because of the addition of contact photos in blacklist, it has to be cleared. I apologize for discomfort.");
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Okay",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
-            }
-            editor.putInt("VC", versionCode).apply();
-        }
+        editor.putInt("VC", versionCode).apply();
     }
 
 
@@ -313,6 +260,13 @@ public class MainActivity extends AppCompatActivity
                     });
             alertDialog.show();
         }
+
+        else if(item.getTitle().equals("Privacy Policy"))
+        {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://laughingstockcodes.wordpress.com/shutup-privacy-policy/"));
+            startActivity(browserIntent);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
