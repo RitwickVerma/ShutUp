@@ -143,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
         leftnav.setNavigationItemSelectedListener(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -168,10 +167,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume()
     {
         super.onResume();
+
         preferences = getSharedPreferences("switchstatepref",MODE_PRIVATE);
         masterswitch.setChecked(preferences.getBoolean("switchstate",false));
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !notificationManager.isNotificationPolicyAccessGranted()
+                || ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.READ_PHONE_STATE)!=PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.READ_CONTACTS)!=PackageManager.PERMISSION_GRANTED)
+        {
+            masterswitch.setChecked(false);
+        }
+
         masterswitch.setBackgroundColor(Color.parseColor(masterswitch.isChecked()?"#26A69A":"#EF5350"));
         fragmentmanage();
+
 
         if(masterswitch.isChecked())
             setTitle(preferences.getString("fragmenttoinflate", "Call control and automation").equals("Call control and automation")?"Automation":"Scheduling");
@@ -190,64 +200,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
 
-
-        if(preferences.getInt("VC",0)!=versionCode)
-        {
-            if(versionCode-preferences.getInt("VC",0)<3 && versionCode-preferences.getInt("VC",0)!=0)
-            {
-                editor.putString("listcontactnamespref", preferences.getString("blacklistcontactnamespref",null));
-                editor.putString("listcontactnumberspref", preferences.getString("blacklistcontactnumberspref",null));
-                editor.putString("listcontactphotospref", preferences.getString("blacklistcontactphotospref",null));
-                editor.remove("blacklistcontactnamespref");
-                editor.remove("blacklistcontactnumberspref");
-                editor.remove("blacklistcontactphotospref");
-                editor.apply();
-            }
-            else if(versionCode-preferences.getInt("VC",0)==3)
-            {
-                String tempcontactphotojson = preferences.getString("listcontactphotospref", null);
-
-                Gson gson=new Gson();
-                Type type = new TypeToken<ArrayList<String>>(){}.getType();
-
-                ArrayList<String> contactphotos = new ArrayList<String>();
-
-                if(tempcontactphotojson!=null)
-                {
-                    Random r=new Random();
-                    contactphotos= gson.fromJson(tempcontactphotojson, type);
-                    for(int i=0;i<contactphotos.size();i++)
-                    {
-                        if(contactphotos.get(i)==null)
-                        {
-                            String randimguri = "android.resource://"+getPackageName()+"/drawable/contactphoto"+(r.nextInt(5)+1);
-                            contactphotos.set(i,randimguri);
-                        }
-                    }
-
-                    String contactphotojson = gson.toJson(contactphotos);
-                    editor.putString("listcontactphotospref", contactphotojson).apply();
-                }
-            }
-            else if(versionCode-preferences.getInt("VC",0)>3 && preferences.contains("switchstate"))
-            {
-                editor.remove("listcontactnamespref").apply();
-                editor.remove("listcontactnumberspref").apply();
-                editor.remove("listcontactphotospref").apply();
-
-                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-                alertDialog.setTitle("Update:");
-                alertDialog.setMessage("Because of the addition of contact photos in list, it has to be cleared. I apologize for discomfort.");
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Okay",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
-            }
-            editor.putInt("VC", versionCode).apply();
-        }
+        editor.putInt("VC", versionCode).apply();
     }
 
 
@@ -408,6 +361,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             });
             alertDialog.show();
         }
+
+        else if(item.getTitle().equals("Privacy Policy"))
+        {
+            Intent bi= new Intent(Intent.ACTION_VIEW,Uri.parse("https://laughingstockcodes.wordpress.com/shutup-privacy-policy/"));
+            startActivity(bi);
+        }
+
 
         return super.onOptionsItemSelected(item);
     }

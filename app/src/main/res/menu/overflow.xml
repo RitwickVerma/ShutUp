@@ -7,5 +7,7 @@
             android:title="Rate"/>
         <item
             android:title="About"/>
+        <item
+            android:title="Privacy Policy"/>
 
 </menu>

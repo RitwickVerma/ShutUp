@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +21,12 @@ import com.daimajia.swipe.SimpleSwipeListener;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 
@@ -32,7 +39,7 @@ class schedulecontactsAdapter extends BaseSwipeAdapter
     int[] listenerdata;
     private ArrayList<Bundle> schedinfo;
     private TextView listemptytext;
-    private String number = "",name = "",photo = "",time="",date="",dialnumber="";
+    private String number = "", name = "", photo = "", time = "", date = "", dialnumber = "";
     private long timeinmills;
     private ArrayList<String> diffnums;
     private ArrayList<SimpleSwipeListener> swipeListeners;
@@ -44,9 +51,9 @@ class schedulecontactsAdapter extends BaseSwipeAdapter
     {
         // TODO Auto-generated constructor stub
         this.context = context;
-        this.schedinfo=schedinfo;
-        this.listemptytext=listemptytext;
-        swipeListeners=new ArrayList<>();
+        this.schedinfo = schedinfo;
+        this.listemptytext = listemptytext;
+        swipeListeners = new ArrayList<>();
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -59,9 +66,9 @@ class schedulecontactsAdapter extends BaseSwipeAdapter
     @Override
     public View generateView(final int position, final ViewGroup parent)
     {
-            //vi = inflater.inflate(R.layout.row_in_schedulelist,parent,false);
+        //vi = inflater.inflate(R.layout.row_in_schedulelist,parent,false);
 
-        View vi = LayoutInflater.from(context).inflate(R.layout.row_in_schedulelist, parent,false);
+        View vi = LayoutInflater.from(context).inflate(R.layout.row_in_schedulelist, parent, false);
 
         return vi;
 
@@ -69,14 +76,14 @@ class schedulecontactsAdapter extends BaseSwipeAdapter
 
     public void fillValues(final int position, View convertView)
     {
-        View vi=convertView;
+        View vi = convertView;
         final SwipeLayout swipeLayout = (SwipeLayout) vi.findViewById(R.id.swipe);
 
-        TextView schedinfotextview=(TextView) vi.findViewById(R.id.schedinfotextview);
-        ImageView schcontactphoto=(ImageView) vi.findViewById(R.id.schlistcontactphotopic);
+        TextView schedinfotextview = (TextView) vi.findViewById(R.id.schedinfotextview);
+        ImageView schcontactphoto = (ImageView) vi.findViewById(R.id.schlistcontactphotopic);
 
-        Bundle b=schedinfo.get(position);
-        if(b!=null)
+        Bundle b = schedinfo.get(position);
+        if (b != null)
         {
             name = b.getString("name");
             diffnums = b.getStringArrayList("numbers");
@@ -94,35 +101,38 @@ class schedulecontactsAdapter extends BaseSwipeAdapter
 
 
         swipeLayout.close(true);
-        SimpleSwipeListener s =  new SimpleSwipeListener()
+        SimpleSwipeListener s = new SimpleSwipeListener()
         {
             @Override
             public void onOpen(SwipeLayout layout)
             {
 
 
-                final Bundle temp=schedinfo.get(position);
+                final Bundle temp = schedinfo.get(position);
                 schedinfo.remove(position);
                 notifyDataSetChanged();
-                Snackbar.make(swipeLayout,"Schedule cancelled", Snackbar.LENGTH_INDEFINITE)
+                Snackbar.make(swipeLayout, "Schedule cancelled", Snackbar.LENGTH_INDEFINITE)
                         .setAction("Undo", new View.OnClickListener()
                         {
                             @Override
                             public void onClick(View v)
                             {
-                                schedinfo.add(position,temp);
+                                schedinfo.add(position, temp);
                                 notifyDataSetChanged();
-                                if(schedinfo.size()==0) listemptytext.setVisibility(View.VISIBLE);
+                                if (schedinfo.size() == 0)
+                                    listemptytext.setVisibility(View.VISIBLE);
                                 else listemptytext.setVisibility(View.INVISIBLE);
                             }
                         })
-                        .setActionTextColor(Color.YELLOW)
+                        .setActionTextColor(Color.parseColor("#2196F3"))
                         .show();
-                if(schedinfo.size()==0) listemptytext.setVisibility(View.VISIBLE);
-            }};
+                if (schedinfo.size() == 0) listemptytext.setVisibility(View.VISIBLE);
+            }
+        };
 
 
-        for (SimpleSwipeListener l : swipeListeners) {
+        for (SimpleSwipeListener l : swipeListeners)
+        {
             swipeLayout.removeSwipeListener(l);
         }
         swipeListeners.clear();
@@ -133,22 +143,24 @@ class schedulecontactsAdapter extends BaseSwipeAdapter
 
 
     @Override
-    public int getCount() {
+    public int getCount()
+    {
         // TODO Auto-generated method stub
         return schedinfo.size();
     }
 
     @Override
-    public Object getItem(int position) {
+    public Object getItem(int position)
+    {
         // TODO Auto-generated method stub
         return schedinfo.get(position);
     }
 
     @Override
-    public long getItemId(int position) {
+    public long getItemId(int position)
+    {
         // TODO Auto-generated method stub
         return position;
     }
-
 
 }

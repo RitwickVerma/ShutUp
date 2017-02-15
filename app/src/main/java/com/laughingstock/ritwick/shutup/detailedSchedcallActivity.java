@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.design.widget.NavigationView;
@@ -156,7 +157,18 @@ public class detailedSchedcallActivity extends AppCompatActivity
 
         if(name.equals("")||time.equals("")||date.equals(""))
         {
-            Snackbar.make(findViewById(R.id.activity_detailed_schedcall),"Information incomplete",Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.activity_detailed_schedcall),"Information incomplete",Snackbar.LENGTH_LONG)
+            .setAction("I don't care", new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    finish();
+                }
+            })
+            .setActionTextColor(Color.parseColor("#2196F3"))
+            .show();
+
         }
         else
         {
