@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView leftnav;
     DrawerLayout drawerLayout;
     int versionCode=0;
-    String versionName="";
+    String versionName="",CCandA="com.laughingstock.ritwick.shutup.CCandA",CS="com.laughingstock.ritwick.shutup.CS";
 
     boolean checktel=false,checkdnd=false;
 
@@ -74,6 +74,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentcontainer=(RelativeLayout) findViewById(R.id.fragmentcontainer);
 
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        if (CCandA.equals(getIntent().getAction()))
+        {
+            cCandAFragment = new CCandAFragment();
+            getFragmentManager().beginTransaction().replace(R.id.fragmentcontainer,cCandAFragment, "settingsFragment").commit();
+
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("fragmenttoinflate", "Call control and automation");
+            editor.apply();
+        }
+
+        if (CS.equals(getIntent().getAction()))
+        {
+            csFragment = new CSFragment();
+            getFragmentManager().beginTransaction().replace(R.id.fragmentcontainer,csFragment, "settingsFragment").commit();
+
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("fragmenttoinflate", "Call Scheduling");
+            editor.apply();
+        }
 
         if (findViewById(R.id.fragmentcontainer) != null)
         {
@@ -110,6 +130,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 {
                     ComponentName componenta = new ComponentName(MainActivity.this, PhoneStateReceiver.class);
                     ComponentName componentb = new ComponentName(MainActivity.this, SchedAlarmReciever.class);
+                    ComponentName componentc = new ComponentName(MainActivity.this, AutoStart.class);
+
 
                     preferences = getSharedPreferences("switchstatepref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
@@ -120,6 +142,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             masterswitch.isChecked()?PackageManager.COMPONENT_ENABLED_STATE_ENABLED:
                                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
                     pm.setComponentEnabledSetting(componentb,
+                            masterswitch.isChecked()?PackageManager.COMPONENT_ENABLED_STATE_ENABLED:
+                                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+                    pm.setComponentEnabledSetting(componentc,
                             masterswitch.isChecked()?PackageManager.COMPONENT_ENABLED_STATE_ENABLED:
                                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
 
@@ -346,7 +371,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse("market://details?id=" + getPackageName()));
                     startActivity(intent);
-                    //Toast.makeText(this,"Thank you!",Toast.LENGTH_SHORT).show();
 
                     new Handler().postDelayed(new Runnable()
                     {

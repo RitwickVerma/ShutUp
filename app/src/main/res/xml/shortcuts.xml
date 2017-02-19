@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shortcuts xmlns:tools="http://schemas.android.com/tools"
            xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:shortcutId="CCandAshortcut"
+        android:enabled="true"
+        android:icon="@mipmap/ic_ccanda"
+        android:shortcutShortLabel="@string/CCandA_title"
+        android:shortcutLongLabel="@string/CCandA_shortcutlongLabel"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="com.laughingstock.ritwick.shutup.CCandA"
+            android:targetPackage="com.laughingstock.ritwick.shutup"
+            android:targetClass="com.laughingstock.ritwick.shutup.MainActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="CSshortcut"
+        android:enabled="true"
+        android:icon="@mipmap/ic_cs"
+        android:shortcutShortLabel="@string/CS_title"
+        android:shortcutLongLabel="@string/CS_shortcutlongLabel"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="com.laughingstock.ritwick.shutup.CS"
+            android:targetPackage="com.laughingstock.ritwick.shutup"
+            android:targetClass="com.laughingstock.ritwick.shutup.MainActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
     <shortcut
         android:shortcutId="Settingsshortcut"
         android:enabled="true"
@@ -15,19 +44,6 @@
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 
-    <shortcut
-        android:shortcutId="Blacklistshortcut"
-        android:enabled="true"
-        android:icon="@mipmap/ic_blacklist_shortcut"
-        android:shortcutShortLabel="@string/list_title"
-        android:shortcutLongLabel="@string/list_shortcutlongLabel"
-        tools:targetApi="n_mr1">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetPackage="com.laughingstock.ritwick.shutup"
-            android:targetClass="com.laughingstock.ritwick.shutup.BlacklistWhitelist" />
-        <categories android:name="android.shortcut.conversation" />
-    </shortcut>
 
 </shortcuts>
 

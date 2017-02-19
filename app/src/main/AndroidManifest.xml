@@ -80,8 +80,9 @@
 
         <receiver
             android:name=".SchedAlarmReciever"
+            android:process=":remote"
             android:enabled="true"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.laughingstock.ritwick.shutup.START_SCHED_ALARM">
                 </action>
@@ -102,6 +103,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.laughingstock.ritwick.shutup.MainActivity"/>
         </activity>
+
+        <service
+            android:name=".CallSchedulerService"
+            android:enabled="true"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>

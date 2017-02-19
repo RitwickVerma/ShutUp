@@ -29,7 +29,7 @@ public class OffhookListenerService extends Service implements SensorEventListen
     SharedPreferences preferences;
     String callnumber;
     int currmode;
-    boolean firstonear=false,iscovered,numberinlist=false;
+    boolean firstonear=false,iscovered,numberinlist=false,speakeron;
 
     @Override
     public IBinder onBind(Intent intent)
@@ -59,10 +59,11 @@ public class OffhookListenerService extends Service implements SensorEventListen
         sensorManager.registerListener(OffhookListenerService.this,accelerometer,SensorManager.SENSOR_DELAY_FASTEST);
         audioManager=(AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         currmode=audioManager.getMode();
+        speakeron=audioManager.isSpeakerphoneOn();
 
         numberinlist=checklistednumber();
 
-        return super.onStartCommand(intent, START_FLAG_REDELIVERY, startId);
+        return START_REDELIVER_INTENT;
     }
 
     public void onDestroy()

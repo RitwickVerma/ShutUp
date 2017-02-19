@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.daimajia.swipe.SwipeLayout
+<com.chauthai.swipereveallayout.SwipeRevealLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/swipe">
+    app:mode="same_level"
+    app:dragEdge="right"
+    android:id="@+id/swipe"
+    android:layout_height="150sp">
 
 
     <RelativeLayout
@@ -12,7 +14,8 @@
         android:layout_height="match_parent"
         android:background="#EF5350"
         android:id="@+id/deletelayout"
-        android:padding="16sp">
+        android:padding="16sp"
+        >
 
         <ImageView
             app:srcCompat="@drawable/dustbin"
@@ -41,7 +44,8 @@
         android:paddingBottom="16sp"
         android:clipToPadding="true"
         android:paddingEnd="16sp"
-        android:paddingRight="16sp">
+        android:paddingRight="16sp"
+        android:id="@+id/mainswipe">
 
     <android.support.v7.widget.CardView
         android:id="@+id/schlistcontactphoto"
@@ -56,12 +60,12 @@
             android:layout_height="match_parent"
             android:id="@+id/schlistcontactphotopic"
             android:layout_width="match_parent"
-            android:layout_marginLeft="-2sp"
-            android:layout_marginRight="-2sp"
-            android:layout_marginTop="-2sp"
-            android:layout_marginBottom="-2sp"
-            android:layout_marginEnd="-2sp"
-            android:layout_marginStart="-2sp"/>
+            android:layout_marginLeft="-3sp"
+            android:layout_marginRight="-3sp"
+            android:layout_marginTop="-3sp"
+            android:layout_marginBottom="-3sp"
+            android:layout_marginEnd="-3sp"
+            android:layout_marginStart="-3sp"/>
     </android.support.v7.widget.CardView>
 
 
@@ -90,4 +94,4 @@
             android:layout_centerVertical="true"/>
 
     </RelativeLayout>
-</com.daimajia.swipe.SwipeLayout>
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

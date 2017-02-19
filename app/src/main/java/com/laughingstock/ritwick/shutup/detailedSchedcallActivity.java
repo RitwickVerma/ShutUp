@@ -2,19 +2,16 @@ package com.laughingstock.ritwick.shutup;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
-import android.provider.ContactsContract;
-import android.support.design.widget.NavigationView;
+import android.provider.*;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,31 +26,23 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
 public class detailedSchedcallActivity extends AppCompatActivity
 {
-    ArrayList<String> schedinfo;
     ArrayAdapter<String> numspinneradapter;
     String number = "",name = "",photo = "",time="",date="",dialnumber="";
     long timeinmills;
-    int simnumber=0;
-    Boolean ring=true;
+    Boolean ring=true,vibrate=true;
     ArrayList<String> diffnums;
     ImageView photoimage;
     TextView nametext,timetext,datetext,numtext;
-    CheckBox ringcb;
-    RadioGroup simrg;
+    CheckBox ringcb,vibratecb;
     TimePickerDialog timePickerDialog;
     DatePickerDialog datePickerDialog;
     Spinner numspinner;
@@ -74,8 +63,7 @@ public class detailedSchedcallActivity extends AppCompatActivity
         numspinner=(Spinner) findViewById(R.id.numspinner);
         botcv=(CardView) findViewById(R.id.botcv);
         ringcb=(CheckBox) findViewById(R.id.ringcb);
-        simrg=(RadioGroup) findViewById(R.id.simrg) ;
-
+        vibratecb=(CheckBox) findViewById(R.id.vibratecb);
 
         Intent intent=getIntent();
         Bundle b=intent.getBundleExtra("sdatabundle");
@@ -89,7 +77,7 @@ public class detailedSchedcallActivity extends AppCompatActivity
             time=b.getString("time");
             date=b.getString("date");
             timeinmills=b.getLong("timeinmills");
-            simnumber=b.getInt("simnumber");
+            vibrate=b.getBoolean("vibrate");
             ring=b.getBoolean("ring");
 
             nametext.setText(name);
@@ -101,7 +89,7 @@ public class detailedSchedcallActivity extends AppCompatActivity
             timetext.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             timetext.setTextSize(16);
             ringcb.setChecked(ring);
-            simrg.check(simnumber);
+            vibratecb.setChecked(vibrate);
 
             numspinner.setVisibility(View.VISIBLE);
             numtext.setVisibility(View.VISIBLE);
@@ -133,12 +121,12 @@ public class detailedSchedcallActivity extends AppCompatActivity
             {            }
         });
 
-        simrg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        vibratecb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId)
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                simnumber = checkedId;
+                vibrate=isChecked;
             }
         });
 
@@ -152,7 +140,7 @@ public class detailedSchedcallActivity extends AppCompatActivity
         });
     }
 
-    public void donebuttonpressed(View v)
+    public View donebuttonpressed(View v)
     {
 
         if(name.equals("")||time.equals("")||date.equals(""))
@@ -179,8 +167,11 @@ public class detailedSchedcallActivity extends AppCompatActivity
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
-
+            if(timeinmills/60000< System.currentTimeMillis()/60000)
+            {
+                Toast.makeText(this, "Calling back in time is not yet possible.\n(o_o)", Toast.LENGTH_SHORT).show();
+                return v;
+            }
             Intent ri = new Intent();
             Bundle b = new Bundle();
             b.putString("name", name);
@@ -190,12 +181,13 @@ public class detailedSchedcallActivity extends AppCompatActivity
             b.putString("time", time);
             b.putString("date", date);
             b.putLong("timeinmills", timeinmills);
-            b.putInt("simnumber",simnumber);
+            b.putBoolean("vibrate",vibrate);
             b.putBoolean("ring",ring);
             ri.putExtra("sdatabundle",b);
             setResult(RESULT_OK, ri);
             finish();
         }
+        return v;
     }
 
     public void cancelbuttonpressed(View v)
@@ -284,9 +276,19 @@ public class detailedSchedcallActivity extends AppCompatActivity
 
     public void settimetextclicked(View v)
     {
-        Calendar mcurrentTime = Calendar.getInstance();
-        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-        int minute = mcurrentTime.get(Calendar.MINUTE);
+        int hour,minute;
+        if(time.equals(""))
+        {
+            Calendar mcurrentTime = Calendar.getInstance();
+            hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+            minute = mcurrentTime.get(Calendar.MINUTE);
+        }
+        else
+        {
+            hour = Integer.parseInt(time.split(":")[0]);
+            minute = Integer.parseInt(time.split(":")[1]);
+        }
+
         timePickerDialog=new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener()
         {
             @Override
@@ -304,11 +306,21 @@ public class detailedSchedcallActivity extends AppCompatActivity
 
     public void setdatetextclicked(View v)
     {
-        Calendar mcurrentDate = Calendar.getInstance();
-        int mYear = mcurrentDate.get(Calendar.YEAR);
-        int mMonth = mcurrentDate.get(Calendar.MONTH);
-        int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
-
+        int mYear,mMonth,mDay;
+        if(date.equals(""))
+        {
+            Calendar mcurrentDate = Calendar.getInstance();
+            mYear = mcurrentDate.get(Calendar.YEAR);
+            mMonth = mcurrentDate.get(Calendar.MONTH);
+            mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+        }
+        else
+        {
+            mYear = Integer.parseInt(date.split("/")[2]);
+            mMonth = Integer.parseInt(date.split("/")[1]);
+            mMonth--;
+            mDay = Integer.parseInt(date.split("/")[0]);
+        }
         datePickerDialog=new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener()
         {
             @Override

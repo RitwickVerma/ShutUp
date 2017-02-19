@@ -47,9 +47,11 @@
     <string name="Settings_title">Settings</string>
     <string name="Settings_shortcutlongLabel">Open Settings in ShutUp!</string>
 
-    <string name="list_title">Blacklist or Whitelist</string>
-    <string name="list_shortcutlongLabel">Open settings for automatic speaker on/off</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="CCandA_title">Call control</string>
+    <string name="CCandA_shortcutlongLabel">Open Call control</string>
+
+    <string name="CS_title">Call Scheduling</string>
+    <string name="CS_shortcutlongLabel">Schedule a call</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
