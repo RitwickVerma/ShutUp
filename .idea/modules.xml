@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/ShutUp (master).iml" filepath="$PROJECT_DIR$/ShutUp (master).iml" />
       <module fileurl="file://$PROJECT_DIR$/ShutUp (under development).iml" filepath="$PROJECT_DIR$/ShutUp (under development).iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
