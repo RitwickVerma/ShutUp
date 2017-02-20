@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -24,12 +26,15 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class Blacklist extends AppCompatActivity
+public class BlacklistWhitelist extends AppCompatActivity
 {
 
-    ListView blacklistcontactslistview;
-    contactsAdapter adapter;
+    ListView blacklistwhitelistcontactslistview;
+    bwcontactsAdapter adapter;
     ArrayList<String> contactnames, contactnumbers,contactphotos;
+    SharedPreferences preferences;
+    RadioGroup radiogroup;
+    RadioButton blacklistradiobutton,whitelistradiobutton;
 
     String name,number,photo;
 
@@ -37,22 +42,23 @@ public class Blacklist extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_blacklist);
+        setContentView(R.layout.activity_blacklistwhitelist);
 
-        blacklistcontactslistview = (ListView) findViewById(R.id.blacklistview);
+        blacklistwhitelistcontactslistview = (ListView) findViewById(R.id.bwlistview);
+        blacklistradiobutton=(RadioButton) findViewById(R.id.blacklistradiobutton);
+        whitelistradiobutton=(RadioButton) findViewById(R.id.whitelistradiobutton);
 
-
-        if(ContextCompat.checkSelfPermission(Blacklist.this, Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED)
+        if(ContextCompat.checkSelfPermission(BlacklistWhitelist.this, Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED)
         {
-            ActivityCompat.requestPermissions(Blacklist.this, new String[]{Manifest.permission.READ_CONTACTS}, 0);
+            ActivityCompat.requestPermissions(BlacklistWhitelist.this, new String[]{Manifest.permission.READ_CONTACTS}, 0);
         }
 
 
-        SharedPreferences preferences = getSharedPreferences("switchstatepref",MODE_PRIVATE);
+        preferences = getSharedPreferences("switchstatepref",MODE_PRIVATE);
 
-        String tempcontactnamejson = preferences.getString("blacklistcontactnamespref",null);
-        String tempcontactnumberjson = preferences.getString("blacklistcontactnumberspref",null);
-        String tempcontactphotojson = preferences.getString("blacklistcontactphotospref", null);
+        String tempcontactnamejson = preferences.getString("listcontactnamespref",null);
+        String tempcontactnumberjson = preferences.getString("listcontactnumberspref",null);
+        String tempcontactphotojson = preferences.getString("listcontactphotospref", null);
 
         Gson gson=new Gson();
         Type type = new TypeToken<ArrayList<String>>(){}.getType();
@@ -68,10 +74,51 @@ public class Blacklist extends AppCompatActivity
             contactphotos= gson.fromJson(tempcontactphotojson, type);
         }
 
-        adapter = new contactsAdapter(this,contactnames,contactnumbers,contactphotos);
-        blacklistcontactslistview.setAdapter(adapter);
+        adapter = new bwcontactsAdapter(this,contactnames,contactnumbers,contactphotos);
+        blacklistwhitelistcontactslistview.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
+
+        radiogroup=(RadioGroup) findViewById(R.id.radiogroup);
+        radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i)
+            {
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putInt("blacklistwhitelistradiogrouppref",i);
+                editor.apply();
+                setTitle((i==R.id.blacklistradiobutton)?"Blacklist":"Whitelist");
+                if(i==R.id.blacklistradiobutton)
+                {
+                    blacklistradiobutton.setTextSize(16);
+                    whitelistradiobutton.setTextSize(12);
+                }
+                else
+                {
+                    blacklistradiobutton.setTextSize(12);
+                    whitelistradiobutton.setTextSize(16);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        radiogroup.check(preferences.getInt("blacklistwhitelistradiogrouppref",R.id.blacklistradiobutton));
+        setTitle((preferences.getInt("blacklistwhitelistradiogrouppref",R.id.blacklistradiobutton)==R.id.blacklistradiobutton)?"Blacklist":"Whitelist");
+        if(preferences.getInt("blacklistwhitelistradiogrouppref",R.id.blacklistradiobutton)==R.id.blacklistradiobutton)
+        {
+            blacklistradiobutton.setTextSize(16);
+            whitelistradiobutton.setTextSize(12);
+        }
+        else
+        {
+            blacklistradiobutton.setTextSize(12);
+            whitelistradiobutton.setTextSize(16);
+        }
     }
 
     @Override
@@ -168,9 +215,9 @@ public class Blacklist extends AppCompatActivity
         String contactnumberjson = gson.toJson(contactnumbers);
         String contactphotojson = gson.toJson(contactphotos);
 
-        editor.putString("blacklistcontactnamespref", contactnamejson);
-        editor.putString("blacklistcontactnumberspref", contactnumberjson);
-        editor.putString("blacklistcontactphotospref", contactphotojson);
+        editor.putString("listcontactnamespref", contactnamejson);
+        editor.putString("listcontactnumberspref", contactnumberjson);
+        editor.putString("listcontactphotospref", contactphotojson);
         editor.apply();
     }
 

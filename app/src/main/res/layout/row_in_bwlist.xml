@@ -10,7 +10,8 @@
                 android:paddingTop="16sp"
                 android:paddingStart="16sp"
                 android:clipToPadding="false"
-                android:clipChildren="false">
+                android:clipChildren="false"
+    >
 
 
     <android.support.v7.widget.CardView
@@ -82,21 +83,22 @@
         android:layout_marginBottom="17sp"/>
 
     <ImageButton
-        app:srcCompat="@mipmap/ic_blacklistdelete"
+        app:srcCompat="@drawable/cross_dgrey"
         android:id="@+id/contactdeletebutton"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
-        android:paddingLeft="27sp"
+        android:paddingLeft="24sp"
         android:layout_alignTop="@+id/contactname"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:paddingRight="27sp"
+        android:paddingRight="24sp"
         android:layout_marginRight="-16sp"
         android:layout_marginTop="-16sp"
         android:layout_marginBottom="-16sp"
         android:layout_width="70sp"
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/contactnumber"
-        android:layout_marginEnd="-16sp"/>
+        android:layout_marginEnd="-16sp"
+        />
 
 </RelativeLayout>

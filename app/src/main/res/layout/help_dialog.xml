@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/help_dialog">
+                android:id="@+id/help_dialog"
+    >
 
 
     <TextView
@@ -28,7 +29,8 @@
         android:id="@+id/dialogscrollview"
         android:layout_height="wrap_content"
         android:fillViewport="true"
-        android:layout_below="@+id/instructions">
+        android:layout_below="@+id/instructions"
+        android:animateLayoutChanges="true">
 
         <RelativeLayout
             android:layout_width="match_parent"

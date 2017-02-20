@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_blacklistwhitelist"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.laughingstock.ritwick.shutup.BlacklistWhitelist"
+    android:clipToPadding="false"
+    >
+
+    <Button
+        android:text="Add Contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addcontactbutton"
+        android:textColor="@color/textColorPrimary"
+        android:backgroundTint="@color/colorAccent"
+        android:onClick="addcontactbuttonclicked"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5sp"
+        android:background="@android:color/transparent"/>
+
+    <View
+        android:background="?android:listDivider"
+        android:layout_alignTop="@+id/bwlistview"
+        android:layout_marginLeft="-16sp"
+        android:layout_marginRight="-16sp"
+        android:layout_width="match_parent"
+        android:layout_height="1sp"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/addcontactbutton"
+        android:layout_marginTop="25sp"
+        android:id="@+id/bwlistview"
+        android:layout_marginLeft="-17sp"
+        android:layout_marginRight="-17sp"
+        android:layout_marginBottom="-17sp"
+        android:animateLayoutChanges="true"/>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radiogroup"
+        android:checkedButton="@+id/blacklistradiobutton"
+        >
+
+        <RadioButton
+            android:text="Blacklist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/blacklistradiobutton"
+            android:layout_weight="1"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textSize="14sp"
+            android:textColor="@color/textColorPrimary"
+            />
+
+
+        <RadioButton
+            android:text="Whitelist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/whitelistradiobutton"
+            android:layout_weight="1"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textSize="14sp"
+            android:textColor="@color/textColorPrimary"/>
+    </RadioGroup>
+
+    <View
+        android:background="#424242"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/radiogroup"
+        android:layout_alignBottom="@+id/radiogroup"
+        android:layout_marginTop="24sp"
+        android:layout_marginBottom="24sp"
+        android:layout_marginLeft="14.5sp"
+        android:layout_width="3sp"
+        />
+
+</RelativeLayout>
