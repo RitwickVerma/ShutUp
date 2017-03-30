@@ -38,7 +38,7 @@ public class CSFragment extends Fragment
     schedulecontactsAdapter adapter;
     ArrayList<Bundle> schedinfo;
     int pos;
-    Boolean edit=false;
+    boolean edit=false;
 
 
     @Nullable
@@ -97,14 +97,29 @@ public class CSFragment extends Fragment
                 {
                     schedinfo.set(pos, b);
                     //schedAlarmReciever.cancelAlarm(context,pos);
-                    //schedAlarmReciever.setAlarm(context,b.getLong("timeinmills"),pos);
+                    //schedAlarmReciever.setAlarm(context,b.getLong("timeinmills"),pos,b.getBoolean("calldaily"));
                 }
                 else
                 {
+                    /*boolean flag=true;
+                    for(int i=0;i<schedinfo.size();i++)
+                    {
+                        if(schedinfo.get(i)==null)
+                        {
+                            schedinfo.set(i, b);
+                            flag=false;
+                        }
+                    }
+                    if(flag)
+                        schedinfo.add(b);
+
+                    schedAlarmReciever.setAlarm(context,b.getLong("timeinmills"),schedinfo.indexOf(b),b.getBoolean("calldaily"));
+                    */
                     schedinfo.add(b);
-                   // schedAlarmReciever.setAlarm(context,b.getLong("timeinmills"),schedinfo.indexOf(b));
                 }
                 adapter.notifyDataSetChanged();
+
+                System.out.println(schedinfo);
 
                 if(schedinfo.size()>0) listemptytext.setVisibility(View.INVISIBLE);
                 saveToInternalStorage(context,schedinfo);

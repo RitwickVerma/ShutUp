@@ -23,9 +23,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     int versionCode=0;
     String versionName="",CCandA="com.laughingstock.ritwick.shutup.CCandA",CS="com.laughingstock.ritwick.shutup.CS";
+    ViewGroup v;
 
     boolean checktel=false,checkdnd=false;
 
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer);
+        v = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
 
         preferences = getSharedPreferences("switchstatepref", MODE_PRIVATE);
         masterswitch=(Switch) findViewById(R.id.masterswitch);
@@ -177,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
+
     }
 
     protected void onPause()
@@ -335,7 +340,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             });
 
             dialog.show();
-        } else if (item.getTitle().equals("Rate"))
+        }
+
+        else if (item.getTitle().equals("Rate"))
         {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("market://details?id=" + getPackageName()));
@@ -351,7 +358,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Toast.makeText(MainActivity.this, "Thank you!", Toast.LENGTH_SHORT).show();
                 }
             }, 1000);
-        } else if (item.getTitle().equals("About"))
+        }
+
+        else if (item.getTitle().equals("About"))
         {
             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
             alertDialog.setTitle("About:");
@@ -384,6 +393,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
             alertDialog.show();
+        }
+
+        else if(item.getTitle().equals("Donate"))
+        {
+            Intent i=new Intent(MainActivity.this,Donatepage.class);
+            startActivity(i);
         }
 
         else if(item.getTitle().equals("Privacy Policy"))

@@ -1,5 +1,6 @@
 package com.laughingstock.ritwick.shutup;
 
+import android.annotation.TargetApi;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
@@ -165,11 +167,13 @@ public class RingingListenerService extends Service implements SensorEventListen
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void answercall()
     {
         Intent intent = new Intent(context, AnswerCall.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
         context.startActivity(intent);
+
     }
 }

@@ -58,6 +58,20 @@
             android:theme="@style/Mysms">
         </activity>
 
+
+        <activity android:name=".detailedSchedcallActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.laughingstock.ritwick.shutup.MainActivity"/>
+        </activity>
+
+        <activity android:name=".Donatepage"
+                  android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.laughingstock.ritwick.shutup.MainActivity"/>
+        </activity>
+
         <service
             android:name=".RingingListenerService"
             android:enabled="true"
@@ -80,9 +94,9 @@
 
         <receiver
             android:name=".SchedAlarmReciever"
-            android:process=":remote"
             android:enabled="true"
-            android:exported="false">
+            android:exported="false"
+            android:process=":remote">
             <intent-filter>
                 <action android:name="com.laughingstock.ritwick.shutup.START_SCHED_ALARM">
                 </action>
@@ -98,17 +112,14 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".detailedSchedcallActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.laughingstock.ritwick.shutup.MainActivity"/>
-        </activity>
 
         <service
             android:name=".CallSchedulerService"
             android:enabled="true"
             android:exported="false">
         </service>
+
+
     </application>
 
 </manifest>

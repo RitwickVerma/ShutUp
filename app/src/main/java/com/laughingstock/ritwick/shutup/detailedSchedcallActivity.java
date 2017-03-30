@@ -38,11 +38,11 @@ public class detailedSchedcallActivity extends AppCompatActivity
     ArrayAdapter<String> numspinneradapter;
     String number = "",name = "",photo = "",time="",date="",dialnumber="";
     long timeinmills;
-    Boolean ring=true,vibrate=true;
+    boolean ring=true,vibrate=true,calldaily=false;
     ArrayList<String> diffnums;
     ImageView photoimage;
     TextView nametext,timetext,datetext,numtext;
-    CheckBox ringcb,vibratecb;
+    CheckBox ringcb,vibratecb,calldailycb;
     TimePickerDialog timePickerDialog;
     DatePickerDialog datePickerDialog;
     Spinner numspinner;
@@ -64,6 +64,7 @@ public class detailedSchedcallActivity extends AppCompatActivity
         botcv=(CardView) findViewById(R.id.botcv);
         ringcb=(CheckBox) findViewById(R.id.ringcb);
         vibratecb=(CheckBox) findViewById(R.id.vibratecb);
+        calldailycb=(CheckBox) findViewById(R.id.calldailycb);
 
         Intent intent=getIntent();
         Bundle b=intent.getBundleExtra("sdatabundle");
@@ -79,6 +80,7 @@ public class detailedSchedcallActivity extends AppCompatActivity
             timeinmills=b.getLong("timeinmills");
             vibrate=b.getBoolean("vibrate");
             ring=b.getBoolean("ring");
+            calldaily=b.getBoolean("calldaily");
 
             nametext.setText(name);
             photoimage.setImageURI(Uri.parse(photo));
@@ -90,10 +92,12 @@ public class detailedSchedcallActivity extends AppCompatActivity
             timetext.setTextSize(16);
             ringcb.setChecked(ring);
             vibratecb.setChecked(vibrate);
+            calldailycb.setChecked(calldaily);
 
             numspinner.setVisibility(View.VISIBLE);
             numtext.setVisibility(View.VISIBLE);
             botcv.setVisibility(View.VISIBLE);
+            datetext.setVisibility((calldaily)?View.GONE:View.VISIBLE);
 
         }
         else
@@ -102,6 +106,11 @@ public class detailedSchedcallActivity extends AppCompatActivity
             numtext.setVisibility(View.GONE);
             botcv.setVisibility(View.GONE);
             diffnums=new ArrayList<>();
+
+            Random r=new Random();
+            String randimguri = "android.resource://"+getPackageName()+"/drawable/contactphoto"+(r.nextInt(5)+1);
+            photo=randimguri;
+            photoimage.setImageURI(Uri.parse(photo));
         }
 
 
@@ -138,12 +147,36 @@ public class detailedSchedcallActivity extends AppCompatActivity
                 ring=isChecked;
             }
         });
+
+        calldailycb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                calldaily=isChecked;
+                datetext.setVisibility((calldaily)?View.GONE:View.VISIBLE);
+            }
+        });
+
+        View.OnLongClickListener l=new View.OnLongClickListener()
+        {
+            @Override
+            public boolean onLongClick(View v)
+            {
+                diffnums.clear();
+                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                startActivityForResult(intent, 1);
+                return true;
+            }
+        };
+        nametext.setOnLongClickListener(l);
+        photoimage.setOnLongClickListener(l);
     }
 
     public View donebuttonpressed(View v)
     {
 
-        if(name.equals("")||time.equals("")||date.equals(""))
+        if(name.equals("")||time.equals("")||(date.equals("") && !calldaily))
         {
             Snackbar.make(findViewById(R.id.activity_detailed_schedcall),"Information incomplete",Snackbar.LENGTH_LONG)
             .setAction("I don't care", new View.OnClickListener()
@@ -160,6 +193,17 @@ public class detailedSchedcallActivity extends AppCompatActivity
         }
         else
         {
+            if(calldaily)
+            {
+                int mYear,mMonth,mDay;
+                Calendar mcurrentDate = Calendar.getInstance();
+                mYear = mcurrentDate.get(Calendar.YEAR);
+                mMonth = mcurrentDate.get(Calendar.MONTH);
+                mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+                date=mDay+"/"+(++mMonth)+"/"+mYear;
+
+            }
+
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy");
             try {
                 Date mDate = sdf.parse(time+" "+date);
@@ -167,7 +211,7 @@ public class detailedSchedcallActivity extends AppCompatActivity
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            if(timeinmills/60000< System.currentTimeMillis()/60000)
+            if(timeinmills/60000< System.currentTimeMillis()/60000 && !edited)
             {
                 Toast.makeText(this, "Calling back in time is not yet possible.\n(o_o)", Toast.LENGTH_SHORT).show();
                 return v;
@@ -183,6 +227,8 @@ public class detailedSchedcallActivity extends AppCompatActivity
             b.putLong("timeinmills", timeinmills);
             b.putBoolean("vibrate",vibrate);
             b.putBoolean("ring",ring);
+            b.putBoolean("calldaily",calldaily);
+
             ri.putExtra("sdatabundle",b);
             setResult(RESULT_OK, ri);
             finish();
@@ -246,14 +292,13 @@ public class detailedSchedcallActivity extends AppCompatActivity
                                 (ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
                     }
                     phones.close();
-                    //Do something with number
+
                     Random r=new Random();
                     String randimguri = "android.resource://"+getPackageName()+"/drawable/contactphoto"+(r.nextInt(5)+1);
                     if(photo==null)
                         photo=randimguri;
-
-
                     photoimage.setImageURI(Uri.parse(photo));
+
                     nametext.setText(name);
                     numspinner.setVisibility(View.VISIBLE);
                     numtext.setVisibility(View.VISIBLE);

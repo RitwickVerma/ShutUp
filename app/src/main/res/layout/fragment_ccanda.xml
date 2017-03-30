@@ -1,253 +1,369 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:clipToPadding="false"
-    android:id="@+id/settingsFragment">
 
     <ScrollView
-            android:id="@+id/scrollView"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:clipToPadding="false"
+            android:id="@+id/settingsFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?android:attr/colorBackground"
             android:fillViewport="true">
 
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="16sp"
-        android:paddingRight="16sp"
-        android:clipToPadding="false"
-        android:animateLayoutChanges="true">
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:clipToPadding="false">
 
         <TextView
-            android:text="When phone is ringing (incoming call)"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/phoneringingsmalltext"
-            android:layout_marginTop="30sp"
-            android:textAppearance="@android:style/TextAppearance.Holo.Large"
-            android:textSize="12sp"
-            android:textColor="#757575"
-            android:layout_centerHorizontal="true"
-            />
-
-        <TextView
-            android:text="@string/single_wave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/singlewave"
-            android:textAppearance="@android:style/TextAppearance.Holo.Large"
-            android:textSize="16sp"
-            android:textColor="@color/textColorPrimary"
+            android:layout_marginEnd="88dp"
+            android:layout_marginLeft="88dp"
+            android:layout_marginRight="88dp"
+            android:layout_marginStart="88dp"
             android:layout_marginTop="30dp"
-            android:layout_below="@+id/phoneringingsmalltext"/>
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/singlelist"
-            android:layout_alignTop="@+id/singlewave" android:layout_toRightOf="@+id/singlewave"
-            android:layout_toEndOf="@+id/singlewave"
-            android:animateLayoutChanges="false"
-            android:spinnerMode="dialog"
-            android:layout_marginLeft="20sp"
-            android:layout_marginTop="5sp"/>
-
-        <View style="@style/Divider"
-              android:background="?android:listDivider"
-              android:layout_below="@+id/singlewave"
-              android:layout_marginTop="15sp"
-            />
+            android:text="When phone is ringing (incoming call)"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textColor="#757575"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1"/>
 
         <TextView
-            android:text="@string/double_wave"
+            android:id="@+id/singlewave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp" android:id="@+id/doublewave"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/single_wave"
             android:textAppearance="@android:style/TextAppearance.Holo.Large"
-            android:textSize="16sp"
             android:textColor="@color/textColorPrimary"
-            android:layout_below="@+id/singlewave"
-            android:layout_alignLeft="@+id/singlewave"
-            android:layout_alignStart="@+id/singlewave"/>
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phoneringingsmalltext"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintTop_creator="1"/>
 
         <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/doublelist"
-            android:layout_alignTop="@+id/doublewave" android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" android:layout_toEndOf="@+id/singlewave"
-            android:layout_toRightOf="@+id/singlewave"
+            android:id="@+id/singlelist"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="0dp"
             android:animateLayoutChanges="false"
             android:spinnerMode="dialog"
-            android:layout_alignStart="@+id/singlelist"
-            android:layout_alignLeft="@+id/singlelist"/>
+            app:layout_constraintBottom_toBottomOf="@+id/singlewave"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toRightOf="@+id/singlewave"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/singlewave"
+            app:layout_constraintVertical_bias="0.5"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1"/>
 
-        <View style="@style/Divider"
-              android:background="?android:listDivider"
-              android:layout_below="@+id/doublewave"
-              android:layout_marginTop="15sp"
-            />
+        <View
+            android:id="@+id/view1"
+            style="@style/Divider"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="16dp"
+            android:background="?android:listDivider"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/singlewave"
+            android:layout_height="0dp"
+            android:layout_width="0dp"/>
+
+        <TextView
+            android:id="@+id/doublewave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="34dp"
+            android:text="@string/double_wave"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="@+id/singlewave"
+            app:layout_constraintTop_toBottomOf="@+id/singlewave"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintTop_creator="1"/>
+
+        <Spinner
+            android:id="@+id/doublelist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="0dp"
+            android:animateLayoutChanges="false"
+            android:spinnerMode="dialog"
+            app:layout_constraintBottom_toBottomOf="@+id/doublewave"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/singlelist"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/doublewave"
+            app:layout_constraintVertical_bias="0.5"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1"/>
+
+        <View
+            android:id="@+id/view2"
+            style="@style/Divider"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:background="?android:listDivider"
+            app:layout_constraintBottom_toTopOf="@+id/silentonpickcheckbox"
+            app:layout_constraintLeft_toLeftOf="@+id/doublewave"
+            app:layout_constraintTop_toBottomOf="@+id/doublewave"
+            tools:layout_constraintBottom_creator="1"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1"
+            android:layout_height="0dp"
+            android:layout_width="0dp"/>
 
         <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/silentonpickcheckbox"
-            android:layout_alignParentBottom="false"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="32dp"
+            android:button="@null"
+            android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
+            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
             android:onClick="silentonpickcheckboxclicked"
+            android:paddingRight="8sp"
             android:text="Silent on picking up from\nflat surface"
             android:textAppearance="@android:style/TextAppearance.Holo.Large"
-            android:textSize="16sp"
             android:textColor="@color/textColorPrimary"
-            android:button="@null"
-            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-            android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
-            android:layout_below="@+id/doublewave"
-            android:layout_alignLeft="@+id/speakeroncheckbox"
-            android:layout_marginTop="35sp"
-            android:layout_alignParentEnd="false"
-            android:paddingRight="8sp"
-            android:layout_alignParentRight="false"/>
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="@+id/doublewave"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/doublewave"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1"/>
 
         <View
+            android:id="@+id/view3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:background="?android:listDivider"
-            android:layout_below="@+id/silentonpickcheckbox"
-            android:layout_marginTop="35sp"
-            android:layout_marginLeft="-16sp"
-            android:layout_marginRight="-16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="1sp"/>
+            app:layout_constraintBottom_toTopOf="@+id/phoneoutgoingorincallsmalltext"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/silentonpickcheckbox"
+            tools:layout_constraintBottom_creator="1"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintTop_creator="1"/>
 
         <TextView
-            android:text="While in call or during outgoing call"
+            android:id="@+id/phoneoutgoingorincallsmalltext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/phoneoutgoingorincallsmalltext"
+            android:layout_marginTop="70dp"
+            android:text="While in call or during outgoing call"
             android:textAppearance="@android:style/TextAppearance.Holo.Large"
-            android:layout_marginTop="75dp"
-            android:layout_below="@+id/silentonpickcheckbox"
-            android:layout_centerHorizontal="true"
             android:textColor="#757575"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintLeft_toLeftOf="@+id/view3"
+            app:layout_constraintRight_toRightOf="@+id/view3"
+            app:layout_constraintTop_toBottomOf="@+id/silentonpickcheckbox"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"/>
 
         <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/speakeroncheckbox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:button="@null"
-            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
             android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
+            android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
             android:onClick="speakeroncheckboxclicked"
+            android:paddingBottom="5sp"
+            android:paddingRight="8sp"
+            android:paddingTop="5sp"
             android:text="Automatic speaker toggle"
             android:textAppearance="@android:style/TextAppearance.Holo.Large"
-            android:textSize="16sp"
             android:textColor="@color/textColorPrimary"
-            android:layout_below="@+id/phoneoutgoingorincallsmalltext"
-            android:layout_marginTop="30sp"
-            android:paddingRight="8sp"/>
+            android:textSize="16sp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/silentonpickcheckbox"
+            app:layout_constraintRight_toRightOf="@+id/silentonpickcheckbox"
+            app:layout_constraintTop_toBottomOf="@+id/phoneoutgoingorincallsmalltext"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/blacklistexpandinglayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintLeft_toLeftOf="@+id/speakeroncheckbox"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/speakeroncheckbox">
+
+            <TextView
+                android:id="@+id/blacklistwhitelisttext1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:onClick="blacklistwhitelisttextclicked"
+                android:paddingBottom="30sp"
+                android:paddingTop="5sp"
+                android:text="Blacklist or Whitelist"
+                android:textAppearance="@android:style/TextAppearance.Holo.Large"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="14sp"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/view4"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_constraintLeft_creator="1"
+                tools:layout_constraintTop_creator="1"/>
+
+            <TextView
+                android:id="@+id/blacklistwhitelisttext2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:text="for automatic speaker on/off"
+                android:textAppearance="@android:style/TextAppearance.Holo.Large"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@+id/blacklistwhitelisttext1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/blacklistwhitelisttext1"
+                app:layout_constraintVertical_bias="0.7"/>
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:listDivider"
+                app:layout_constraintBottom_toBottomOf="@+id/blacklistwhitelisttext1"
+                app:layout_constraintRight_toLeftOf="@+id/blacklistwhitelistswitch"
+                app:layout_constraintTop_toTopOf="@+id/blacklistwhitelisttext1"/>
+
+            <Switch
+                android:id="@+id/blacklistwhitelistswitch"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:onClick="blacklistwhitelistswitchclicked"
+                android:paddingBottom="20sp"
+                android:paddingLeft="40sp"
+                android:paddingTop="25sp"
+                app:layout_constraintBottom_toBottomOf="@+id/blacklistwhitelisttext1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/blacklistwhitelisttext1"
+                app:layout_constraintVertical_bias="0.0"/>
+        </android.support.constraint.ConstraintLayout>
+
 
         <View
+            android:id="@+id/view7"
+            android:layout_width="1dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="8dp"
             android:background="@color/colorAccent"
-            android:layout_below="@+id/speakeroncheckbox"
-            android:layout_alignLeft="@+id/speakeroncheckbox"
-            android:layout_marginLeft="5sp"
-            android:layout_above="@+id/blacklistwhitelisttext1"
-            android:layout_marginBottom="-15sp"
-            android:id="@+id/looksniceview"
-            android:layout_height="20sp"
-            android:layout_marginTop="-5sp"
-            android:layout_width="0.4sp"/>
-
-        <TextView
-            android:text="Blacklist or Whitelist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/blacklistwhitelisttext1"
-            android:textAppearance="@android:style/TextAppearance.Holo.Large"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="14sp"
-            android:paddingTop="15sp"
-            android:onClick="blacklistwhitelisttextclicked"
-            android:paddingBottom="30sp"
-            android:layout_toLeftOf="@+id/blacklistwhitelistswitch"
-            android:layout_below="@+id/speakeroncheckbox"
-            />
-
-        <TextView
-            android:text="for automatic speaker on/off"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/blacklistwhitelisttext2"
-            android:layout_below="@+id/blacklistwhitelisttext1"
-            android:textAppearance="@android:style/TextAppearance.Holo.Large"
-            android:textSize="10sp"
-            android:textColor="@color/textColorSecondary"
-            android:layout_marginTop="-30sp"
-            android:layout_alignStart="@+id/blacklistwhitelisttext1"/>
+            app:layout_constraintBottom_toBottomOf="@+id/blacklistexpandinglayout"
+            app:layout_constraintLeft_toLeftOf="@+id/blacklistexpandinglayout"
+            app:layout_constraintTop_toTopOf="@+id/speakeroncheckbox"
+            app:layout_constraintVertical_bias="0.27999997"/>
 
         <View
-            android:layout_width="0.4dp"
+            android:id="@+id/view5"
+            style="@style/Divider"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             android:background="?android:listDivider"
-            android:layout_alignStart="@+id/blacklistwhitelistswitch"
-            android:layout_marginTop="20sp"
-            android:layout_height="30sp"
-            android:layout_alignLeft="@+id/blacklistwhitelistswitch"
-            android:layout_alignTop="@+id/blacklistwhitelistswitch"/>
-
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:id="@+id/blacklistwhitelistswitch"
-            android:paddingLeft="40sp"
-            android:paddingTop="25sp"
-            android:paddingBottom="20sp"
-            android:onClick="blacklistwhitelistswitchclicked"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@id/blacklistwhitelisttext1"
-            />
-
-
-        <View style="@style/Divider"
-              android:background="?android:listDivider"
-              android:layout_below="@+id/blacklistwhitelisttext1"
-              android:id="@+id/viewview"
-              android:layout_marginTop="20sp"/>
-
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/blacklistexpandinglayout"
+            android:layout_height="0dp"
+            android:layout_width="0dp"/>
 
         <TextView
-            android:text="Phone kept :\nfacing down"
+            android:id="@+id/flipdowntext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/flipdowntext"
+            android:layout_marginTop="32dp"
+            android:text="Phone kept :\nfacing down"
             android:textAppearance="@android:style/TextAppearance.Holo.Large"
-            android:textSize="16sp"
             android:textColor="@color/textColorPrimary"
-            android:layout_below="@+id/viewview"
-            android:layout_marginTop="20sp"/>
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="@+id/speakeroncheckbox"
+            app:layout_constraintTop_toBottomOf="@+id/blacklistexpandinglayout"
+            tools:layout_constraintLeft_creator="1"/>
 
         <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/flipdownlist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="0dp"
             android:spinnerMode="dialog"
-            android:layout_alignTop="@+id/flipdowntext"
-            android:layout_alignStart="@+id/doublelist"
-            android:layout_marginTop="5sp"
-            android:layout_alignLeft="@+id/doublelist"/>
+            app:layout_constraintBottom_toBottomOf="@+id/flipdowntext"
+            app:layout_constraintLeft_toRightOf="@+id/flipdowntext"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/flipdowntext"
+            tools:layout_constraintBottom_creator="1"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1"
+            app:layout_constraintHorizontal_bias="0.533"
+            app:layout_constraintVertical_bias="0.0"/>
 
-        <View style="@style/Divider"
-              android:background="?android:listDivider"
-              android:layout_below="@+id/flipdowntext"
-              android:layout_marginTop="20sp"
-            />
+        <View
+            android:id="@+id/view6"
+            style="@style/Divider"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:background="?android:listDivider"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flipdowntext"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            android:layout_height="0dp"
+            android:layout_width="0dp"/>
 
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
 
 </ScrollView>
 
-</RelativeLayout>

@@ -1,55 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:animateLayoutChanges="true"
-                android:clipToPadding="false"
-    >
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             android:animateLayoutChanges="true"
+                                             android:clipToPadding="true"
+                                             android:orientation="vertical">
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addschedulebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        app:srcCompat="@drawable/add_white"
-        android:id="@+id/addschedulebutton"
-        app:fabSize="normal"
         android:onClick="addschedulebuttonclicked"
         android:scaleType="fitCenter"
         app:backgroundTint="#FF8F00"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         app:elevation="7dp"
-        app:useCompatPadding="true"/>
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/schedulelistview"
-        android:background="?android:attr/colorBackground"
-        android:layout_alignParentTop="true"
-        android:drawingCacheQuality="high"
-        android:animateLayoutChanges="true"/>
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/add_white"
+        app:useCompatPadding="true"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintRight_creator="1"/>
 
     <TextView
-        android:text="Start by tapping that floating button below"
+        android:id="@+id/listemptytext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listemptytext"
-        android:textAppearance="@android:style/TextAppearance.Holo.Large"
-        android:textSize="24sp"
-        android:textColor="@color/textColorPrimary"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Start by tapping that floating button below"
         android:textAlignment="center"
-        tools:layout_editor_absoluteY="273dp"
-        android:layout_marginLeft="16sp"
-        android:layout_marginRight="16sp"
-        android:layout_marginEnd="16sp"
-        android:layout_marginStart="16sp"
-        android:layout_centerVertical="true"
-        android:paddingBottom="60sp"
-        android:layout_centerInParent="true"/>
+        android:textAppearance="@android:style/TextAppearance.Holo.Large"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.399"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1"/>
 
-</RelativeLayout>
+    <ListView
+        android:id="@+id/schedulelistview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:background="?android:attr/colorBackground"
+        android:drawingCacheQuality="high"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"/>
+
+</android.support.constraint.ConstraintLayout>

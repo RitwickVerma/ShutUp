@@ -1,67 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_blacklistwhitelist"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.laughingstock.ritwick.shutup.BlacklistWhitelist"
     android:clipToPadding="false"
     >
 
     <Button
-        android:text="Add Contact"
+        android:id="@+id/addcontactbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/addcontactbutton"
-        android:textColor="@color/textColorPrimary"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
         android:backgroundTint="@color/colorAccent"
         android:onClick="addcontactbuttonclicked"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="5sp"
-        android:background="@android:color/transparent"/>
+        android:text="Add Contact"
+        android:textColor="@color/textColorPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/radiogroup"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/radiogroup"
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginEnd="16dp"/>
 
     <View
+        android:id="@+id/view2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
         android:background="?android:listDivider"
-        android:layout_alignTop="@+id/bwlistview"
-        android:layout_marginLeft="-16sp"
-        android:layout_marginRight="-16sp"
-        android:layout_width="match_parent"
-        android:layout_height="1sp"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radiogroup"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1"/>
 
     <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/addcontactbutton"
-        android:layout_marginTop="25sp"
         android:id="@+id/bwlistview"
-        android:layout_marginLeft="-17sp"
-        android:layout_marginRight="-17sp"
-        android:layout_marginBottom="-17sp"
-        android:animateLayoutChanges="true"/>
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:animateLayoutChanges="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintTop_toTopOf="@+id/view2"
+        android:layout_marginTop="0dp"/>
 
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/radiogroup"
         android:checkedButton="@+id/blacklistradiobutton"
-        >
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="16dp">
 
         <RadioButton
-            android:text="Blacklist"
+            android:id="@+id/blacklistradiobutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/blacklistradiobutton"
             android:layout_weight="1"
+            android:text="Blacklist"
             android:textAppearance="@android:style/TextAppearance.Holo.Large"
-            android:textSize="14sp"
             android:textColor="@color/textColorPrimary"
+            android:textSize="14sp"
             />
 
 
@@ -77,14 +92,15 @@
     </RadioGroup>
 
     <View
+        android:layout_width="3dp"
+        android:layout_height="16dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="0dp"
         android:background="#424242"
-        android:layout_height="match_parent"
-        android:layout_alignTop="@+id/radiogroup"
-        android:layout_alignBottom="@+id/radiogroup"
-        android:layout_marginTop="24sp"
-        android:layout_marginBottom="24sp"
-        android:layout_marginLeft="14.5sp"
-        android:layout_width="3sp"
-        />
+        app:layout_constraintBottom_toBottomOf="@+id/radiogroup"
+        app:layout_constraintLeft_toLeftOf="@+id/radiogroup"
+        app:layout_constraintTop_toTopOf="@+id/radiogroup"/>
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

@@ -17,13 +17,19 @@ public class SchedAlarmReciever extends BroadcastReceiver
         context.startService(serviceintent);
     }
 
-    public void setAlarm(Context context,long timeinmills,int p)
+    public void setAlarm(Context context,long timeinmills,int p, boolean calldaily)
     {
         AlarmManager am =( AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent("com.laughingstock.ritwick.shutup.START_SCHED_ALARM");
         i.putExtra("position",p);
         PendingIntent pi = PendingIntent.getBroadcast(context, p, i, PendingIntent.FLAG_UPDATE_CURRENT);
-        am.setExact(AlarmManager.RTC_WAKEUP,timeinmills,pi);
+
+       // if(calldaily)
+        //    am.setRepeating(AlarmManager.RTC_WAKEUP,timeinmills,(long)(86400000),pi);
+        //else
+            am.setExact(AlarmManager.RTC_WAKEUP,timeinmills,pi);
+
+        System.out.println("Alarm set");
     }
 
     public void cancelAlarm(Context context,int p)
@@ -32,5 +38,6 @@ public class SchedAlarmReciever extends BroadcastReceiver
         PendingIntent sender = PendingIntent.getBroadcast(context, p, intent, 0);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(sender);
+        System.out.println("Alarm clear");
     }
 }

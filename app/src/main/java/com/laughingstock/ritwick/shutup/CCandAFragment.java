@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,8 @@ public class CCandAFragment extends Fragment
     Context context;
     CheckBox silentonpick,speakeron;
     Switch blacklistwhitelistswitch;
-    View imptechview,looksniceview;
+    ConstraintLayout blacklistexpandinglayout;
+    View linebwblandsp;
     RelativeLayout.LayoutParams params;
 
     @Nullable
@@ -49,12 +51,12 @@ public class CCandAFragment extends Fragment
         silentonpick=(CheckBox) view.findViewById(R.id.silentonpickcheckbox);
         speakeron=(CheckBox) view.findViewById(R.id.speakeroncheckbox);
         blacklistwhitelistswitch=(Switch) view.findViewById(R.id.blacklistwhitelistswitch);
-        imptechview= view.findViewById(R.id.viewview);
-        looksniceview=view.findViewById(R.id.looksniceview);
+        blacklistexpandinglayout=(ConstraintLayout) view.findViewById(R.id.blacklistexpandinglayout);
         blacklistwhitelisttext1=(TextView) view.findViewById(R.id.blacklistwhitelisttext1);
         blacklistwhitelisttext2=(TextView) view.findViewById(R.id.blacklistwhitelisttext2);
+        linebwblandsp=view.findViewById(R.id.view7);
 
-        params = (RelativeLayout.LayoutParams) imptechview.getLayoutParams();
+        //params = (RelativeLayout.LayoutParams) imptechview.getLayoutParams();
 
         waveadapter = ArrayAdapter.createFromResource(context,R.array.wavelistoptions,  R.layout.spinner_item);//.R.layout.simple_spinner_item);
         waveadapter.setDropDownViewResource(R.layout.spinner_dropdown_item);//android.R.layout.simple_spinner_dropdown_item);
@@ -208,21 +210,13 @@ public class CCandAFragment extends Fragment
     {
         if(speakeron.isChecked())
         {
-            blacklistwhitelisttext1.setVisibility(View.VISIBLE);
-            blacklistwhitelisttext2.setVisibility(View.VISIBLE);
-            blacklistwhitelistswitch.setVisibility(View.VISIBLE);
-            looksniceview.setVisibility(View.VISIBLE);
-            params.addRule(RelativeLayout.BELOW, R.id.blacklistwhitelisttext1);
-            imptechview.setLayoutParams(params);
+            blacklistexpandinglayout.setVisibility(View.VISIBLE);
+            linebwblandsp.setVisibility(View.VISIBLE);
         }
         else
         {
-            blacklistwhitelisttext1.setVisibility(View.GONE);
-            blacklistwhitelisttext2.setVisibility(View.GONE);
-            blacklistwhitelistswitch.setVisibility(View.GONE);
-            looksniceview.setVisibility(View.GONE);
-            params.addRule(RelativeLayout.BELOW, R.id.speakeroncheckbox);
-            imptechview.setLayoutParams(params);
+            blacklistexpandinglayout.setVisibility(View.GONE);
+            linebwblandsp.setVisibility(View.GONE);
         }
     }
 }

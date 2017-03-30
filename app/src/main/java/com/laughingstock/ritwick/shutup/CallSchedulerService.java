@@ -14,6 +14,7 @@ import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class CallSchedulerService extends Service implements TextToSpeech.OnInit
     Intent intent,callIntent;
     TextToSpeech tts;
     String name;
-    Boolean ring=true,vibrate=true,ttsinitiated=false;
+    boolean ring=true,vibrate=true,ttsinitiated=false,calldaily=false;
     CSFragment csFragment;
     ArrayList<Bundle> schedinfo;
     Bundle b;
@@ -70,14 +71,16 @@ public class CallSchedulerService extends Service implements TextToSpeech.OnInit
         name=b.getString("name");
         ring=b.getBoolean("ring");
         vibrate=b.getBoolean("vibrate");
+        calldaily=b.getBoolean("calldaily");
 
         callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:"+b.getString("dialnumber")));
 
         if(vibrate)
         {
-            long[] pattern = {0, 500, 500,500,500,500,500};
+            long[] pattern = {0, 300, 500,300,500,300,500};
             vibrator.vibrate(pattern,((ring)?0:-1));
+            // TODO: 3/27/17 vibration stuff sync
         }
 
         if(ring)
@@ -92,9 +95,9 @@ public class CallSchedulerService extends Service implements TextToSpeech.OnInit
                     if(ttsinitiated)
                     {
                         if(Build.VERSION.SDK_INT<21)
-                            tts.speak("Hi! I am shut up. Call is Scheduled for "+name+" at current time. Calling "+name+" now.", TextToSpeech.QUEUE_FLUSH, null);
+                            tts.speak("Hi! Shut up here. Calling "+name+"now.", TextToSpeech.QUEUE_FLUSH, null);
                         else
-                            tts.speak("Hi! I am shut up. Call is Scheduled for "+name+" at current time. Calling "+name+" now.",TextToSpeech.QUEUE_FLUSH,null,"ring");
+                            tts.speak("Hi! Shut up here. Calling "+name+"now.",TextToSpeech.QUEUE_FLUSH,null,"ring");
                     }
                 }
             });
@@ -114,6 +117,8 @@ public class CallSchedulerService extends Service implements TextToSpeech.OnInit
             tts.stop();
             tts.shutdown();
         }
+
+        vibrator.cancel();
         audioManager.setMode(currmode);
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,currvol,0);
         super.onDestroy();
@@ -175,9 +180,13 @@ public class CallSchedulerService extends Service implements TextToSpeech.OnInit
     {
         context.startActivity(callIntent);
 
-        schedinfo.remove(position);
-        csFragment.saveToInternalStorage(context,schedinfo);
-        schedulecontactsAdapter schedulecontactsAdapter=new schedulecontactsAdapter(context,schedinfo,new TextView(context));
+        if(!calldaily)
+            schedinfo.remove(position);
+        else
+            schedinfo.get(position).putLong("timeinmills",(schedinfo.get(position).getLong("timeinmills")+86400000));
+
+        csFragment.saveToInternalStorage(context, schedinfo);
+        schedulecontactsAdapter schedulecontactsAdapter = new schedulecontactsAdapter(context, schedinfo, new TextView(context));
         schedulecontactsAdapter.notifyDataSetChanged();
         stopSelf();
     }

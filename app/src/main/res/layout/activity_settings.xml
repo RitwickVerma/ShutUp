@@ -2,75 +2,95 @@
 
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_below="@+id/blacklistwhitelisttext1"
     >
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="16sp"
-        android:paddingRight="16sp"
-        android:paddingTop="10sp"
-        >
+        android:padding="16sp">
 
         <TextView
-            android:text="Automation"
+            android:id="@+id/Automationtext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/Automationtext"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Automation"
             android:textAppearance="@android:style/TextAppearance.Holo.Large"
-            android:layout_marginTop="10dp"
-            android:layout_centerVertical="false"
-            android:layout_centerHorizontal="true"
+            android:textColor="#757575"
             android:textSize="12sp"
-            android:textColor="#757575"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"/>
+
+        <TextView
+            android:id="@+id/consecutivewavethresholdtext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="8dp"
+            android:paddingTop="10sp"
+            android:text="Consecutive wave threshold:"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Automationtext"
+            tools:layout_constraintLeft_creator="1"/>
+
+        <TextView
+            android:id="@+id/default1.2sec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="default 1.2 sec"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textColor="@color/textColorSecondary"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="@+id/consecutivewavethresholdtext"
+            app:layout_constraintTop_toBottomOf="@+id/consecutivewavethresholdtext"
+            tools:layout_constraintLeft_creator="1"/>
 
         <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/consecutivewavethresholdseekbar"
-            android:layout_below="@+id/default1.2sec"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:max="30"
-            android:paddingTop="10sp"
             android:paddingBottom="15sp"
-            />
-
-        <TextView
-            android:text="default 1.2 sec"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/default1.2sec"
-            android:textAppearance="@android:style/TextAppearance.Holo.Large"
-            android:textSize="12sp"
-            android:textColor="@color/textColorSecondary"
-            android:layout_below="@+id/consecutivewavethresholdtext"
-            android:layout_marginTop="3sp"
-            android:layout_alignStart="@+id/consecutivewavethresholdtext"/>
-
-        <View style="@style/Divider"
-              android:background="?android:listDivider"
-              android:layout_below="@+id/consecutivewavethresholdseekbar"/>
-
-        <TextView
-            android:text="Consecutive wave threshold:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/consecutivewavethresholdtext"
-            android:textAppearance="@android:style/TextAppearance.Holo.Large"
-            android:textSize="16sp"
-            android:textColor="@color/textColorPrimary"
-            android:layout_below="@+id/Automationtext"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:paddingTop="10sp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="10sp"
-            android:layout_marginTop="10sp"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/default1.2sec"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1"/>
 
-    </RelativeLayout>
+        <View
+            android:id="@+id/view"
+            style="@style/Divider"
+            android:layout_width="wrap_content"
+            android:background="?android:listDivider"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/consecutivewavethresholdseekbar"
+            android:layout_marginRight="0dp"
+            android:layout_marginLeft="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="8dp"/>
+
+    </android.support.constraint.ConstraintLayout>
 
 
 </ScrollView>

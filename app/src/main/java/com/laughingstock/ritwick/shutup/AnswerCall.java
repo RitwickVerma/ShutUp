@@ -18,7 +18,7 @@ import java.io.IOException;
 public class AnswerCall extends Activity {
 
 
-    private static final String MANUFACTURER_HTC = "HTC";
+    private static final String MANUFACTURER_HTC = "HTC",MANUFACTURER_OP = "ONEPLUS";
 
     private KeyguardManager keyguardManager;
     private AudioManager audioManager;
@@ -69,8 +69,9 @@ public class AnswerCall extends Activity {
     private void acceptCall() {
 
         // for HTC devices we need to broadcast a connected headset
-        boolean broadcastConnected = MANUFACTURER_HTC.equalsIgnoreCase(Build.MANUFACTURER)
-                && !audioManager.isWiredHeadsetOn();
+        boolean broadcastConnected = (MANUFACTURER_HTC.equalsIgnoreCase(Build.MANUFACTURER)
+                || MANUFACTURER_OP.equalsIgnoreCase(Build.MANUFACTURER))
+                &&!audioManager.isWiredHeadsetOn();
 
         if (broadcastConnected) {
             broadcastHeadsetConnected(false);

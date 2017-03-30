@@ -22,7 +22,7 @@ public class AutoStart extends BroadcastReceiver
             Bundle b;
             b=schedinfo.get(j);
             long timeinmills = b.getLong("timeinmills");
-            schedAlarmReciever.setAlarm(context,timeinmills,j);
+            schedAlarmReciever.setAlarm(context,timeinmills,j,b.getBoolean("calldaily"));
         }
     }
 }

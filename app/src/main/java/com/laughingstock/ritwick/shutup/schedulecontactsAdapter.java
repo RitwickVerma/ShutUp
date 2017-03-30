@@ -27,6 +27,7 @@ class schedulecontactsAdapter extends BaseAdapter
     private ArrayList<Bundle> schedinfo;
     private TextView listemptytext;
     private String number = "", name = "", photo = "", time = "", date = "", dialnumber = "";
+    boolean calldaily=false;
     private long timeinmills;
     private ArrayList<String> diffnums;
 
@@ -72,12 +73,14 @@ class schedulecontactsAdapter extends BaseAdapter
             time = b.getString("time");
             date = b.getString("date");
             timeinmills = b.getLong("timeinmills");
+            calldaily=b.getBoolean("calldaily");
 
-            String temp = "Call " + name + "\nat " + time + "\nof " + date + "\non number " + dialnumber;
+            String temp = "Call " + name + "\nat " + time + ((calldaily)?(" daily"):("\nof " + date)) + "\non number " + dialnumber;
             schedinfotextview.setText(temp);
 
             schcontactphoto.setImageURI(Uri.parse(photo));
         }
+        else vi.setVisibility(View.GONE);
 
 
         swipeLayout.close(true);
@@ -146,16 +149,26 @@ class schedulecontactsAdapter extends BaseAdapter
     @Override
     public void notifyDataSetChanged()
     {
-        for(int j=0;j<=50;j++)
-        {
-            SchedAlarmReciever schedAlarmReciever=new SchedAlarmReciever();
-            schedAlarmReciever.cancelAlarm(context,j);
-        }
-        for(Bundle b:schedinfo)
-        {
-            SchedAlarmReciever schedAlarmReciever=new SchedAlarmReciever();
-            schedAlarmReciever.setAlarm(context,b.getLong("timeinmills"),schedinfo.indexOf(b));
-        }
+        Thread t=new Thread(){
+            @Override
+            public void run()
+            {
+                for(int j=0;j<=50;j++)
+                {
+                    SchedAlarmReciever schedAlarmReciever=new SchedAlarmReciever();
+                    schedAlarmReciever.cancelAlarm(context,j);
+                }
+                for(Bundle b:schedinfo)
+                {
+                    SchedAlarmReciever schedAlarmReciever=new SchedAlarmReciever();
+                    schedAlarmReciever.setAlarm(context,b.getLong("timeinmills"),schedinfo.indexOf(b),b.getBoolean("calldaily"));
+                }
+
+            }
+        };
+
+        t.start();
+
         super.notifyDataSetChanged();
     }
 
