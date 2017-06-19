@@ -7,9 +7,8 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.laughingstock.ritwick.shutup.MainActivity"
 
-    >
+    tools:context="com.laughingstock.ritwick.shutup.MainActivity">
 
     <Switch
         android:id="@+id/masterswitch"
@@ -36,11 +35,12 @@
 
     <RelativeLayout
         android:id="@+id/fragmentcontainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
         android:animateLayoutChanges="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/masterswitch"
@@ -50,44 +50,44 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/welcome1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/welcome1"
-        android:textAppearance="@android:style/TextAppearance.Holo.Medium"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:text="I hate to say this but,"
         android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Holo.Medium"
         android:textColor="@color/textColorPrimary"
         android:textSize="30sp"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        android:layout_marginLeft="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
         app:layout_constraintVertical_bias="0.45"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"/>
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1"/>
 
     <TextView
+        android:id="@+id/welcome2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/welcome2"
-        android:textAppearance="@android:style/TextAppearance.Holo.Small"
-        android:textAlignment="center"
-        android:textColor="@color/textColorSecondary"
-        android:text="The master switch is off"
-        android:textSize="16sp"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="@+id/welcome1"
         android:layout_marginTop="10dp"
+        android:text="The master switch is off"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Holo.Small"
+        android:textColor="@color/textColorSecondary"
+        android:textSize="16sp"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintLeft_toLeftOf="@+id/welcome1"
+        app:layout_constraintRight_toRightOf="@+id/welcome1"
         app:layout_constraintTop_toBottomOf="@+id/welcome1"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/welcome1"
-        app:layout_constraintHorizontal_bias="0.504"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1"
         />
 
 

@@ -17,14 +17,14 @@ public class SchedAlarmReciever extends BroadcastReceiver
         context.startService(serviceintent);
     }
 
-    public void setAlarm(Context context,long timeinmills,int p, boolean calldaily)
+    public void setAlarm(Context context,long timeinmills,int p)
     {
         AlarmManager am =( AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent i = new Intent("com.laughingstock.ritwick.shutup.START_SCHED_ALARM");
         i.putExtra("position",p);
         PendingIntent pi = PendingIntent.getBroadcast(context, p, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
-       // if(calldaily)
+       // if(repeatcall)
         //    am.setRepeating(AlarmManager.RTC_WAKEUP,timeinmills,(long)(86400000),pi);
         //else
             am.setExact(AlarmManager.RTC_WAKEUP,timeinmills,pi);

@@ -1,72 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/help_dialog_ccanda"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/help_dialog"
     >
 
 
     <TextView
-        android:text="Instructions:"
+        android:id="@+id/instructions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/instructions"
-        android:textAppearance="@android:style/TextAppearance.Holo.Large"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/textColorPrimary"
-        android:textSize="18sp"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:text="Instructions:"
+        android:textAppearance="@android:style/TextAppearance.Holo.Large"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="18sp"/>
 
     <View
-        android:background="@color/colorAccent"
-        android:layout_below="@+id/instructions"
         android:layout_width="match_parent"
-        android:layout_height="1sp"/>
+        android:layout_height="1sp"
+        android:layout_below="@+id/instructions"
+        android:background="@color/colorAccent"/>
 
     <ScrollView
-        android:layout_width="match_parent"
         android:id="@+id/dialogscrollview"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true"
         android:layout_below="@+id/instructions"
-        android:animateLayoutChanges="true">
+        android:animateLayoutChanges="true"
+        android:fillViewport="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
+                android:id="@+id/helptext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/helptext"
-                android:textAppearance="@android:style/TextAppearance.Holo.Medium"
-                android:text="@string/instructionstext"
-                android:textAlignment="textStart"
                 android:layout_gravity="start"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="16sp"
-                android:paddingRight="20sp"
+                android:layout_marginTop="10dp"
                 android:paddingLeft="20sp"
-                android:layout_marginTop="10dp"/>
+                android:paddingRight="20sp"
+                android:text="@string/instructionstextccanda"
+                android:textAlignment="textStart"
+                android:textAppearance="@android:style/TextAppearance.Holo.Medium"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp"/>
 
             <Button
-                android:text="Got it!"
-                android:layout_width="wrap_content"
                 android:id="@+id/helpclosebutton"
-                android:background="@color/colorAccent"
-                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="40sp"
                 android:layout_below="@+id/helptext"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
+                android:background="@color/colorAccent"
                 android:elevation="2dp"
-                android:layout_height="40sp"/>
+                android:text="Got it!"
+                android:textColor="#ffffff"/>
         </RelativeLayout>
 
 
-
     </ScrollView>
-
 
 
 </RelativeLayout>

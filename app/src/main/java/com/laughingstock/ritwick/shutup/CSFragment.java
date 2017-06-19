@@ -35,7 +35,7 @@ public class CSFragment extends Fragment
 
     TextView listemptytext;
     ListView schedulelistview;
-    schedulecontactsAdapter adapter;
+    ScheduleContactsAdapter adapter;
     ArrayList<Bundle> schedinfo;
     int pos;
     boolean edit=false;
@@ -52,7 +52,7 @@ public class CSFragment extends Fragment
         listemptytext=(TextView) view.findViewById(R.id.listemptytext);
 
         schedinfo=readFromInternalStorage(context);
-        adapter = new schedulecontactsAdapter(context,schedinfo,listemptytext);
+        adapter = new ScheduleContactsAdapter(context,schedinfo,listemptytext);
         schedulelistview.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
@@ -67,7 +67,7 @@ public class CSFragment extends Fragment
             {
                 pos=position;
                 edit=true;
-                Intent i=new Intent(context,detailedSchedcallActivity.class);
+                Intent i=new Intent(context,DetailedSchedcallActivity.class);
                 Bundle b=schedinfo.get(position);
                 i.putExtra("sdatabundle",b);
                 startActivityForResult(i,0);
@@ -79,7 +79,7 @@ public class CSFragment extends Fragment
     public View addschedulebuttonclicked(View v)
     {
         edit=false;
-        Intent i=new Intent(context,detailedSchedcallActivity.class);
+        Intent i=new Intent(context,DetailedSchedcallActivity.class);
         startActivityForResult(i,0);
         return v;
     }
@@ -91,30 +91,13 @@ public class CSFragment extends Fragment
         {
             if(resultCode==MainActivity.RESULT_OK)
             {
-                SchedAlarmReciever schedAlarmReciever=new SchedAlarmReciever();
                 Bundle b=data.getBundleExtra("sdatabundle");
                 if(edit)
                 {
                     schedinfo.set(pos, b);
-                    //schedAlarmReciever.cancelAlarm(context,pos);
-                    //schedAlarmReciever.setAlarm(context,b.getLong("timeinmills"),pos,b.getBoolean("calldaily"));
-                }
+                                   }
                 else
                 {
-                    /*boolean flag=true;
-                    for(int i=0;i<schedinfo.size();i++)
-                    {
-                        if(schedinfo.get(i)==null)
-                        {
-                            schedinfo.set(i, b);
-                            flag=false;
-                        }
-                    }
-                    if(flag)
-                        schedinfo.add(b);
-
-                    schedAlarmReciever.setAlarm(context,b.getLong("timeinmills"),schedinfo.indexOf(b),b.getBoolean("calldaily"));
-                    */
                     schedinfo.add(b);
                 }
                 adapter.notifyDataSetChanged();

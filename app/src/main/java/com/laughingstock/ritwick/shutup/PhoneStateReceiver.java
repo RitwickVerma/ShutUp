@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.telephony.TelephonyManager;
-import android.widget.Toast;
 
 public class PhoneStateReceiver extends BroadcastReceiver
 {
@@ -30,7 +29,7 @@ public class PhoneStateReceiver extends BroadcastReceiver
 
             context.stopService(offhooklistenerservice);
             context.stopService(ringinglistenerservice);
-            Toast.makeText(context,"Call ended",Toast.LENGTH_LONG).show();
+            //Toast.makeText(context,"Call ended",Toast.LENGTH_LONG).show();
         }
 
     }

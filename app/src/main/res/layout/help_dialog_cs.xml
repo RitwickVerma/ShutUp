@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/help_dialog_cs"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/instructions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Instructions:"
+        android:textAppearance="@android:style/TextAppearance.Holo.Large"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:layout_below="@+id/instructions"
+        android:background="@color/colorAccent" />
+
+    <ScrollView
+        android:id="@+id/dialogscrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/instructions"
+        android:animateLayoutChanges="true"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/helptext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20sp"
+                android:paddingRight="20sp"
+                android:text="@string/instructionstextcs"
+                android:textAlignment="textStart"
+                android:textAppearance="@android:style/TextAppearance.Holo.Medium"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/helpclosebutton"
+                android:layout_width="wrap_content"
+                android:layout_height="40sp"
+                android:layout_below="@+id/helptext"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorAccent"
+                android:elevation="2dp"
+                android:text="Got it!"
+                android:textColor="#ffffff" />
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+
+</RelativeLayout>
