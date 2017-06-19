@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.*;
-import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,7 +19,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -33,21 +32,23 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-public class detailedSchedcallActivity extends AppCompatActivity
+public class DetailedSchedcallActivity extends AppCompatActivity
 {
     ArrayAdapter<String> numspinneradapter;
     String number = "",name = "",photo = "",time="",date="",dialnumber="";
     long timeinmills;
-    boolean ring=true,vibrate=true,calldaily=false;
+    int repeatinterval=24;
+    boolean ring=true,vibrate=true,repeatcall=false;
     ArrayList<String> diffnums;
     ImageView photoimage;
-    TextView nametext,timetext,datetext,numtext;
-    CheckBox ringcb,vibratecb,calldailycb;
+    TextView nametext,timetext,datetext,numtext,repeatcalltext;
+    CheckBox ringcb,vibratecb,repeatcallcb;
     TimePickerDialog timePickerDialog;
     DatePickerDialog datePickerDialog;
     Spinner numspinner;
     boolean backpressedflag=false,edited=false;
     CardView botcv;
+    SeekBar repeatcallsb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,11 +61,13 @@ public class detailedSchedcallActivity extends AppCompatActivity
         timetext=(TextView) findViewById(R.id.timetext);
         datetext=(TextView) findViewById(R.id.datetext);
         numtext=(TextView) findViewById(R.id.numtext);
+        repeatcalltext=(TextView) findViewById(R.id.repeatcalltext);
         numspinner=(Spinner) findViewById(R.id.numspinner);
         botcv=(CardView) findViewById(R.id.botcv);
         ringcb=(CheckBox) findViewById(R.id.ringcb);
         vibratecb=(CheckBox) findViewById(R.id.vibratecb);
-        calldailycb=(CheckBox) findViewById(R.id.calldailycb);
+        repeatcallcb=(CheckBox) findViewById(R.id.repeatcallcb);
+        repeatcallsb=(SeekBar) findViewById(R.id.repeatcallsb);
 
         Intent intent=getIntent();
         Bundle b=intent.getBundleExtra("sdatabundle");
@@ -80,7 +83,8 @@ public class detailedSchedcallActivity extends AppCompatActivity
             timeinmills=b.getLong("timeinmills");
             vibrate=b.getBoolean("vibrate");
             ring=b.getBoolean("ring");
-            calldaily=b.getBoolean("calldaily");
+            repeatcall=b.getBoolean("repeatcall");
+            repeatinterval=b.getInt("repeatinterval");
 
             nametext.setText(name);
             photoimage.setImageURI(Uri.parse(photo));
@@ -92,12 +96,14 @@ public class detailedSchedcallActivity extends AppCompatActivity
             timetext.setTextSize(16);
             ringcb.setChecked(ring);
             vibratecb.setChecked(vibrate);
-            calldailycb.setChecked(calldaily);
+            repeatcallcb.setChecked(repeatcall);
 
             numspinner.setVisibility(View.VISIBLE);
             numtext.setVisibility(View.VISIBLE);
             botcv.setVisibility(View.VISIBLE);
-            datetext.setVisibility((calldaily)?View.GONE:View.VISIBLE);
+            datetext.setVisibility((repeatcall)?View.GONE:View.VISIBLE);
+            repeatcalltext.setVisibility((repeatcall)?View.VISIBLE:View.GONE);
+            repeatcallsb.setVisibility((repeatcall)?View.VISIBLE:View.GONE);
 
         }
         else
@@ -105,6 +111,8 @@ public class detailedSchedcallActivity extends AppCompatActivity
             numspinner.setVisibility(View.GONE);
             numtext.setVisibility(View.GONE);
             botcv.setVisibility(View.GONE);
+            repeatcallsb.setVisibility(View.GONE);
+            repeatcalltext.setVisibility(View.GONE);
             diffnums=new ArrayList<>();
 
             Random r=new Random();
@@ -148,13 +156,15 @@ public class detailedSchedcallActivity extends AppCompatActivity
             }
         });
 
-        calldailycb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        repeatcallcb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
         {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                calldaily=isChecked;
-                datetext.setVisibility((calldaily)?View.GONE:View.VISIBLE);
+                repeatcall=isChecked;
+                datetext.setVisibility((repeatcall)?View.GONE:View.VISIBLE);
+                repeatcalltext.setVisibility((repeatcall)?View.VISIBLE:View.GONE);
+                repeatcallsb.setVisibility((repeatcall)?View.VISIBLE:View.GONE);
             }
         });
 
@@ -171,12 +181,37 @@ public class detailedSchedcallActivity extends AppCompatActivity
         };
         nametext.setOnLongClickListener(l);
         photoimage.setOnLongClickListener(l);
+
+        repeatcallsb.setProgress(20);
+        repeatcallsb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
+                if(progress<1)  progress=1;
+                String temp;
+                if(progress==1)
+                    temp="Every "+(int)(progress*1.2)+" hour";
+                else
+                    temp="Every "+(int)(progress*1.2)+" hours";
+                repeatcalltext.setText(temp);
+                repeatinterval=(int)(progress*1.2);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {    }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {       }
+        });
     }
 
     public View donebuttonpressed(View v)
     {
 
-        if(name.equals("")||time.equals("")||(date.equals("") && !calldaily))
+        if(name.equals("")||time.equals("")||(date.equals("") && !repeatcall))
         {
             Snackbar.make(findViewById(R.id.activity_detailed_schedcall),"Information incomplete",Snackbar.LENGTH_LONG)
             .setAction("I don't care", new View.OnClickListener()
@@ -193,7 +228,7 @@ public class detailedSchedcallActivity extends AppCompatActivity
         }
         else
         {
-            if(calldaily)
+            if(repeatcall)
             {
                 int mYear,mMonth,mDay;
                 Calendar mcurrentDate = Calendar.getInstance();
@@ -227,7 +262,7 @@ public class detailedSchedcallActivity extends AppCompatActivity
             b.putLong("timeinmills", timeinmills);
             b.putBoolean("vibrate",vibrate);
             b.putBoolean("ring",ring);
-            b.putBoolean("calldaily",calldaily);
+            b.putBoolean("repeatcall",repeatcall);
 
             ri.putExtra("sdatabundle",b);
             setResult(RESULT_OK, ri);

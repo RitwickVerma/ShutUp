@@ -5,7 +5,7 @@
     <string name="single_wave">Single wave or :\nFlip down</string>
 
     <string name="master_switch">Master switch\t</string>
-    <string name="instructionstext">1. Single wave:\nwave over the proximity sensor (generally located near the front camera)
+    <string name="instructionstextccanda">1. Single wave:\nwave over the proximity sensor (generally located near the front camera)
         to tell me what to do by selecting one of the functions from the list. Note that you can use anything to wave.
         A book will also work. You can also flip the phone down and the chosen function will be performed. Same will happen
         if you put phone on ear (useful during answer call)\n\n
@@ -29,6 +29,20 @@
         Thus, prevent embarrassing situations with sensitive contacts!\n\n
 
         Consecutive wave threshold- The time gap between two consecutive waves so that they are counted as double wave.
+        </string>
+
+    <string name="instructionstextcs">Start scheduling calls by tapping the plus symbol at the bottom left corner.
+        In the new page that opens:\n
+        1. Select the contact you want to call.\n
+        2. Select the time at which you want the call to take place.\n
+        3. Select the date at which you want the call to take place.\n
+        4. You can also select call daily checkbox and skip mentioning the date in previous step.\n
+        5. Select the mobile number of the contact from the drop down list on which you want to call.\n
+        6. Uncheck the box for \'vibrate before calling\' if you don\'t want the phone to vibrate before placing the call.\n
+        7. Uncheck the box for \'call out name before calling\' if you don\'t want the phone to call out the contact name before placing the call.\n
+        Note:- Select the default SIM on your phone before the time you want the call to take place.\n\n
+        You can edit a currently scheduled call by tapping on the schedule in the list. You can also
+        delete the scheduled call by swiping from the right edge towards left.
         </string>
 
     <string-array name="wavelistoptions">

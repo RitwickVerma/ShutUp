@@ -23,7 +23,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,13 +33,6 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
@@ -57,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     int versionCode=0;
     String versionName="",CCandA="com.laughingstock.ritwick.shutup.CCandA",CS="com.laughingstock.ritwick.shutup.CS";
     ViewGroup v;
+    final PhoneStateReceiver psr=new PhoneStateReceiver();
 
     boolean checktel=false,checkdnd=false;
 
@@ -140,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     preferences = getSharedPreferences("switchstatepref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putBoolean("switchstate", masterswitch.isChecked());
+
 
                     PackageManager pm  = MainActivity.this.getPackageManager();
                     pm.setComponentEnabledSetting(componenta,
@@ -326,7 +320,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (item.getTitle().equals("Help"))
         {
             final Dialog dialog = new Dialog(MainActivity.this);
-            dialog.setContentView(R.layout.help_dialog);
+            if(preferences.getString("fragmenttoinflate", "Call control and automation").equals("Call control and automation"))
+                dialog.setContentView(R.layout.help_dialog_ccanda);
+            else
+                dialog.setContentView(R.layout.help_dialog_cs);
             dialog.setTitle("Instructions:");
             dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
             Button dialogButton = (Button) dialog.findViewById(R.id.helpclosebutton);

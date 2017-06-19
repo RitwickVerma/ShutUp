@@ -9,6 +9,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
+import android.os.AsyncTask;
 import android.os.IBinder;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
@@ -56,7 +57,7 @@ public class OffhookListenerService extends Service implements SensorEventListen
         proximity=sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         accelerometer=sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(OffhookListenerService.this, proximity, SensorManager.SENSOR_DELAY_FASTEST);
-        sensorManager.registerListener(OffhookListenerService.this,accelerometer,SensorManager.SENSOR_DELAY_FASTEST);
+        sensorManager.registerListener(OffhookListenerService.this,accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
         audioManager=(AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         currmode=audioManager.getMode();
         speakeron=audioManager.isSpeakerphoneOn();
@@ -119,8 +120,14 @@ public class OffhookListenerService extends Service implements SensorEventListen
             }
             else
             {
-                audioManager.setMode(AudioManager.MODE_IN_CALL);
-                audioManager.setMicrophoneMute(false);
+                new Thread(new Runnable()
+                {
+                    public void run()
+                    {
+                        audioManager.setMode(AudioManager.MODE_IN_CALL);
+                        audioManager.setMicrophoneMute(false);
+                    }
+                }).start();
             }
         }
     }

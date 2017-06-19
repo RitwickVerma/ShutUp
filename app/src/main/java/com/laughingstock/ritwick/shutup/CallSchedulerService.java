@@ -14,13 +14,11 @@ import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-import static android.content.ContentValues.TAG;
 
 public class CallSchedulerService extends Service implements TextToSpeech.OnInitListener
 {
@@ -28,11 +26,11 @@ public class CallSchedulerService extends Service implements TextToSpeech.OnInit
     Intent intent,callIntent;
     TextToSpeech tts;
     String name;
-    boolean ring=true,vibrate=true,ttsinitiated=false,calldaily=false;
+    boolean ring=true,vibrate=true,ttsinitiated=false,repeatcall=false;
     CSFragment csFragment;
     ArrayList<Bundle> schedinfo;
     Bundle b;
-    int position,currmode,currvol;
+    int position,currmode,currvol,repeatinterval=24;
     AudioManager audioManager;
     MediaPlayer mediaPlayer;
     Vibrator vibrator;
@@ -71,7 +69,8 @@ public class CallSchedulerService extends Service implements TextToSpeech.OnInit
         name=b.getString("name");
         ring=b.getBoolean("ring");
         vibrate=b.getBoolean("vibrate");
-        calldaily=b.getBoolean("calldaily");
+        repeatcall=b.getBoolean("repeatcall");
+        repeatinterval=b.getInt("repeatinterval");
 
         callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:"+b.getString("dialnumber")));
@@ -180,13 +179,13 @@ public class CallSchedulerService extends Service implements TextToSpeech.OnInit
     {
         context.startActivity(callIntent);
 
-        if(!calldaily)
+        if(!repeatcall)
             schedinfo.remove(position);
         else
-            schedinfo.get(position).putLong("timeinmills",(schedinfo.get(position).getLong("timeinmills")+86400000));
+            schedinfo.get(position).putLong("timeinmills",(schedinfo.get(position).getLong("timeinmills")+3600000*repeatinterval));
 
         csFragment.saveToInternalStorage(context, schedinfo);
-        schedulecontactsAdapter schedulecontactsAdapter = new schedulecontactsAdapter(context, schedinfo, new TextView(context));
+        ScheduleContactsAdapter schedulecontactsAdapter = new ScheduleContactsAdapter(context, schedinfo, new TextView(context));
         schedulecontactsAdapter.notifyDataSetChanged();
         stopSelf();
     }
