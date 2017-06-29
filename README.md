@@ -1,3 +1,8 @@
+
+<p>ShutUp! - Stay lazy</p>
+
+[![Android app on Google Play](https://developer.android.com/images/brand/en_app_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=com.laughingstock.ritwick.shutup) 
+
 Hello human! 
 I let you control your phone with simple wave-like gestures. With the combination of accelerometer and proximity sensors, I can answer calls, silent your phone and even end calls. You can customize these options in me according to your needs. You can select different functions to be performed on single wave as well as on double wave. I can also turn the speaker on or off according to whether it is held close or away from the ear during a call which will only work after putting on ear at least once (to protect privacy). You can add sensitive contacts to blacklist so that this function does not work and prevent some pretty embarrassing situations! You can also decide whether to silent the phone when it is picked up from a flat surface. You can end call or mute microphone if phone is kept facing down on a flat surface. Install me and rate me or drop a review to support my dev-human (my god, the omnipresent).
 
