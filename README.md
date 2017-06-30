@@ -1,5 +1,5 @@
 
-<p>ShutUp! - Stay lazy</p>
+#ShutUp! - Stay lazy
 
 [![Android app on Google Play](https://developer.android.com/images/brand/en_app_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=com.laughingstock.ritwick.shutup) 
 
@@ -26,3 +26,7 @@ Note:
 I work perfectly on devices with near stock ROM. My dev-human is working really hard to bring compatibility to all other devices. For Xiaomi devices, you can lock me in the RAM (in recents), so that I can work well for you. Rest assured, I consume negligible RAM and battery.
 
 Keywords: proximity silent, wave to silent, proximity gestures, air gestures, silent on pickup, wave end call, wave gestures, pick up silent, call answer on wave, automatic speaker on, auto toggle speaker, speaker on when away from ear, automatic speaker toggle, end call when phone kept facing down, mute microphone, wave, phone kept flat down, blacklist.
+
+## License
+
+See the [LICENSE](LICENSE.md) file for license rights and limitations GPLv3.
