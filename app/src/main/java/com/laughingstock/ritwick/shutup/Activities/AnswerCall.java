@@ -1,4 +1,4 @@
-package com.laughingstock.ritwick.shutup;
+package com.laughingstock.ritwick.shutup.Activities;
 
 import android.app.Activity;
 import android.app.KeyguardManager;

@@ -1,4 +1,4 @@
-package com.laughingstock.ritwick.shutup;
+package com.laughingstock.ritwick.shutup.Activities;
 
 import android.Manifest;
 import android.content.Intent;
@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.laughingstock.ritwick.shutup.R;
+import com.laughingstock.ritwick.shutup.Adapters.bwcontactsAdapter;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -44,9 +46,9 @@ public class BlacklistWhitelist extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blacklistwhitelist);
 
-        blacklistwhitelistcontactslistview = (ListView) findViewById(R.id.bwlistview);
-        blacklistradiobutton=(RadioButton) findViewById(R.id.blacklistradiobutton);
-        whitelistradiobutton=(RadioButton) findViewById(R.id.whitelistradiobutton);
+        blacklistwhitelistcontactslistview = findViewById(R.id.bwlistview);
+        blacklistradiobutton= findViewById(R.id.blacklistradiobutton);
+        whitelistradiobutton= findViewById(R.id.whitelistradiobutton);
 
         if(ContextCompat.checkSelfPermission(BlacklistWhitelist.this, Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED)
         {
@@ -63,9 +65,9 @@ public class BlacklistWhitelist extends AppCompatActivity
         Gson gson=new Gson();
         Type type = new TypeToken<ArrayList<String>>(){}.getType();
 
-        contactnames = new ArrayList<String>();
-        contactnumbers = new ArrayList<String>();
-        contactphotos = new ArrayList<String>();
+        contactnames = new ArrayList<>();
+        contactnumbers = new ArrayList<>();
+        contactphotos = new ArrayList<>();
 
         if(tempcontactnamejson!=null && tempcontactnumberjson!=null)
         {
@@ -79,7 +81,7 @@ public class BlacklistWhitelist extends AppCompatActivity
         adapter.notifyDataSetChanged();
 
 
-        radiogroup=(RadioGroup) findViewById(R.id.radiogroup);
+        radiogroup= findViewById(R.id.radiogroup);
         radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
@@ -152,6 +154,7 @@ public class BlacklistWhitelist extends AppCompatActivity
                 name = "";
                 photo = "";
                 Cursor cursor = getContentResolver().query(contactData, null, null, null, null);
+                if(cursor==null) return;
                 cursor.moveToFirst();
                 String hasPhone = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.HAS_PHONE_NUMBER));
                 String contactId = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
@@ -161,7 +164,7 @@ public class BlacklistWhitelist extends AppCompatActivity
                             (ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                                     ContactsContract.CommonDataKinds.Phone.CONTACT_ID
                                             + " = " + contactId, null, null);
-                    while (phones.moveToNext())
+                    while (phones!=null && phones.moveToNext())
                     {
                         String tempnum = phones.getString(phones.getColumnIndex
                                 (ContactsContract.CommonDataKinds.Phone.NUMBER)).replaceAll("[-() ]", "");

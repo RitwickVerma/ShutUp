@@ -1,4 +1,4 @@
-package com.laughingstock.ritwick.shutup;
+package com.laughingstock.ritwick.shutup.Activities;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -34,6 +34,13 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.laughingstock.ritwick.shutup.BroadcastReceivers.AutoStart;
+import com.laughingstock.ritwick.shutup.BroadcastReceivers.PhoneStateReceiver;
+import com.laughingstock.ritwick.shutup.BroadcastReceivers.SchedAlarmReciever;
+import com.laughingstock.ritwick.shutup.Fragments.CCandAFragment;
+import com.laughingstock.ritwick.shutup.Fragments.CSFragment;
+import com.laughingstock.ritwick.shutup.R;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
     Switch masterswitch;
@@ -62,13 +69,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         v = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
 
         preferences = getSharedPreferences("switchstatepref", MODE_PRIVATE);
-        masterswitch=(Switch) findViewById(R.id.masterswitch);
-        welcome1=(TextView) findViewById(R.id.welcome1);
-        welcome2=(TextView) findViewById(R.id.welcome2);
-        leftnav=(NavigationView) findViewById(R.id.navigation_view);
-        drawerLayout=(DrawerLayout) findViewById(R.id.drawer_layout);
+        masterswitch= findViewById(R.id.masterswitch);
+        welcome1= findViewById(R.id.welcome1);
+        welcome2= findViewById(R.id.welcome2);
+        leftnav= findViewById(R.id.navigation_view);
+        drawerLayout= findViewById(R.id.drawer_layout);
 
-        fragmentcontainer=(RelativeLayout) findViewById(R.id.fragmentcontainer);
+        fragmentcontainer= findViewById(R.id.fragmentcontainer);
 
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
@@ -168,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         leftnav.setNavigationItemSelectedListener(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -224,6 +231,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
 
+        if(preferences.getInt("VC",0)!=versionCode)
+        {
+            if(Build.MANUFACTURER.equals("Xiaomi"))
+            {
+                AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(this);
+                builder.setTitle("Xiaomi phone detected")
+                        .setMessage("I noticed that you are using a Xiaomi phone. I most probably will not work properly because of the heavy modifications in the software used by Xiaomi. I am sorry for the trouble. Please don't rate me bad.")
+                        .setPositiveButton("I understand", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        }
+
         editor.putInt("VC", versionCode).apply();
     }
 
@@ -232,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public boolean permissionmanage()
     {
-        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE,Manifest.permission.READ_CONTACTS}, 0);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE,Manifest.permission.READ_CONTACTS}, 0);
 
         return checktel && (checkdnd || (Build.VERSION.SDK_INT < 23));
     }
@@ -326,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 dialog.setContentView(R.layout.help_dialog_cs);
             dialog.setTitle("Instructions:");
             dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-            Button dialogButton = (Button) dialog.findViewById(R.id.helpclosebutton);
+            Button dialogButton = dialog.findViewById(R.id.helpclosebutton);
             dialogButton.setOnClickListener(new View.OnClickListener()
             {
                 @Override

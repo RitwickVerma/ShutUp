@@ -1,4 +1,4 @@
-package com.laughingstock.ritwick.shutup;
+package com.laughingstock.ritwick.shutup.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -24,6 +24,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.laughingstock.ritwick.shutup.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -56,18 +58,18 @@ public class DetailedSchedcallActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_schedcall);
 
-        photoimage= (ImageView) findViewById(R.id.schcontactphotopic);
-        nametext=(TextView) findViewById(R.id.nametext);
-        timetext=(TextView) findViewById(R.id.timetext);
-        datetext=(TextView) findViewById(R.id.datetext);
-        numtext=(TextView) findViewById(R.id.numtext);
-        repeatcalltext=(TextView) findViewById(R.id.repeatcalltext);
-        numspinner=(Spinner) findViewById(R.id.numspinner);
-        botcv=(CardView) findViewById(R.id.botcv);
-        ringcb=(CheckBox) findViewById(R.id.ringcb);
-        vibratecb=(CheckBox) findViewById(R.id.vibratecb);
-        repeatcallcb=(CheckBox) findViewById(R.id.repeatcallcb);
-        repeatcallsb=(SeekBar) findViewById(R.id.repeatcallsb);
+        photoimage= findViewById(R.id.schcontactphotopic);
+        nametext= findViewById(R.id.nametext);
+        timetext= findViewById(R.id.timetext);
+        datetext= findViewById(R.id.datetext);
+        numtext= findViewById(R.id.numtext);
+        repeatcalltext= findViewById(R.id.repeatcalltext);
+        numspinner= findViewById(R.id.numspinner);
+        botcv= findViewById(R.id.botcv);
+        ringcb= findViewById(R.id.ringcb);
+        vibratecb= findViewById(R.id.vibratecb);
+        repeatcallcb= findViewById(R.id.repeatcallcb);
+        repeatcallsb= findViewById(R.id.repeatcallsb);
 
         Intent intent=getIntent();
         Bundle b=intent.getBundleExtra("sdatabundle");
@@ -190,12 +192,13 @@ public class DetailedSchedcallActivity extends AppCompatActivity
             {
                 if(progress<1)  progress=1;
                 String temp;
+                progress*=1.2;
                 if(progress==1)
-                    temp="Every "+(int)(progress*1.2)+" hour";
+                    temp="Every "+progress+" hour";
                 else
-                    temp="Every "+(int)(progress*1.2)+" hours";
+                    temp="Every "+progress+" hours";
                 repeatcalltext.setText(temp);
-                repeatinterval=(int)(progress*1.2);
+                repeatinterval=progress;
             }
 
             @Override
@@ -208,7 +211,7 @@ public class DetailedSchedcallActivity extends AppCompatActivity
         });
     }
 
-    public View donebuttonpressed(View v)
+    public void donebuttonpressed(View v)
     {
 
         if(name.equals("")||time.equals("")||(date.equals("") && !repeatcall))
@@ -249,7 +252,7 @@ public class DetailedSchedcallActivity extends AppCompatActivity
             if(timeinmills/60000< System.currentTimeMillis()/60000 && !edited)
             {
                 Toast.makeText(this, "Calling back in time is not yet possible.\n(o_o)", Toast.LENGTH_SHORT).show();
-                return v;
+                return;
             }
             Intent ri = new Intent();
             Bundle b = new Bundle();
@@ -263,12 +266,12 @@ public class DetailedSchedcallActivity extends AppCompatActivity
             b.putBoolean("vibrate",vibrate);
             b.putBoolean("ring",ring);
             b.putBoolean("repeatcall",repeatcall);
+            b.putInt("repeatinterval",repeatinterval);
 
             ri.putExtra("sdatabundle",b);
             setResult(RESULT_OK, ri);
             finish();
         }
-        return v;
     }
 
     public void cancelbuttonpressed(View v)
@@ -297,6 +300,7 @@ public class DetailedSchedcallActivity extends AppCompatActivity
                 Uri contactData = data.getData();
 
                 Cursor cursor = getContentResolver().query(contactData, null, null, null, null);
+                if(cursor==null)    return;
                 cursor.moveToFirst();
                 String hasPhone = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.HAS_PHONE_NUMBER));
                 String contactId = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
@@ -310,7 +314,7 @@ public class DetailedSchedcallActivity extends AppCompatActivity
                             (ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                                     ContactsContract.CommonDataKinds.Phone.CONTACT_ID
                                             + " = " + contactId, null, null);
-                    while (phones.moveToNext())
+                    while (phones!=null && phones.moveToNext())
                     {
                         String tempnum = phones.getString(phones.getColumnIndex
                                 (ContactsContract.CommonDataKinds.Phone.NUMBER)).replaceAll("[-() ]", "");

@@ -1,4 +1,4 @@
-package com.laughingstock.ritwick.shutup;
+package com.laughingstock.ritwick.shutup.Services;
 
 import android.app.Service;
 import android.content.Context;
@@ -18,6 +18,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
+import com.laughingstock.ritwick.shutup.Adapters.*;
+import com.laughingstock.ritwick.shutup.Fragments.CSFragment;
+import com.laughingstock.ritwick.shutup.R;
 
 
 public class CallSchedulerService extends Service implements TextToSpeech.OnInitListener
@@ -49,9 +53,9 @@ public class CallSchedulerService extends Service implements TextToSpeech.OnInit
 
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
-        wl.acquire();
+        wl.acquire(60000);
         audioManager=(AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        mediaPlayer=MediaPlayer.create(context,R.raw.schedaudio);
+        mediaPlayer=MediaPlayer.create(context, R.raw.schedaudio);
         vibrator = (Vibrator) this.context.getSystemService(Context.VIBRATOR_SERVICE);
 
         tts = new TextToSpeech(context,CallSchedulerService.this);
@@ -73,6 +77,7 @@ public class CallSchedulerService extends Service implements TextToSpeech.OnInit
         repeatinterval=b.getInt("repeatinterval");
 
         callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         callIntent.setData(Uri.parse("tel:"+b.getString("dialnumber")));
 
         if(vibrate)
@@ -182,10 +187,13 @@ public class CallSchedulerService extends Service implements TextToSpeech.OnInit
         if(!repeatcall)
             schedinfo.remove(position);
         else
-            schedinfo.get(position).putLong("timeinmills",(schedinfo.get(position).getLong("timeinmills")+3600000*repeatinterval));
-
+        {
+            Bundle temp= schedinfo.get(position);
+            temp.putLong("timeinmills",temp.getLong("timeinmills") + 3600000 * repeatinterval);
+            schedinfo.set(position,temp);
+        }
         csFragment.saveToInternalStorage(context, schedinfo);
-        ScheduleContactsAdapter schedulecontactsAdapter = new ScheduleContactsAdapter(context, schedinfo, new TextView(context));
+        ScheduleContactsAdapter schedulecontactsAdapter = new ScheduleContactsAdapter(context, schedinfo);
         schedulecontactsAdapter.notifyDataSetChanged();
         stopSelf();
     }

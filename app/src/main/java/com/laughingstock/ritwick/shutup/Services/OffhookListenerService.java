@@ -1,4 +1,4 @@
-package com.laughingstock.ritwick.shutup;
+package com.laughingstock.ritwick.shutup.Services;
 
 import android.app.Service;
 import android.content.Context;
@@ -9,13 +9,13 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
-import android.os.AsyncTask;
 import android.os.IBinder;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.laughingstock.ritwick.shutup.R;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -81,7 +81,7 @@ public class OffhookListenerService extends Service implements SensorEventListen
         Sensor sensor=event.sensor;
         if(sensor.getType()==Sensor.TYPE_PROXIMITY)
         {
-            if (!(((preferences.getInt("blacklistwhitelistradiogrouppref",R.id.blacklistradiobutton)==R.id.blacklistradiobutton && numberinlist)
+            if (!(((preferences.getInt("blacklistwhitelistradiogrouppref", R.id.blacklistradiobutton)==R.id.blacklistradiobutton && numberinlist)
                     ||(preferences.getInt("blacklistwhitelistradiogrouppref",R.id.blacklistradiobutton)==R.id.whitelistradiobutton && !numberinlist))
                     && preferences.getBoolean("blacklistwhitelistswitchstate",false))
                     && preferences.getBoolean("speakeroncheckboxstate", false)
@@ -141,7 +141,7 @@ public class OffhookListenerService extends Service implements SensorEventListen
         try
         {
             TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            Class c = Class.forName(tm.getClass().getName());
+            Class<?> c = Class.forName(tm.getClass().getName());
             Method m = c.getDeclaredMethod("getITelephony");
             m.setAccessible(true);
             Object telephonyService = m.invoke(tm);

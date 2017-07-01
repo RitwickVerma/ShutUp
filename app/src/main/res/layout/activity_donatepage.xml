@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@color/colorAccent"
-    tools:context="com.laughingstock.ritwick.shutup.Donatepage">
+    tools:context="com.laughingstock.ritwick.shutup.Activities.Donatepage">
 
     <TextView
         android:id="@+id/textView"

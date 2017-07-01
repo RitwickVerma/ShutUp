@@ -7,8 +7,8 @@ android {
         applicationId "com.laughingstock.ritwick.shutup"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 17
-        versionName "1.5.2"
+        versionCode 18
+        versionName "1.5.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -40,6 +40,7 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
 
+    implementation 'com.android.support:support-annotations:26.0.0-beta2'
 }
 
 repositories {

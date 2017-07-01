@@ -1,4 +1,4 @@
-package com.laughingstock.ritwick.shutup;
+package com.laughingstock.ritwick.shutup.Fragments;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -15,6 +15,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.laughingstock.ritwick.shutup.Activities.DetailedSchedcallActivity;
+import com.laughingstock.ritwick.shutup.Activities.MainActivity;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -27,6 +30,9 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
+
+import com.laughingstock.ritwick.shutup.Adapters.*;
+import com.laughingstock.ritwick.shutup.R;
 
 
 public class CSFragment extends Fragment
@@ -48,8 +54,8 @@ public class CSFragment extends Fragment
         View view= inflater.inflate(R.layout.fragment_cs,container,false);
         context=getActivity();
 
-        schedulelistview=(ListView) view.findViewById(R.id.schedulelistview);
-        listemptytext=(TextView) view.findViewById(R.id.listemptytext);
+        schedulelistview= view.findViewById(R.id.schedulelistview);
+        listemptytext= view.findViewById(R.id.listemptytext);
 
         schedinfo=readFromInternalStorage(context);
         adapter = new ScheduleContactsAdapter(context,schedinfo,listemptytext);
@@ -89,7 +95,7 @@ public class CSFragment extends Fragment
     {
         if(requestCode==0)
         {
-            if(resultCode==MainActivity.RESULT_OK)
+            if(resultCode== MainActivity.RESULT_OK)
             {
                 Bundle b=data.getBundleExtra("sdatabundle");
                 if(edit)

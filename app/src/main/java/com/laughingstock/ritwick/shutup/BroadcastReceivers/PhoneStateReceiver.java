@@ -1,15 +1,20 @@
-package com.laughingstock.ritwick.shutup;
+package com.laughingstock.ritwick.shutup.BroadcastReceivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.telephony.TelephonyManager;
 
+import com.laughingstock.ritwick.shutup.Services.OffhookListenerService;
+import com.laughingstock.ritwick.shutup.Services.RingingListenerService;
+
 public class PhoneStateReceiver extends BroadcastReceiver
 {
     @Override
     public void onReceive(Context context, final Intent intent)
     {
+        if(!intent.getAction().equals("android.intent.action.PHONE_STATE"))   return;
+
         Intent ringinglistenerservice=new Intent(context,RingingListenerService.class);
         Intent offhooklistenerservice=new Intent(context,OffhookListenerService.class);
 

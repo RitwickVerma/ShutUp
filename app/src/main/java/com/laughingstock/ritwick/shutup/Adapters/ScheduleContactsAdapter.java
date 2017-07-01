@@ -1,4 +1,4 @@
-package com.laughingstock.ritwick.shutup;
+package com.laughingstock.ritwick.shutup.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -15,11 +15,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
+import com.laughingstock.ritwick.shutup.BroadcastReceivers.SchedAlarmReciever;
+import com.laughingstock.ritwick.shutup.Fragments.CSFragment;
+import com.laughingstock.ritwick.shutup.R;
 
 import java.util.ArrayList;
 
 
-class ScheduleContactsAdapter extends BaseAdapter
+public class ScheduleContactsAdapter extends BaseAdapter
 {
 
     Context context;
@@ -30,17 +33,18 @@ class ScheduleContactsAdapter extends BaseAdapter
     boolean repeatcall=false;
     private long timeinmills;
     private ArrayList<String> diffnums;
+    int repeatinterval;
 
 
     private static LayoutInflater inflater = null;
 
     private AdapterView.OnItemClickListener onItemClickListener;
 
-    void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
-    ScheduleContactsAdapter(Context context, ArrayList<Bundle> schedinfo, TextView listemptytext)
+    public ScheduleContactsAdapter(Context context, ArrayList<Bundle> schedinfo, TextView listemptytext)
     {
         // TODO Auto-generated constructor stub
         this.context = context;
@@ -49,6 +53,11 @@ class ScheduleContactsAdapter extends BaseAdapter
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+   public ScheduleContactsAdapter(Context context, ArrayList<Bundle> schedinfo)
+   {
+       this.context=context;
+       this.schedinfo=schedinfo;
+   }
 
     @Override
     public View getView(final int position, final View convertView, ViewGroup parent)
@@ -58,10 +67,10 @@ class ScheduleContactsAdapter extends BaseAdapter
             vi = inflater.inflate(R.layout.row_in_schedulelist,parent,false);
         final View vitemp=vi;
 
-        final SwipeRevealLayout swipeLayout = (SwipeRevealLayout) vi.findViewById(R.id.swipe);
+        final SwipeRevealLayout swipeLayout = vi.findViewById(R.id.swipe);
 
-        TextView schedinfotextview = (TextView) vi.findViewById(R.id.schedinfotextview);
-        final ImageView schcontactphoto = (ImageView) vi.findViewById(R.id.schlistcontactphotopic);
+        TextView schedinfotextview = vi.findViewById(R.id.schedinfotextview);
+        final ImageView schcontactphoto = vi.findViewById(R.id.schlistcontactphotopic);
 
         Bundle b = schedinfo.get(position);
         if (b != null)
@@ -74,8 +83,9 @@ class ScheduleContactsAdapter extends BaseAdapter
             date = b.getString("date");
             timeinmills = b.getLong("timeinmills");
             repeatcall=b.getBoolean("repeatcall");
+            repeatinterval=b.getInt("repeatinterval");
 
-            String temp = "Call " + name + "\nat " + time + ((repeatcall)?(" daily"):("\nof " + date)) + "\non number " + dialnumber;
+            String temp = "Call " + name + "\nat " + time + ((repeatcall)?(" every "+repeatinterval+" hours"):("\non " + date)) + "\non number " + dialnumber;
             schedinfotextview.setText(temp);
 
             schcontactphoto.setImageURI(Uri.parse(photo));
@@ -134,7 +144,7 @@ class ScheduleContactsAdapter extends BaseAdapter
             {            }
         });
 
-        RelativeLayout mainswipe=(RelativeLayout) vi.findViewById(R.id.mainswipe);
+        RelativeLayout mainswipe= vi.findViewById(R.id.mainswipe);
         mainswipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

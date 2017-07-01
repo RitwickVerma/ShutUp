@@ -1,4 +1,4 @@
-package com.laughingstock.ritwick.shutup;
+package com.laughingstock.ritwick.shutup.Services;
 
 import android.annotation.TargetApi;
 import android.app.Service;
@@ -16,6 +16,8 @@ import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
+
+import com.laughingstock.ritwick.shutup.Activities.AnswerCall;
 
 import java.lang.reflect.Method;
 
@@ -151,7 +153,7 @@ public class RingingListenerService extends Service implements SensorEventListen
         try
         {
             TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            Class c = Class.forName(tm.getClass().getName());
+            Class<?> c = Class.forName(tm.getClass().getName());
             Method m = c.getDeclaredMethod("getITelephony");
             m.setAccessible(true);
             Object telephonyService = m.invoke(tm);
