@@ -25,7 +25,7 @@
         <meta-data android:name="android.max_aspect" android:value="2.1" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -40,21 +40,21 @@
                 android:resource="@xml/shortcuts"/>
         </activity>
         <activity
-            android:name=".Settings"
+            android:name=".Activities.Settings"
             android:label="@string/Settings_title">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.laughingstock.ritwick.shutup.MainActivity"/>
+                android:value="com.laughingstock.ritwick.shutup.Activities.MainActivity"/>
         </activity>
         <activity
-            android:name=".BlacklistWhitelist"
+            android:name=".Activities.BlacklistWhitelist"
             android:label="Blacklist or Whitelist">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.laughingstock.ritwick.shutup.MainActivity"/>
+                android:value="com.laughingstock.ritwick.shutup.Activities.MainActivity"/>
         </activity>
         <activity
-            android:name=".AnswerCall"
+            android:name=".Activities.AnswerCall"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:excludeFromRecents="true"
             android:launchMode="singleTop"
@@ -63,32 +63,32 @@
         </activity>
 
 
-        <activity android:name=".DetailedSchedcallActivity">
+        <activity android:name=".Activities.DetailedSchedcallActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.laughingstock.ritwick.shutup.MainActivity"/>
+                android:value="com.laughingstock.ritwick.shutup.Activities.MainActivity"/>
         </activity>
 
-        <activity android:name=".Donatepage"
+        <activity android:name=".Activities.Donatepage"
                   android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.laughingstock.ritwick.shutup.MainActivity"/>
+                android:value="com.laughingstock.ritwick.shutup.Activities.MainActivity"/>
         </activity>
 
         <service
-            android:name=".RingingListenerService"
+            android:name=".Services.RingingListenerService"
             android:enabled="true"
             android:exported="false"/>
 
 
         <service
-            android:name=".OffhookListenerService"
+            android:name=".Services.OffhookListenerService"
             android:enabled="true"
             android:exported="false">
         </service>
 
-        <receiver android:name=".PhoneStateReceiver"
+        <receiver android:name=".BroadcastReceivers.PhoneStateReceiver"
                   android:enabled="true"
                   android:exported="false">
             <intent-filter>
@@ -98,7 +98,7 @@
         </receiver>
 
         <receiver
-            android:name=".SchedAlarmReciever"
+            android:name=".BroadcastReceivers.SchedAlarmReciever"
             android:enabled="true"
             android:exported="false"
             android:process=":remote">
@@ -108,7 +108,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".AutoStart"
+            android:name=".BroadcastReceivers.AutoStart"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -119,7 +119,7 @@
 
 
         <service
-            android:name=".CallSchedulerService"
+            android:name=".Services.CallSchedulerService"
             android:enabled="true"
             android:exported="false">
         </service>

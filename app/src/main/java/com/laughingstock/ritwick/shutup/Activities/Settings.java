@@ -1,4 +1,4 @@
-package com.laughingstock.ritwick.shutup;
+package com.laughingstock.ritwick.shutup.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +9,8 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.laughingstock.ritwick.shutup.R;
 
 public class Settings extends AppCompatActivity
 {
@@ -22,8 +24,8 @@ public class Settings extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        consecutivewavethresholdtext=(TextView) findViewById(R.id.consecutivewavethresholdtext);
-        consecutivewavethreshold=(SeekBar) findViewById(R.id.consecutivewavethresholdseekbar);
+        consecutivewavethresholdtext= findViewById(R.id.consecutivewavethresholdtext);
+        consecutivewavethreshold= findViewById(R.id.consecutivewavethresholdseekbar);
 
 
         consecutivewavethreshold.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()

@@ -49,7 +49,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"
-            tools:context="com.laughingstock.ritwick.shutup.DetailedSchedcallActivity"
+            tools:context="com.laughingstock.ritwick.shutup.Activities.DetailedSchedcallActivity"
             tools:layout_constraintBottom_creator="1"
             tools:layout_constraintLeft_creator="1"
             tools:layout_constraintRight_creator="1"
@@ -69,7 +69,7 @@
                 app:layout_constraintTop_toTopOf="@+id/schlistcontactphoto"
                 app:srcCompat="@drawable/cross_dgrey"
                 tools:layout_constraintLeft_creator="1"
-                tools:layout_constraintTop_creator="1"/>
+                tools:layout_constraintTop_creator="1" />
 
             <Space
                 android:id="@+id/space"
@@ -235,8 +235,8 @@
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/numtext"
                         app:layout_constraintBottom_toBottomOf="@+id/numtext"
-                        android:layout_marginBottom="8dp"
-                        app:layout_constraintVertical_bias="0.79"/>
+                        android:layout_marginBottom="0dp"
+                        app:layout_constraintVertical_bias="0.7"/>
 
                     <SeekBar
                         android:layout_width="0dp"
@@ -255,7 +255,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:text="Every 24 hours"
-                        android:textAppearance="@android:style/TextAppearance.Material.Large"
+                        android:textAppearance="@android:style/TextAppearance.Holo.Large"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="@+id/repeatcallcb"
                         app:layout_constraintTop_toBottomOf="@+id/repeatcallcb"/>

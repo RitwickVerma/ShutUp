@@ -1,4 +1,4 @@
-package com.laughingstock.ritwick.shutup;
+package com.laughingstock.ritwick.shutup.Fragments;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -18,6 +18,9 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.laughingstock.ritwick.shutup.Activities.BlacklistWhitelist;
+import com.laughingstock.ritwick.shutup.R;
 
 public class CCandAFragment extends Fragment
 {
@@ -40,18 +43,18 @@ public class CCandAFragment extends Fragment
         View view= inflater.inflate(R.layout.fragment_ccanda,container,false);
         context=getActivity();
 
-        singlelist=(Spinner) view.findViewById(R.id.singlelist);
-        doublelist=(Spinner) view.findViewById(R.id.doublelist);
-        flipdownlist=(Spinner) view.findViewById(R.id.flipdownlist);
-        singlewave=(TextView) view.findViewById(R.id.singlewave);
-        doublewave=(TextView) view.findViewById(R.id.doublewave);
-        flipdowntext=(TextView) view.findViewById(R.id.flipdowntext);
-        silentonpick=(CheckBox) view.findViewById(R.id.silentonpickcheckbox);
-        speakeron=(CheckBox) view.findViewById(R.id.speakeroncheckbox);
-        blacklistwhitelistswitch=(Switch) view.findViewById(R.id.blacklistwhitelistswitch);
-        blacklistexpandinglayout=(ConstraintLayout) view.findViewById(R.id.blacklistexpandinglayout);
-        blacklistwhitelisttext1=(TextView) view.findViewById(R.id.blacklistwhitelisttext1);
-        blacklistwhitelisttext2=(TextView) view.findViewById(R.id.blacklistwhitelisttext2);
+        singlelist= view.findViewById(R.id.singlelist);
+        doublelist= view.findViewById(R.id.doublelist);
+        flipdownlist= view.findViewById(R.id.flipdownlist);
+        singlewave= view.findViewById(R.id.singlewave);
+        doublewave= view.findViewById(R.id.doublewave);
+        flipdowntext= view.findViewById(R.id.flipdowntext);
+        silentonpick= view.findViewById(R.id.silentonpickcheckbox);
+        speakeron= view.findViewById(R.id.speakeroncheckbox);
+        blacklistwhitelistswitch= view.findViewById(R.id.blacklistwhitelistswitch);
+        blacklistexpandinglayout= view.findViewById(R.id.blacklistexpandinglayout);
+        blacklistwhitelisttext1= view.findViewById(R.id.blacklistwhitelisttext1);
+        blacklistwhitelisttext2= view.findViewById(R.id.blacklistwhitelisttext2);
         linebwblandsp=view.findViewById(R.id.view7);
 
         //params = (RelativeLayout.LayoutParams) imptechview.getLayoutParams();

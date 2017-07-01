@@ -1,4 +1,4 @@
-package com.laughingstock.ritwick.shutup;
+package com.laughingstock.ritwick.shutup.Activities;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -16,6 +16,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.laughingstock.ritwick.shutup.R;
+
 public class Donatepage extends AppCompatActivity
 {
     RadioGroup donaterg;
@@ -30,9 +32,9 @@ public class Donatepage extends AppCompatActivity
         setTitle("Donate");
         setContentView(R.layout.activity_donatepage);
 
-        donaterg=(RadioGroup) findViewById(R.id.donaterg);
-        neededinfo=(TextView) findViewById(R.id.neededinfotext);
-        needinfo2=(TextView) findViewById(R.id.needinfo2text);
+        donaterg= findViewById(R.id.donaterg);
+        neededinfo= findViewById(R.id.neededinfotext);
+        needinfo2= findViewById(R.id.needinfo2text);
 
         clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 

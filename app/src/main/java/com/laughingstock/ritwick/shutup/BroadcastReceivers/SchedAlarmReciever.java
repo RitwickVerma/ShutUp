@@ -1,10 +1,12 @@
-package com.laughingstock.ritwick.shutup;
+package com.laughingstock.ritwick.shutup.BroadcastReceivers;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+import com.laughingstock.ritwick.shutup.Services.CallSchedulerService;
 
 public class SchedAlarmReciever extends BroadcastReceiver
 {

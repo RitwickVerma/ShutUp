@@ -12,7 +12,7 @@
         <intent
             android:action="com.laughingstock.ritwick.shutup.CCandA"
             android:targetPackage="com.laughingstock.ritwick.shutup"
-            android:targetClass="com.laughingstock.ritwick.shutup.MainActivity" />
+            android:targetClass="com.laughingstock.ritwick.shutup.Activities.MainActivity" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 
@@ -26,7 +26,7 @@
         <intent
             android:action="com.laughingstock.ritwick.shutup.CS"
             android:targetPackage="com.laughingstock.ritwick.shutup"
-            android:targetClass="com.laughingstock.ritwick.shutup.MainActivity" />
+            android:targetClass="com.laughingstock.ritwick.shutup.Activities.MainActivity" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 
@@ -40,7 +40,7 @@
         <intent
             android:action="android.intent.action.VIEW"
             android:targetPackage="com.laughingstock.ritwick.shutup"
-            android:targetClass="com.laughingstock.ritwick.shutup.Settings" />
+            android:targetClass="com.laughingstock.ritwick.shutup.Activities.Settings" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 

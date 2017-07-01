@@ -1,4 +1,4 @@
-package com.laughingstock.ritwick.shutup;
+package com.laughingstock.ritwick.shutup.Adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.laughingstock.ritwick.shutup.R;
 
 import java.util.ArrayList;
 
@@ -43,10 +44,10 @@ public class bwcontactsAdapter extends BaseAdapter
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.row_in_bwlist,parent,false);
-        TextView contactnametext = (TextView) vi.findViewById(R.id.contactname);
-        TextView contactnumbertext=(TextView) vi.findViewById(R.id.contactnumber);
-        final ImageButton contactdeletebutton=(ImageButton) vi.findViewById(R.id.contactdeletebutton);
-        ImageView contactphotoimage=(ImageView) vi.findViewById(R.id.contactphotopic);
+        TextView contactnametext = vi.findViewById(R.id.contactname);
+        TextView contactnumbertext= vi.findViewById(R.id.contactnumber);
+        final ImageButton contactdeletebutton= vi.findViewById(R.id.contactdeletebutton);
+        ImageView contactphotoimage= vi.findViewById(R.id.contactphotopic);
 
         contactdeletebutton.setOnClickListener(new View.OnClickListener (){
             @Override
