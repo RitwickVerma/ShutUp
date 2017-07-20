@@ -30,10 +30,10 @@ public class ScheduleContactsAdapter extends BaseAdapter
     private ArrayList<Bundle> schedinfo;
     private TextView listemptytext;
     private String number = "", name = "", photo = "", time = "", date = "", dialnumber = "";
-    boolean repeatcall=false;
+    private boolean repeatcall=false;
     private long timeinmills;
     private ArrayList<String> diffnums;
-    int repeatinterval;
+    private int repeatinterval;
 
 
     private static LayoutInflater inflater = null;
@@ -85,7 +85,7 @@ public class ScheduleContactsAdapter extends BaseAdapter
             repeatcall=b.getBoolean("repeatcall");
             repeatinterval=b.getInt("repeatinterval");
 
-            String temp = "Call " + name + "\nat " + time + ((repeatcall)?(" every "+repeatinterval+" hours"):("\non " + date)) + "\non number " + dialnumber;
+            String temp = "Call " + name + "\n"+((repeatcall)?"next ":"")+"at " + time + ((repeatcall)?(""):("\non " + date)) + "\non number " + dialnumber + ((repeatcall)?("\nand repeat every "+repeatinterval+" hour"+((repeatinterval>1)?"s":"")):"");
             schedinfotextview.setText(temp);
 
             schcontactphoto.setImageURI(Uri.parse(photo));
@@ -107,17 +107,14 @@ public class ScheduleContactsAdapter extends BaseAdapter
                 schedinfo.remove(position);
                 notifyDataSetChanged();
                 Snackbar.make(swipeLayout, "Schedule cancelled", Snackbar.LENGTH_LONG)
-                        .setAction("Undo", new View.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(View v)
+                        .setAction("Undo",(v)->
                             {
                                 schedinfo.add(position, temp);
                                 notifyDataSetChanged();
-                                CSFragment csFragment=new CSFragment();
-                                csFragment.saveToInternalStorage(context,schedinfo);
+                                CSFragment csFragment = new CSFragment();
+                                csFragment.saveToInternalStorage(context, schedinfo);
 
-                                SchedAlarmReciever schedAlarmReciever=new SchedAlarmReciever();
+                                SchedAlarmReciever schedAlarmReciever = new SchedAlarmReciever();
                                 //schedAlarmReciever.setAlarm(context,timeinmills,position);
 
 
@@ -126,8 +123,7 @@ public class ScheduleContactsAdapter extends BaseAdapter
                                 else listemptytext.setVisibility(View.INVISIBLE);
                                 swipeLayout.close(true);
 
-                            }
-                        })
+                            })
                         .setActionTextColor(Color.parseColor("#2196F3"))
                         .show();
                 if (schedinfo.size() == 0) listemptytext.setVisibility(View.VISIBLE);
@@ -145,14 +141,13 @@ public class ScheduleContactsAdapter extends BaseAdapter
         });
 
         RelativeLayout mainswipe= vi.findViewById(R.id.mainswipe);
-        mainswipe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mainswipe.setOnClickListener((v)->
+                {
                 if (onItemClickListener != null) {
                     onItemClickListener.onItemClick(null, vitemp, position, -1);
                 }
             }
-        });
+        );
         return vi;
     }
 

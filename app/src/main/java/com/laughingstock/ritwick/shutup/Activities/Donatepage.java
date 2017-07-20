@@ -8,10 +8,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.IdRes;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.TransitionManager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +27,7 @@ public class Donatepage extends AppCompatActivity
     RadioGroup donaterg;
     TextView neededinfo,needinfo2;
     ClipboardManager clipboard;
+    ConstraintLayout viewroot;
     long rbid;
 
     @Override
@@ -30,7 +35,12 @@ public class Donatepage extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setTitle("Donate");
-        setContentView(R.layout.activity_donatepage);
+        setContentView(R.layout.activity_donatepage1);
+
+        viewroot = (ConstraintLayout) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
+
+        ConstraintSet animatedview=new ConstraintSet();
+        animatedview.clone(this,R.layout.activity_donatepage2);
 
         donaterg= findViewById(R.id.donaterg);
         neededinfo= findViewById(R.id.neededinfotext);
@@ -43,6 +53,8 @@ public class Donatepage extends AppCompatActivity
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId)
             {
+                TransitionManager.beginDelayedTransition(viewroot);
+                animatedview.applyTo(viewroot);
                 rbid=checkedId;
                 if(rbid==R.id.paypalrb)
                 {

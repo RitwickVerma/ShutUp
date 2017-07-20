@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/donatepage"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/colorAccent"
+    tools:context="com.laughingstock.ritwick.shutup.Activities.Donatepage">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Hi human."
+        android:textAppearance="@android:style/TextAppearance.Holo.Large"
+        android:textColor="#ffffff"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.08"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:paddingLeft="30sp"
+        android:paddingRight="30sp"
+        android:text='My career as an app has been bad so far. Please help me before I go broke and have to find another career.\nHow does "shutup-the bounty hunter" sound?'
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Holo.Large"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintLeft_toLeftOf="@+id/textView"
+        app:layout_constraintRight_toRightOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView"/>
+
+    <TextView
+        android:id="@+id/neededinfotext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Holo.Large"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toTopOf="@+id/donaterg"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/donaterg"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:id="@+id/needinfo2text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:textAppearance="@android:style/TextAppearance.Holo.Large"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="@+id/neededinfotext"
+        app:layout_constraintRight_toRightOf="@+id/neededinfotext"
+        app:layout_constraintTop_toBottomOf="@+id/neededinfotext"/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        android:onClick="donatebuttonclicked"
+        android:padding="20sp"
+        android:text="Donate"
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/needinfo2text"
+        app:layout_constraintVertical_bias="0.51" />
+
+    <RadioGroup
+        android:id="@+id/donaterg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="192dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="48dp"
+        android:animateLayoutChanges="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        android:layout_marginStart="24dp">
+
+        <RadioButton
+            android:id="@+id/paypalrb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="#ffffff"
+            android:text="PayPal"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/paytmrb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="#ffffff"
+            android:text="Paytm"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/upirb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="#ffffff"
+            android:text="UPI (BHIM/ Phonepe)"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+    </RadioGroup>
+
+</android.support.constraint.ConstraintLayout>

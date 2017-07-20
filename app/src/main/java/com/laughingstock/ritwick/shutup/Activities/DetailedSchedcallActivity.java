@@ -34,6 +34,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class DetailedSchedcallActivity extends AppCompatActivity
 {
     ArrayAdapter<String> numspinneradapter;
@@ -42,34 +45,32 @@ public class DetailedSchedcallActivity extends AppCompatActivity
     int repeatinterval=24;
     boolean ring=true,vibrate=true,repeatcall=false;
     ArrayList<String> diffnums;
-    ImageView photoimage;
-    TextView nametext,timetext,datetext,numtext,repeatcalltext;
-    CheckBox ringcb,vibratecb,repeatcallcb;
+
+    @BindView(R.id.schcontactphotopic) ImageView photoimage;
+    @BindView(R.id.nametext) TextView nametext;
+    @BindView(R.id.timetext) TextView timetext;
+    @BindView(R.id.datetext) TextView datetext;
+    @BindView(R.id.numtext)  TextView numtext;
+    @BindView(R.id.repeatcalltext) TextView repeatcalltext;
+    @BindView(R.id.ringcb) CheckBox ringcb;
+    @BindView(R.id.vibratecb) CheckBox vibratecb;
+    @BindView(R.id.repeatcallcb) CheckBox repeatcallcb;
+    @BindView(R.id.numspinner) Spinner numspinner;
+    @BindView(R.id.botcv) CardView botcv;
+    @BindView(R.id.repeatcallsb) SeekBar repeatcallsb;
+    @BindView(R.id.activity_detailed_schedcall) View root;
+
     TimePickerDialog timePickerDialog;
     DatePickerDialog datePickerDialog;
-    Spinner numspinner;
+
     boolean backpressedflag=false,edited=false;
-    CardView botcv;
-    SeekBar repeatcallsb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_schedcall);
-
-        photoimage= findViewById(R.id.schcontactphotopic);
-        nametext= findViewById(R.id.nametext);
-        timetext= findViewById(R.id.timetext);
-        datetext= findViewById(R.id.datetext);
-        numtext= findViewById(R.id.numtext);
-        repeatcalltext= findViewById(R.id.repeatcalltext);
-        numspinner= findViewById(R.id.numspinner);
-        botcv= findViewById(R.id.botcv);
-        ringcb= findViewById(R.id.ringcb);
-        vibratecb= findViewById(R.id.vibratecb);
-        repeatcallcb= findViewById(R.id.repeatcallcb);
-        repeatcallsb= findViewById(R.id.repeatcallsb);
+        ButterKnife.bind(this);
 
         Intent intent=getIntent();
         Bundle b=intent.getBundleExtra("sdatabundle");
@@ -99,6 +100,7 @@ public class DetailedSchedcallActivity extends AppCompatActivity
             ringcb.setChecked(ring);
             vibratecb.setChecked(vibrate);
             repeatcallcb.setChecked(repeatcall);
+            repeatcalltext.setText("Every "+repeatinterval+" hour"+((repeatinterval>1)?"s":""));
 
             numspinner.setVisibility(View.VISIBLE);
             numtext.setVisibility(View.VISIBLE);
@@ -140,35 +142,18 @@ public class DetailedSchedcallActivity extends AppCompatActivity
             {            }
         });
 
-        vibratecb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-        {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-            {
-                vibrate=isChecked;
-            }
-        });
+        vibratecb.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked)->vibrate=isChecked);
 
-        ringcb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-        {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-            {
-                ring=isChecked;
-            }
-        });
+        ringcb.setOnCheckedChangeListener((CompoundButton buttonView,boolean isChecked)->ring=isChecked);
 
-        repeatcallcb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-        {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+        repeatcallcb.setOnCheckedChangeListener((buttonView,isChecked)->
             {
                 repeatcall=isChecked;
                 datetext.setVisibility((repeatcall)?View.GONE:View.VISIBLE);
                 repeatcalltext.setVisibility((repeatcall)?View.VISIBLE:View.GONE);
                 repeatcallsb.setVisibility((repeatcall)?View.VISIBLE:View.GONE);
             }
-        });
+        );
 
         View.OnLongClickListener l=new View.OnLongClickListener()
         {
@@ -184,7 +169,7 @@ public class DetailedSchedcallActivity extends AppCompatActivity
         nametext.setOnLongClickListener(l);
         photoimage.setOnLongClickListener(l);
 
-        repeatcallsb.setProgress(20);
+        repeatcallsb.setProgress(repeatinterval);
         repeatcallsb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
         {
             @Override
@@ -216,42 +201,19 @@ public class DetailedSchedcallActivity extends AppCompatActivity
 
         if(name.equals("")||time.equals("")||(date.equals("") && !repeatcall))
         {
-            Snackbar.make(findViewById(R.id.activity_detailed_schedcall),"Information incomplete",Snackbar.LENGTH_LONG)
-            .setAction("I don't care", new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-                    finish();
-                }
-            })
+            Snackbar.make(root,"Information incomplete",Snackbar.LENGTH_LONG)
+            .setAction("I don't care", (d)->finish())
             .setActionTextColor(Color.parseColor("#2196F3"))
             .show();
 
         }
         else
         {
-            if(repeatcall)
-            {
-                int mYear,mMonth,mDay;
-                Calendar mcurrentDate = Calendar.getInstance();
-                mYear = mcurrentDate.get(Calendar.YEAR);
-                mMonth = mcurrentDate.get(Calendar.MONTH);
-                mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
-                date=mDay+"/"+(++mMonth)+"/"+mYear;
-
-            }
-
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy");
-            try {
-                Date mDate = sdf.parse(time+" "+date);
-                timeinmills = mDate.getTime();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            decide(0);
             if(timeinmills/60000< System.currentTimeMillis()/60000 && !edited)
             {
-                Toast.makeText(this, "Calling back in time is not yet possible.\n(o_o)", Toast.LENGTH_SHORT).show();
+                if(repeatcallcb.isChecked()) decide(1);
+                Toast.makeText(this, "Calling back in time is not yet possible.", Toast.LENGTH_SHORT).show();
                 return;
             }
             Intent ri = new Intent();
@@ -357,6 +319,26 @@ public class DetailedSchedcallActivity extends AppCompatActivity
         }
     }
 
+    public void decide(int offset)
+    {
+        if(repeatcall)
+        {
+            int mYear,mMonth,mDay;
+            Calendar mcurrentDate = Calendar.getInstance();
+            mYear = mcurrentDate.get(Calendar.YEAR);
+            mMonth = mcurrentDate.get(Calendar.MONTH);
+            mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH)+offset;
+            date=mDay+"/"+(++mMonth)+"/"+mYear;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+        try {
+            Date datentime = sdf.parse(time+" "+date);
+            timeinmills = datentime.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void settimetextclicked(View v)
     {
@@ -428,7 +410,7 @@ public class DetailedSchedcallActivity extends AppCompatActivity
             super.onBackPressed();
         else
         {
-            Snackbar.make(findViewById(R.id.activity_detailed_schedcall),"Press back again to cancel",Snackbar.LENGTH_LONG).show();
+            Snackbar.make(root,"Press back again to cancel",Snackbar.LENGTH_LONG).show();
             backpressedflag=true;
         }
     }

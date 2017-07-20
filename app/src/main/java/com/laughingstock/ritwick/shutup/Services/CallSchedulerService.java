@@ -14,14 +14,22 @@ import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
-import android.widget.TextView;
+import android.widget.Toast;
 
+
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import com.laughingstock.ritwick.shutup.Adapters.*;
 import com.laughingstock.ritwick.shutup.Fragments.CSFragment;
+import com.laughingstock.ritwick.shutup.MessageEvent;
 import com.laughingstock.ritwick.shutup.R;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 public class CallSchedulerService extends Service implements TextToSpeech.OnInitListener
@@ -91,11 +99,8 @@ public class CallSchedulerService extends Service implements TextToSpeech.OnInit
         {
             mediaPlayer.start();
             tts.setOnUtteranceProgressListener(utteranceProgressListener);
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
+            mediaPlayer.setOnCompletionListener((mp)->
             {
-                @Override
-                public void onCompletion(MediaPlayer mp)
-                {
                     if(ttsinitiated)
                     {
                         if(Build.VERSION.SDK_INT<21)
@@ -103,7 +108,7 @@ public class CallSchedulerService extends Service implements TextToSpeech.OnInit
                         else
                             tts.speak("Hi! Shut up here. Calling "+name+"now.",TextToSpeech.QUEUE_FLUSH,null,"ring");
                     }
-                }
+
             });
         }
         else
@@ -189,9 +194,19 @@ public class CallSchedulerService extends Service implements TextToSpeech.OnInit
         else
         {
             Bundle temp= schedinfo.get(position);
-            temp.putLong("timeinmills",temp.getLong("timeinmills") + 3600000 * repeatinterval);
+            long timeinmills=temp.getLong("timeinmills")+3600000*repeatinterval;
+            temp.putLong("timeinmills",timeinmills);
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(timeinmills);
+            String datentime=sdf.format(calendar.getTime());
+            String time=datentime.split(" ")[0];
+            String date=datentime.split(" ")[1];
+            temp.putString("date",date);
+            temp.putString("time",time);
             schedinfo.set(position,temp);
         }
+        EventBus.getDefault().post(new MessageEvent("schedcallperformed"));
         csFragment.saveToInternalStorage(context, schedinfo);
         ScheduleContactsAdapter schedulecontactsAdapter = new ScheduleContactsAdapter(context, schedinfo);
         schedulecontactsAdapter.notifyDataSetChanged();
