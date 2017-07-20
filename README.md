@@ -36,7 +36,9 @@ Keywords: proximity silent, wave to silent, proximity gestures, air gestures, si
 ## Libraries Used -
 
 SwipeRevealLayout - https://github.com/chthai64/SwipeRevealLayout
+
 EventBus - https://github.com/greenrobot/EventBus
+
 ProcessPhoenix - https://github.com/JakeWharton/ProcessPhoenix
 
 
