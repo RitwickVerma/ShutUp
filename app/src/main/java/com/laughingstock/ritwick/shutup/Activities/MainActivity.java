@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event)
     {
-        if(event.message.equals("schedcallperformed"))
+        if(event.getMessage().equals("schedcallperformed"))
             ProcessPhoenix.triggerRebirth(this);
     }
 

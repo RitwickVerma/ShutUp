@@ -30,10 +30,10 @@ public class ScheduleContactsAdapter extends BaseAdapter
     private ArrayList<Bundle> schedinfo;
     private TextView listemptytext;
     private String number = "", name = "", photo = "", time = "", date = "", dialnumber = "";
-    boolean repeatcall=false;
+    private boolean repeatcall=false;
     private long timeinmills;
     private ArrayList<String> diffnums;
-    int repeatinterval;
+    private int repeatinterval;
 
 
     private static LayoutInflater inflater = null;
