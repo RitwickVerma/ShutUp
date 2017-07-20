@@ -8,8 +8,8 @@ android {
         applicationId "com.laughingstock.ritwick.shutup"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 18
-        versionName "1.5.3"
+        versionCode 19
+        versionName "1.5.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
