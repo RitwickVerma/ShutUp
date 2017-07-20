@@ -141,35 +141,18 @@ public class DetailedSchedcallActivity extends AppCompatActivity
             {            }
         });
 
-        vibratecb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-        {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-            {
-                vibrate=isChecked;
-            }
-        });
+        vibratecb.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked)->vibrate=isChecked);
 
-        ringcb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-        {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-            {
-                ring=isChecked;
-            }
-        });
+        ringcb.setOnCheckedChangeListener((CompoundButton buttonView,boolean isChecked)->ring=isChecked);
 
-        repeatcallcb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-        {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+        repeatcallcb.setOnCheckedChangeListener((buttonView,isChecked)->
             {
                 repeatcall=isChecked;
                 datetext.setVisibility((repeatcall)?View.GONE:View.VISIBLE);
                 repeatcalltext.setVisibility((repeatcall)?View.VISIBLE:View.GONE);
                 repeatcallsb.setVisibility((repeatcall)?View.VISIBLE:View.GONE);
             }
-        });
+        );
 
         View.OnLongClickListener l=new View.OnLongClickListener()
         {

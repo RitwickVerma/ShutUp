@@ -26,7 +26,10 @@ import java.util.Locale;
 
 import com.laughingstock.ritwick.shutup.Adapters.*;
 import com.laughingstock.ritwick.shutup.Fragments.CSFragment;
+import com.laughingstock.ritwick.shutup.MessageEvent;
 import com.laughingstock.ritwick.shutup.R;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 public class CallSchedulerService extends Service implements TextToSpeech.OnInitListener
@@ -203,6 +206,7 @@ public class CallSchedulerService extends Service implements TextToSpeech.OnInit
             temp.putString("time",time);
             schedinfo.set(position,temp);
         }
+        EventBus.getDefault().post(new MessageEvent("schedcallperformed"));
         csFragment.saveToInternalStorage(context, schedinfo);
         ScheduleContactsAdapter schedulecontactsAdapter = new ScheduleContactsAdapter(context, schedinfo);
         schedulecontactsAdapter.notifyDataSetChanged();

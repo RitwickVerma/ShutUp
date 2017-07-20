@@ -34,12 +34,18 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.laughingstock.ritwick.shutup.BroadcastReceivers.AutoStart;
 import com.laughingstock.ritwick.shutup.BroadcastReceivers.PhoneStateReceiver;
 import com.laughingstock.ritwick.shutup.BroadcastReceivers.SchedAlarmReciever;
 import com.laughingstock.ritwick.shutup.Fragments.CCandAFragment;
 import com.laughingstock.ritwick.shutup.Fragments.CSFragment;
+import com.laughingstock.ritwick.shutup.MessageEvent;
 import com.laughingstock.ritwick.shutup.R;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
@@ -185,6 +191,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
     protected void onPause()
     {
         super.onPause();
@@ -252,7 +272,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MessageEvent event)
+    {
+        if(event.message.equals("schedcallperformed"))
+            ProcessPhoenix.triggerRebirth(this);
+    }
 
     public boolean permissionmanage()
     {
