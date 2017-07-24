@@ -10,6 +10,8 @@
         <item
             android:title="About"/>
         <item
+            android:title="Contribute"/>
+        <item
             android:title="Privacy Policy"/>
 
 </menu>

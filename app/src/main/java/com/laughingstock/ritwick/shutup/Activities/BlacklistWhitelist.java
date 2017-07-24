@@ -55,7 +55,6 @@ public class BlacklistWhitelist extends AppCompatActivity
             ActivityCompat.requestPermissions(BlacklistWhitelist.this, new String[]{Manifest.permission.READ_CONTACTS}, 0);
         }
 
-
         preferences = getSharedPreferences("switchstatepref",MODE_PRIVATE);
 
         String tempcontactnamejson = preferences.getString("listcontactnamespref",null);

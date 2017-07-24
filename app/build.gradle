@@ -47,6 +47,7 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.jakewharton:process-phoenix:2.0.0'
     compile 'com.jakewharton:butterknife:8.7.0'
+
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
 
     testCompile 'junit:junit:4.12'

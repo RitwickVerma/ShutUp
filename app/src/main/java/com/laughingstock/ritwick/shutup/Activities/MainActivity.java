@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -21,7 +22,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,24 +47,35 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
-    Switch masterswitch;
     SharedPreferences preferences;
-    TextView welcome1,welcome2;
     BroadcastReceiver phonestaterecevier;
     NotificationManager notificationManager;
-    RelativeLayout fragmentcontainer;
+
     CCandAFragment cCandAFragment;
     CSFragment csFragment;
-    NavigationView leftnav;
-    DrawerLayout drawerLayout;
-    int versionCode=0;
-    String versionName="",CCandA="com.laughingstock.ritwick.shutup.CCandA",CS="com.laughingstock.ritwick.shutup.CS";
+    int versionCode = 0;
+    String versionName = "", CCandA = "com.laughingstock.ritwick.shutup.CCandA", CS = "com.laughingstock.ritwick.shutup.CS";
     ViewGroup v;
-    final PhoneStateReceiver psr=new PhoneStateReceiver();
 
-    boolean checktel=false,checkdnd=false;
+    boolean checktel = false, checkdnd = false;
+
+    @BindView(R.id.masterswitch)
+    Switch masterswitch;
+    @BindView(R.id.fragmentcontainer)
+    RelativeLayout fragmentcontainer;
+    @BindView(R.id.welcome1)
+    TextView welcome1;
+    @BindView(R.id.welcome2)
+    TextView welcome2;
+    @BindView(R.id.navigation_view)
+    NavigationView leftnav;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
 
 
     @Override
@@ -73,22 +84,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer);
         v = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
+        ButterKnife.bind(this);
 
         preferences = getSharedPreferences("switchstatepref", MODE_PRIVATE);
-        masterswitch= findViewById(R.id.masterswitch);
-        welcome1= findViewById(R.id.welcome1);
-        welcome2= findViewById(R.id.welcome2);
-        leftnav= findViewById(R.id.navigation_view);
-        drawerLayout= findViewById(R.id.drawer_layout);
-
-        fragmentcontainer= findViewById(R.id.fragmentcontainer);
 
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         if (CCandA.equals(getIntent().getAction()))
         {
             cCandAFragment = new CCandAFragment();
-            getFragmentManager().beginTransaction().replace(R.id.fragmentcontainer,cCandAFragment, "settingsFragment").commit();
+            getFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, cCandAFragment, "settingsFragment").commit();
 
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("fragmenttoinflate", "Call control and automation");
@@ -98,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (CS.equals(getIntent().getAction()))
         {
             csFragment = new CSFragment();
-            getFragmentManager().beginTransaction().replace(R.id.fragmentcontainer,csFragment, "settingsFragment").commit();
+            getFragmentManager().beginTransaction().replace(R.id.fragmentcontainer, csFragment, "settingsFragment").commit();
 
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("fragmenttoinflate", "Call Scheduling");
@@ -115,8 +120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         (preferences.getString("fragmenttoinflate", "Call control and automation")
                                 .equals("Call control and automation")) ? cCandAFragment : csFragment, "settingsFragment").commit();
 
-            }
-            else
+            } else
             {
                 if (preferences.getString("fragmenttoinflate", "Call control and automation").equals("Call control and automation"))
                     cCandAFragment = (CCandAFragment) getFragmentManager().findFragmentByTag("settingsFragment");
@@ -136,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view)
             {
-                if(permissionmanage())
+                if (permissionmanage())
                 {
                     ComponentName componenta = new ComponentName(MainActivity.this, PhoneStateReceiver.class);
                     ComponentName componentb = new ComponentName(MainActivity.this, SchedAlarmReciever.class);
@@ -148,31 +152,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     editor.putBoolean("switchstate", masterswitch.isChecked());
 
 
-                    PackageManager pm  = MainActivity.this.getPackageManager();
+                    PackageManager pm = MainActivity.this.getPackageManager();
                     pm.setComponentEnabledSetting(componenta,
-                            masterswitch.isChecked()?PackageManager.COMPONENT_ENABLED_STATE_ENABLED:
+                            masterswitch.isChecked() ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
                                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
                     pm.setComponentEnabledSetting(componentb,
-                            masterswitch.isChecked()?PackageManager.COMPONENT_ENABLED_STATE_ENABLED:
+                            masterswitch.isChecked() ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
                                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
                     pm.setComponentEnabledSetting(componentc,
-                            masterswitch.isChecked()?PackageManager.COMPONENT_ENABLED_STATE_ENABLED:
+                            masterswitch.isChecked() ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
                                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
 
                     editor.apply();
 
                     fragmentmanage();
-                    masterswitch.setBackgroundColor(Color.parseColor((masterswitch.isChecked())?"#26A69A":"#EF5350"));
+                    masterswitch.setBackgroundColor(Color.parseColor((masterswitch.isChecked()) ? "#26A69A" : "#EF5350"));
 
-                    if(masterswitch.isChecked())
-                        setTitle(preferences.getString("fragmenttoinflate", "Call control and automation").equals("Call control and automation")?"Automation":"Scheduling");
+                    if (masterswitch.isChecked())
+                        setTitle(preferences.getString("fragmenttoinflate", "Call control and automation").equals("Call control and automation") ? "Automation" : "Scheduling");
                     else
                         setTitle("ShutUp!");
 
-                }
-                else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !notificationManager.isNotificationPolicyAccessGranted()
-                        || ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.READ_PHONE_STATE)!=PackageManager.PERMISSION_GRANTED
-                        || ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.READ_CONTACTS)!=PackageManager.PERMISSION_GRANTED)
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !notificationManager.isNotificationPolicyAccessGranted()
+                        || ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED)
                 {
                     masterswitch.toggle();
                 }
@@ -208,9 +211,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onPause()
     {
         super.onPause();
-        preferences = getSharedPreferences("switchstatepref",MODE_PRIVATE);
+        preferences = getSharedPreferences("switchstatepref", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("switchstate",masterswitch.isChecked());
+        editor.putBoolean("switchstate", masterswitch.isChecked());
         editor.apply();
     }
 
@@ -219,23 +222,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     {
         super.onResume();
 
-        preferences = getSharedPreferences("switchstatepref",MODE_PRIVATE);
-        masterswitch.setChecked(preferences.getBoolean("switchstate",false));
+        preferences = getSharedPreferences("switchstatepref", MODE_PRIVATE);
+        masterswitch.setChecked(preferences.getBoolean("switchstate", false));
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !notificationManager.isNotificationPolicyAccessGranted()
-                || ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.READ_PHONE_STATE)!=PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.READ_CONTACTS)!=PackageManager.PERMISSION_GRANTED)
+                || ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED)
         {
             masterswitch.setChecked(false);
         }
 
-        masterswitch.setBackgroundColor(Color.parseColor(masterswitch.isChecked()?"#26A69A":"#EF5350"));
+        masterswitch.setBackgroundColor(Color.parseColor(masterswitch.isChecked() ? "#26A69A" : "#EF5350"));
         fragmentmanage();
 
 
-        if(masterswitch.isChecked())
-            setTitle(preferences.getString("fragmenttoinflate", "Call control and automation").equals("Call control and automation")?"Automation":"Scheduling");
+        if (masterswitch.isChecked())
+            setTitle(preferences.getString("fragmenttoinflate", "Call control and automation").equals("Call control and automation") ? "Automation" : "Scheduling");
         else
             setTitle("ShutUp!");
 
@@ -246,21 +249,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
             versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
 
-        }catch(PackageManager.NameNotFoundException e)
+        } catch (PackageManager.NameNotFoundException e)
         {
             e.printStackTrace();
         }
 
-        if(preferences.getInt("VC",0)!=versionCode)
+        if (preferences.getInt("VC", 0) != versionCode)
         {
-            if(Build.MANUFACTURER.equals("Xiaomi"))
+            if (Build.MANUFACTURER.equals("Xiaomi"))
             {
                 AlertDialog.Builder builder;
                 builder = new AlertDialog.Builder(this);
                 builder.setTitle("Xiaomi phone detected")
                         .setMessage("I noticed that you are using a Xiaomi phone. I most probably will not work properly because of the heavy modifications in the software used by Xiaomi. I am sorry for the trouble. Please don't rate me bad.")
-                        .setPositiveButton("I understand", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
+                        .setPositiveButton("I understand", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int which)
+                            {
                                 dialog.dismiss();
                             }
                         })
@@ -275,13 +280,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event)
     {
-        if(event.getMessage().equals("schedcallperformed"))
+        if (event.getMessage().equals("schedcallperformed"))
             ProcessPhoenix.triggerRebirth(this);
     }
 
     public boolean permissionmanage()
     {
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE,Manifest.permission.READ_CONTACTS}, 0);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS}, 0);
 
         return checktel && (checkdnd || (Build.VERSION.SDK_INT < 23));
     }
@@ -291,19 +296,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED && grantResults[1]==PackageManager.PERMISSION_GRANTED && requestCode==0)
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && requestCode == 0)
         {
-            checktel=true;
+            checktel = true;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !notificationManager.isNotificationPolicyAccessGranted())
             {
 
                 Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
                 startActivity(intent);
-                Toast.makeText(this,"Won't misuse. Pinky promise.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Won't misuse. Pinky promise.", Toast.LENGTH_SHORT).show();
             }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && notificationManager.isNotificationPolicyAccessGranted() )
-                checkdnd=true;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && notificationManager.isNotificationPolicyAccessGranted())
+                checkdnd = true;
         }
     }
 
@@ -311,7 +316,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item)
     {
-        if(item.getTitle().equals("Call control and automation") || item.getTitle().equals("Call Scheduling"))
+        if (item.getTitle().equals("Call control and automation") || item.getTitle().equals("Call Scheduling"))
         {
             if (findViewById(R.id.fragmentcontainer) != null)
             {
@@ -334,18 +339,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Toast.makeText(MainActivity.this, "Master Switch is off", Toast.LENGTH_SHORT).show();
 
             }
-        }
-
-        else if(item.getTitle().equals("Settings"))
+        } else if (item.getTitle().equals("Settings"))
         {
-            if(masterswitch.isChecked())
+            if (masterswitch.isChecked())
             {
                 Intent intent = new Intent(MainActivity.this, Settings.class);
                 startActivity(intent);
-            }
-            else
+            } else
             {
-                Toast.makeText(MainActivity.this,"Master switch is off",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Master switch is off", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -369,7 +371,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (item.getTitle().equals("Help"))
         {
             final Dialog dialog = new Dialog(MainActivity.this);
-            if(preferences.getString("fragmenttoinflate", "Call control and automation").equals("Call control and automation"))
+            if (preferences.getString("fragmenttoinflate", "Call control and automation").equals("Call control and automation"))
                 dialog.setContentView(R.layout.help_dialog_ccanda);
             else
                 dialog.setContentView(R.layout.help_dialog_cs);
@@ -386,9 +388,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             });
 
             dialog.show();
-        }
-
-        else if (item.getTitle().equals("Rate"))
+        } else if (item.getTitle().equals("Rate"))
         {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("market://details?id=" + getPackageName()));
@@ -404,20 +404,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Toast.makeText(MainActivity.this, "Thank you!", Toast.LENGTH_SHORT).show();
                 }
             }, 1000);
-        }
-
-        else if (item.getTitle().equals("About"))
+        } else if (item.getTitle().equals("About"))
         {
             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
             alertDialog.setTitle("About:");
             alertDialog.setMessage("Created by: Ritwick Verma\nbecause he likes coding (still learning) and is a college student and is mostly free as he doesn't study.\n\nApp version: v" + versionName);
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Great!", new DialogInterface.OnClickListener()
-            {
-                public void onClick(DialogInterface dialog, int which)
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Donate!", (DialogInterface dialog, int which)->
                 {
-                    dialog.dismiss();
+                    Intent intent =new Intent(MainActivity.this,Donatepage.class);
+                    startActivity(intent);
                 }
-            });
+            );
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Rate", new DialogInterface.OnClickListener()
             {
                 @Override
@@ -440,19 +437,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             });
             alertDialog.show();
         }
-
-        else if(item.getTitle().equals("Donate"))
+        else if (item.getTitle().equals("Donate"))
         {
-            Intent i=new Intent(MainActivity.this,Donatepage.class);
-            startActivity(i);
+            startActivity(new Intent(MainActivity.this, Donatepage.class));
         }
-
-        else if(item.getTitle().equals("Privacy Policy"))
+        else if (item.getTitle().equals("Privacy Policy"))
         {
-            Intent bi= new Intent(Intent.ACTION_VIEW,Uri.parse("https://laughingstockcodes.wordpress.com/shutup-privacy-policy/"));
-            startActivity(bi);
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://laughingstockcodes.wordpress.com/shutup-privacy-policy/")));
         }
-
+        else if(item.getTitle().equals("Contribute"))
+        {
+            startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("https://github.com/RitwickVerma/ShutUp")));
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -460,7 +456,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed()
     {
-        if(drawerLayout.isDrawerOpen(leftnav))
+        if (drawerLayout.isDrawerOpen(leftnav))
             drawerLayout.closeDrawers();
         else
             super.onBackPressed();
@@ -468,13 +464,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void fragmentmanage()
     {
-        if(masterswitch.isChecked())
+        if (masterswitch.isChecked())
         {
             fragmentcontainer.setVisibility(View.VISIBLE);
             welcome2.setVisibility(View.INVISIBLE);
             welcome1.setVisibility(View.INVISIBLE);
-        }
-        else
+        } else
         {
             fragmentcontainer.setVisibility(View.GONE);
             welcome2.setVisibility(View.VISIBLE);
