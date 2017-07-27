@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -49,6 +50,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
@@ -183,6 +185,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         leftnav.setNavigationItemSelectedListener(this);
+        View headerview = leftnav.getHeaderView(0);
+        ImageView headerimage=headerview.findViewById(R.id.headerimage);
+        headerimage.setOnClickListener((v)->startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://laughingstockcodes.wordpress.com/"))));
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

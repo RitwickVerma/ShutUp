@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,7 +71,7 @@ public class ScheduleContactsAdapter extends BaseAdapter
         final SwipeRevealLayout swipeLayout = vi.findViewById(R.id.swipe);
 
         TextView schedinfotextview = vi.findViewById(R.id.schedinfotextview);
-        final ImageView schcontactphoto = vi.findViewById(R.id.schlistcontactphotopic);
+        final ImageView schcontactphoto = vi.findViewById(R.id.schlistcontactphoto);
 
         Bundle b = schedinfo.get(position);
         if (b != null)
@@ -140,7 +141,7 @@ public class ScheduleContactsAdapter extends BaseAdapter
             {            }
         });
 
-        RelativeLayout mainswipe= vi.findViewById(R.id.mainswipe);
+        ConstraintLayout mainswipe= vi.findViewById(R.id.mainswipe);
         mainswipe.setOnClickListener((v)->
                 {
                 if (onItemClickListener != null) {

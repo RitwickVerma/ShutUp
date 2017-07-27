@@ -36,6 +36,7 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DetailedSchedcallActivity extends AppCompatActivity
 {
@@ -46,7 +47,8 @@ public class DetailedSchedcallActivity extends AppCompatActivity
     boolean ring=true,vibrate=true,repeatcall=false;
     ArrayList<String> diffnums;
 
-    @BindView(R.id.schcontactphotopic) ImageView photoimage;
+    @BindView(R.id.schlistcontactphoto) CircleImageView photoimage;
+    @BindView(R.id.cancelButton) ImageView cancelButton;
     @BindView(R.id.nametext) TextView nametext;
     @BindView(R.id.timetext) TextView timetext;
     @BindView(R.id.datetext) TextView datetext;
@@ -199,10 +201,14 @@ public class DetailedSchedcallActivity extends AppCompatActivity
     public void donebuttonpressed(View v)
     {
 
-        if(name.equals("")||time.equals("")||(date.equals("") && !repeatcall))
+        if((name.equals("")||time.equals("")||(date.equals("")) && !repeatcall))
         {
             Snackbar.make(root,"Information incomplete",Snackbar.LENGTH_LONG)
-            .setAction("I don't care", (d)->finish())
+            .setAction("I don't care", (d)->
+            {
+                cancelButton.setVisibility(View.GONE);
+                supportFinishAfterTransition();
+            })
             .setActionTextColor(Color.parseColor("#2196F3"))
             .show();
 
@@ -210,9 +216,11 @@ public class DetailedSchedcallActivity extends AppCompatActivity
         else
         {
             decide(0);
+            if(timeinmills/60000< System.currentTimeMillis()/60000 && !edited
+                    && repeatcallcb.isChecked())
+                decide(1);
             if(timeinmills/60000< System.currentTimeMillis()/60000 && !edited)
             {
-                if(repeatcallcb.isChecked()) decide(1);
                 Toast.makeText(this, "Calling back in time is not yet possible.", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -232,13 +240,16 @@ public class DetailedSchedcallActivity extends AppCompatActivity
 
             ri.putExtra("sdatabundle",b);
             setResult(RESULT_OK, ri);
-            finish();
+
+            cancelButton.setVisibility(View.GONE);
+            supportFinishAfterTransition();
         }
     }
 
     public void cancelbuttonpressed(View v)
     {
-        finish();
+        cancelButton.setVisibility(View.GONE);
+        supportFinishAfterTransition();
     }
 
     public void selectcontacttextclicked(View v)
@@ -407,7 +418,10 @@ public class DetailedSchedcallActivity extends AppCompatActivity
     public void onBackPressed()
     {
         if(backpressedflag)
+        {
+            cancelButton.setVisibility(View.GONE);
             super.onBackPressed();
+        }
         else
         {
             Snackbar.make(root,"Press back again to cancel",Snackbar.LENGTH_LONG).show();
@@ -420,6 +434,7 @@ public class DetailedSchedcallActivity extends AppCompatActivity
     {
         switch (item.getItemId()) {
             case android.R.id.home:
+                cancelButton.setVisibility(View.GONE);
                 onBackPressed();
                 break;
         }

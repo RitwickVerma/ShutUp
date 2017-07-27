@@ -43,7 +43,7 @@ EventBus - https://github.com/greenrobot/EventBus
 
 ProcessPhoenix - https://github.com/JakeWharton/ProcessPhoenix
 
-
+CircleImageView - https://github.com/hdodenhof/CircleImageView
 
 ## License -
 
