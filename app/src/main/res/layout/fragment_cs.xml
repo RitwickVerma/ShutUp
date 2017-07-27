@@ -10,6 +10,7 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addschedulebutton"
+        android:transitionName="fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -23,7 +24,9 @@
         app:srcCompat="@drawable/add_white"
         app:useCompatPadding="true"
         tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintRight_creator="1"/>
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="0dp" />
 
     <TextView
         android:id="@+id/listemptytext"
@@ -38,6 +41,7 @@
         android:textAppearance="@android:style/TextAppearance.Holo.Large"
         android:textColor="@color/textColorPrimary"
         android:textSize="24sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -45,7 +49,7 @@
         app:layout_constraintVertical_bias="0.399"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1"/>
+        tools:layout_constraintTop_creator="1" />
 
     <ListView
         android:id="@+id/schedulelistview"

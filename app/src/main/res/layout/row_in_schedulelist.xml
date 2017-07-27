@@ -2,11 +2,13 @@
 <com.chauthai.swipereveallayout.SwipeRevealLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     app:mode="same_level"
     app:dragEdge="right"
     android:id="@+id/swipe"
-    android:layout_height="150sp">
+    android:layout_height="150sp"
+>
 
 
     <RelativeLayout
@@ -34,20 +36,17 @@
             android:layout_centerInParent="true"
             android:textSize="18sp"/>
     </RelativeLayout>
-    <RelativeLayout
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="16sp"
-        android:paddingStart="16sp"
-        android:paddingLeft="16sp"
         android:animateLayoutChanges="true"
-        android:paddingBottom="16sp"
         android:clipToPadding="true"
-        android:paddingEnd="16sp"
-        android:paddingRight="16sp"
-        android:id="@+id/mainswipe">
+        android:id="@+id/mainswipe"
+        android:transitionName="scheduledetails"
+        >
 
-    <android.support.v7.widget.CardView
+        <!--  <android.support.v7.widget.CardView
         android:id="@+id/schlistcontactphoto"
         app:cardCornerRadius="36sp"
         android:shape="ring"
@@ -66,32 +65,49 @@
             android:layout_marginBottom="-3sp"
             android:layout_marginEnd="-3sp"
             android:layout_marginStart="-3sp"/>
-    </android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>-->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/schlistcontactphoto"
+            android:transitionName="contactphoto"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:animateLayoutChanges="true"
+            android:clipToPadding="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" />
 
 
-    <TextView
-        android:text="sched info here"
-        android:layout_height="wrap_content"
-        android:id="@+id/schedinfotextview"
-        android:textAppearance="@android:style/TextAppearance.Holo.Large"
-        android:textSize="16sp"
-        android:textColor="@color/textColorPrimary"
-        android:layout_toRightOf="@+id/schlistcontactphoto"
-        android:layout_alignTop="@+id/schlistcontactphoto"
-        android:layout_marginTop="20sp"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="5sp"
-        android:textAllCaps="false"
-        android:layout_toLeftOf="@+id/imageView2"/>
+        <TextView
+            android:id="@+id/schedinfotextview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="25dp"
+            android:layout_marginStart="16dp"
+            android:text="sched info here"
+            android:textAllCaps="false"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/schlistcontactphoto"
+            app:layout_constraintTop_toTopOf="@+id/schlistcontactphoto"
+            android:layout_marginTop="8dp" />
 
         <ImageView
             app:srcCompat="@drawable/uparrow"
             android:id="@+id/imageView2"
             android:rotation="-90"
-            android:layout_width="10sp"
+            android:layout_width="0dp"
             android:layout_height="20sp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
+            app:layout_constraintStart_toEndOf="@+id/schedinfotextview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="15dp" />
 
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
 </com.chauthai.swipereveallayout.SwipeRevealLayout>
