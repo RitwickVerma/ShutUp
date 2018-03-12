@@ -5,5 +5,10 @@
     <color name="colorAccent">#2c3e50</color>
     <color name="textColorPrimary">#2c3e50</color>
     <color name="textColorSecondary">#386074</color>
-
+    <color name="colorintro1background">#5d9cec</color>
+    <color name="colorintro1button">#5d9cec</color>
+    <color name="colorintro2background">#7E57C2</color>
+    <color name="colorintro2button">#7E57C2</color>
+    <color name="colorintro3background">#26A69A</color>
+    <color name="colorintro3button">#26A69A</color>
 </resources>
