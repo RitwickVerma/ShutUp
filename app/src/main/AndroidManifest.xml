@@ -31,8 +31,8 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
             <meta-data
@@ -114,14 +114,10 @@
             android:exported="false"></service>
 
         <activity
-            android:name=".Activities.IntroActivity"
+            android:name=".Activities.MainIntroActivity"
             android:theme="@style/Theme.Intro"
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

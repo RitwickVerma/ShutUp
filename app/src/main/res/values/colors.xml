@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="white">#ffffff</color>
+    <color name="grey">#a4a2a2</color>
     <color name="colorPrimary">#2c3e50</color>
     <color name="colorPrimaryDark">#2c3e50</color>
     <color name="colorAccent">#2c3e50</color>
@@ -9,6 +11,8 @@
     <color name="colorintro1button">#5d9cec</color>
     <color name="colorintro2background">#7E57C2</color>
     <color name="colorintro2button">#7E57C2</color>
-    <color name="colorintro3background">#26A69A</color>
-    <color name="colorintro3button">#26A69A</color>
+    <color name="colorintro3background">#ffffff</color>
+    <color name="colorintro3button">#a4a2a2</color>
+    <color name="colorintro4background">#26A69A</color>
+    <color name="colorintro4button">#26A69A</color>
 </resources>

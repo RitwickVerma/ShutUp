@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -35,6 +36,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.heinrichreimersoftware.materialintro.app.IntroActivity;
+import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
+import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
 import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.laughingstock.ritwick.shutup.BroadcastReceivers.AutoStart;
 import com.laughingstock.ritwick.shutup.BroadcastReceivers.PhoneStateReceiver;
@@ -50,9 +54,9 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
+
+public class MainActivity extends A implements NavigationView.OnNavigationItemSelectedListener
 {
     SharedPreferences preferences;
     BroadcastReceiver phonestaterecevier;
@@ -84,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main_drawer);
         v = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
         ButterKnife.bind(this);
@@ -280,6 +285,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         editor.putInt("VC", versionCode).apply();
     }
+
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<agency.tango.materialintroscreen.parallax.ParallaxRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.heinrichreimersoftware.materialintro.view.parallax.ParallaxRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/slide_background"
@@ -35,4 +35,4 @@
         app:layout_parallaxFactor="1"
         app:srcCompat="@drawable/hand_with_watch" />
 
-</agency.tango.materialintroscreen.parallax.ParallaxRelativeLayout>
+</com.heinrichreimersoftware.materialintro.view.parallax.ParallaxRelativeLayout>
