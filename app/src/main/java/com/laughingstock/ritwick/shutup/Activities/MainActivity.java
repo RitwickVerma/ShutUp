@@ -56,7 +56,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends A implements NavigationView.OnNavigationItemSelectedListener
+public class MainActivity extends IntroActivity implements NavigationView.OnNavigationItemSelectedListener
 {
     SharedPreferences preferences;
     BroadcastReceiver phonestaterecevier;
