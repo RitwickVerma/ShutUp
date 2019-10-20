@@ -9,7 +9,9 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.IBinder;
+import android.telecom.TelecomManager;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
@@ -52,7 +54,7 @@ public class OffhookListenerService extends Service implements SensorEventListen
             callnumber="1234567890";
         }
 
-        preferences = getSharedPreferences("switchstatepref",Context.MODE_PRIVATE);
+        preferences = getSharedPreferences("shutupsharedpref",Context.MODE_PRIVATE);
         sensorManager=(SensorManager) getSystemService(Context.SENSOR_SERVICE);
         proximity=sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         accelerometer=sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -89,12 +91,12 @@ public class OffhookListenerService extends Service implements SensorEventListen
             {
                 if (event.values[0] == proximity.getMaximumRange() && firstonear)
                 {
-                    audioManager.setMode(AudioManager.MODE_IN_CALL);
+                    audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
                     audioManager.setSpeakerphoneOn(true);
                 }
                 else
                 {
-                    audioManager.setMode(AudioManager.MODE_IN_CALL);
+                    audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
                     audioManager.setSpeakerphoneOn(false);
                     firstonear = true;
                 }
@@ -140,15 +142,23 @@ public class OffhookListenerService extends Service implements SensorEventListen
     {
         try
         {
-            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            Class<?> c = Class.forName(tm.getClass().getName());
-            Method m = c.getDeclaredMethod("getITelephony");
-            m.setAccessible(true);
-            Object telephonyService = m.invoke(tm);
-            c = Class.forName(telephonyService.getClass().getName());
-            m = c.getDeclaredMethod("endCall");
-            m.setAccessible(true);
-            m.invoke(telephonyService);
+            if(Build.VERSION.SDK_INT>=28) {
+                TelecomManager tm = (TelecomManager) context.getSystemService(Context.TELECOM_SERVICE);
+                if (tm != null) {
+                    tm.endCall();
+                }
+            }
+            else {
+                TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+                Class<?> c = Class.forName(tm.getClass().getName());
+                Method m = c.getDeclaredMethod("getITelephony");
+                m.setAccessible(true);
+                Object telephonyService = m.invoke(tm);
+                c = Class.forName(telephonyService.getClass().getName());
+                m = c.getDeclaredMethod("endCall");
+                m.setAccessible(true);
+                m.invoke(telephonyService);
+            }
         }
         catch (Exception e)
         {

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.laughingstock.ritwick.shutup">
+    package="com.laughingstock.ritwick.shutup">
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
-    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -18,40 +20,35 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:persistent="true"
-        android:supportsRtl="true"
         android:resizeableActivity="true"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <meta-data android:name="android.max_aspect" android:value="2.1" />
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
 
         <activity
             android:name=".Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
 
             <meta-data
                 android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts"/>
+                android:resource="@xml/shortcuts" />
         </activity>
         <activity
             android:name=".Activities.Settings"
             android:label="@string/Settings_title">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.laughingstock.ritwick.shutup.Activities.MainActivity"/>
+                android:value="com.laughingstock.ritwick.shutup.Activities.MainActivity" />
         </activity>
         <activity
             android:name=".Activities.BlacklistWhitelist"
             android:label="Blacklist or Whitelist">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.laughingstock.ritwick.shutup.Activities.MainActivity"/>
+                android:value="com.laughingstock.ritwick.shutup.Activities.MainActivity" />
         </activity>
         <activity
             android:name=".Activities.AnswerCall"
@@ -59,52 +56,44 @@
             android:excludeFromRecents="true"
             android:launchMode="singleTop"
             android:taskAffinity=""
-            android:theme="@style/Mysms">
-        </activity>
-
-
+            android:theme="@style/Mysms"></activity>
         <activity android:name=".Activities.DetailedSchedcallActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.laughingstock.ritwick.shutup.Activities.MainActivity"/>
+                android:value="com.laughingstock.ritwick.shutup.Activities.MainActivity" />
         </activity>
-
-        <activity android:name=".Activities.Donatepage"
-                  android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".Activities.Donatepage"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.laughingstock.ritwick.shutup.Activities.MainActivity"/>
+                android:value="com.laughingstock.ritwick.shutup.Activities.MainActivity" />
         </activity>
 
         <service
             android:name=".Services.RingingListenerService"
             android:enabled="true"
-            android:exported="false"/>
-
-
+            android:exported="false" />
         <service
             android:name=".Services.OffhookListenerService"
             android:enabled="true"
-            android:exported="false">
-        </service>
+            android:exported="false"></service>
 
-        <receiver android:name=".BroadcastReceivers.PhoneStateReceiver"
-                  android:enabled="true"
-                  android:exported="false">
+        <receiver
+            android:name=".BroadcastReceivers.PhoneStateReceiver"
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE">
-                </action>
+                <action android:name="android.intent.action.PHONE_STATE"></action>
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".BroadcastReceivers.SchedAlarmReciever"
             android:enabled="true"
             android:exported="false"
             android:process=":remote">
             <intent-filter>
-                <action android:name="com.laughingstock.ritwick.shutup.START_SCHED_ALARM">
-                </action>
+                <action android:name="com.laughingstock.ritwick.shutup.START_SCHED_ALARM"></action>
             </intent-filter>
         </receiver>
         <receiver
@@ -112,19 +101,26 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED">
-                </action>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
         </receiver>
-
 
         <service
             android:name=".Services.CallSchedulerService"
             android:enabled="true"
-            android:exported="false">
-        </service>
+            android:exported="false"></service>
 
-
+        <activity
+            android:name=".Activities.MainIntroActivity"
+            android:theme="@style/Theme.Intro"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

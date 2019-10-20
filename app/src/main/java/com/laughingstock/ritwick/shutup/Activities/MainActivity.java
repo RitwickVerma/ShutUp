@@ -14,15 +14,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,9 +48,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import butterknife.*;
+//import butterknife.ButterKnife;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
@@ -84,11 +84,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main_drawer);
         v = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
         ButterKnife.bind(this);
 
-        preferences = getSharedPreferences("switchstatepref", MODE_PRIVATE);
+
+        preferences = getSharedPreferences("shutupsharedpref", MODE_PRIVATE);
 
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
@@ -149,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     ComponentName componentc = new ComponentName(MainActivity.this, AutoStart.class);
 
 
-                    preferences = getSharedPreferences("switchstatepref", MODE_PRIVATE);
+                    preferences = getSharedPreferences("shutupsharedpref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putBoolean("switchstate", masterswitch.isChecked());
 
@@ -184,6 +186,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        preferences.edit().putBoolean("first_install",false).apply();
+
         leftnav.setNavigationItemSelectedListener(this);
         View headerview = leftnav.getHeaderView(0);
         ImageView headerimage=headerview.findViewById(R.id.headerimage);
@@ -216,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onPause()
     {
         super.onPause();
-        preferences = getSharedPreferences("switchstatepref", MODE_PRIVATE);
+        preferences = getSharedPreferences("shutupsharedpref", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("switchstate", masterswitch.isChecked());
         editor.apply();
@@ -227,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     {
         super.onResume();
 
-        preferences = getSharedPreferences("switchstatepref", MODE_PRIVATE);
+        preferences = getSharedPreferences("shutupsharedpref", MODE_PRIVATE);
         masterswitch.setChecked(preferences.getBoolean("switchstate", false));
 
 
@@ -282,6 +286,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(MessageEvent event)
     {
@@ -329,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 csFragment = new CSFragment();
                 if (masterswitch.isChecked())
                 {
-                    preferences = getSharedPreferences("switchstatepref", MODE_PRIVATE);
+                    preferences = getSharedPreferences("shutupsharedpref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("fragmenttoinflate", item.getTitle().toString());
                     editor.apply();

@@ -9,7 +9,7 @@
     android:layout_below="@+id/blacklistwhitelisttext1"
     >
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16sp">
@@ -90,7 +90,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="8dp"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </ScrollView>

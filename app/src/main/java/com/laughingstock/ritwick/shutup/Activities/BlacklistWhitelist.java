@@ -7,10 +7,10 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -55,7 +55,7 @@ public class BlacklistWhitelist extends AppCompatActivity
             ActivityCompat.requestPermissions(BlacklistWhitelist.this, new String[]{Manifest.permission.READ_CONTACTS}, 0);
         }
 
-        preferences = getSharedPreferences("switchstatepref",MODE_PRIVATE);
+        preferences = getSharedPreferences("shutupsharedpref",MODE_PRIVATE);
 
         String tempcontactnamejson = preferences.getString("listcontactnamespref",null);
         String tempcontactnumberjson = preferences.getString("listcontactnumberspref",null);
@@ -209,7 +209,7 @@ public class BlacklistWhitelist extends AppCompatActivity
 
     public void savetosharedpreference()
     {
-        SharedPreferences preferences = getSharedPreferences("switchstatepref",MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("shutupsharedpref",MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
         Gson gson = new Gson();

@@ -37,7 +37,7 @@
             android:textSize="18sp"/>
     </RelativeLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
@@ -109,5 +109,5 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginEnd="15dp" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.chauthai.swipereveallayout.SwipeRevealLayout>

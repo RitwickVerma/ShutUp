@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.heinrichreimersoftware.materialintro.view.parallax.ParallaxRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/slide_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="63dp"
+    android:background="@android:color/transparent"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="false"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/imgViLauncherPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="200dp"
+        android:layout_marginLeft="125dp"
+        android:layout_marginRight="125dp"
+        android:layout_marginTop="125dp"
+        app:srcCompat="@drawable/launcher_phone" />
+
+    <ImageView
+        android:id="@+id/imgViHandWithWatch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="225dp"
+        android:layout_marginLeft="225dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="75dp"
+        android:rotation="-15"
+        app:layout_parallaxFactor="1"
+        app:srcCompat="@drawable/hand_with_watch" />
+
+</com.heinrichreimersoftware.materialintro.view.parallax.ParallaxRelativeLayout>
