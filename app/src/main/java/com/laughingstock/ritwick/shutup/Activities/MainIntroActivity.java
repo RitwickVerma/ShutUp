@@ -2,13 +2,13 @@ package com.laughingstock.ritwick.shutup.Activities;
 
 import android.Manifest;
 import android.content.Intent;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
-import com.heinrichreimersoftware.materialintro.app.NavigationPolicy;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
 import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
 import com.laughingstock.ritwick.shutup.R;
@@ -21,7 +21,16 @@ public class MainIntroActivity extends IntroActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        startIntro();
+        SharedPreferences preferences = getSharedPreferences("shutupsharedpref", MODE_PRIVATE);
+        if(preferences.getBoolean("first_install",true))
+            startIntro();
+        else
+        {
+            Intent launchmainactivity=new Intent(MainIntroActivity.this, MainActivity.class);
+            launchmainactivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(launchmainactivity);
+            finish();
+        }
 
     }
 
@@ -44,7 +53,7 @@ public class MainIntroActivity extends IntroActivity {
                 .background(R.color.colorintro2background)
                 .backgroundDark(R.color.colorintro2button)
                 .scrollable(false)
-                .permissions(new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS})
+                //.permissions(new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS})
                 .build());
 
         addSlide(new SimpleSlide.Builder()
@@ -54,7 +63,8 @@ public class MainIntroActivity extends IntroActivity {
                 .background(R.color.colorintro3background)
                 .backgroundDark(R.color.colorintro3button)
                 .scrollable(false)
-                .permissions(new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS})
+                .permissions(new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS,
+                        Manifest.permission.ANSWER_PHONE_CALLS,Manifest.permission.READ_CALL_LOG})
                 .build());
 
 
@@ -68,7 +78,9 @@ public class MainIntroActivity extends IntroActivity {
                     @Override
                     public void onClick(View v) {
                         Intent launchmainactivity=new Intent(MainIntroActivity.this, MainActivity.class);
+                        launchmainactivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(launchmainactivity);
+                        finish();
                     }
                 })
                 .build());

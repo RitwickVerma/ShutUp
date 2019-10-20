@@ -1,1 +1,1 @@
-[{"outputType":{"type":"APK"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":21},"outputFile":{"path":"/home/ritwick/AndroidStudioProjects/ShutUp/app/release/app-release.apk"},"properties":{"packageId":"com.laughingstock.ritwick.shutup","split":""}}]
+[{"outputType":{"type":"APK"},"apkData":{"type":"MAIN","splits":[],"versionCode":22,"versionName":"1.5.7","enabled":true,"outputFile":"app-release.apk","fullName":"release","baseName":"release"},"path":"app-release.apk","properties":{}}]

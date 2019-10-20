@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +76,7 @@ public class CCandAFragment extends Fragment
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                preferences = context.getSharedPreferences("switchstatepref", Context.MODE_PRIVATE);
+                preferences = context.getSharedPreferences("shutupsharedpref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("singlewaveselection",parent.getItemAtPosition(position).toString());
 
@@ -115,7 +115,7 @@ public class CCandAFragment extends Fragment
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
 
-                preferences = context.getSharedPreferences("switchstatepref", Context.MODE_PRIVATE);
+                preferences = context.getSharedPreferences("shutupsharedpref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("doublewaveselection",parent.getItemAtPosition(position).toString());
                 editor.apply();
@@ -134,7 +134,7 @@ public class CCandAFragment extends Fragment
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                preferences = context.getSharedPreferences("switchstatepref", Context.MODE_PRIVATE);
+                preferences = context.getSharedPreferences("shutupsharedpref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("flipdownlistselection",parent.getItemAtPosition(position).toString());
                 editor.apply();
@@ -157,7 +157,7 @@ public class CCandAFragment extends Fragment
     public void onResume()
     {
         super.onResume();
-        preferences = context.getSharedPreferences("switchstatepref",Context.MODE_PRIVATE);
+        preferences = context.getSharedPreferences("shutupsharedpref",Context.MODE_PRIVATE);
         singlelist.setSelection(waveadapter.getPosition(preferences.getString("singlewaveselection","")));
         doublelist.setSelection(waveadapter.getPosition(preferences.getString("doublewaveselection","")));
         silentonpick.setChecked(preferences.getBoolean("silentonpickcheckboxstate",false));
@@ -170,7 +170,7 @@ public class CCandAFragment extends Fragment
 
     public void silentonpickcheckboxclicked(View v)
     {
-        preferences = context.getSharedPreferences("switchstatepref", Context.MODE_PRIVATE);
+        preferences = context.getSharedPreferences("shutupsharedpref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("silentonpickcheckboxstate", silentonpick.isChecked());
         editor.apply();
@@ -178,7 +178,7 @@ public class CCandAFragment extends Fragment
 
     public void speakeroncheckboxclicked(View v)
     {
-        preferences = context.getSharedPreferences("switchstatepref", Context.MODE_PRIVATE);
+        preferences = context.getSharedPreferences("shutupsharedpref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("speakeroncheckboxstate", speakeron.isChecked());
         editor.apply();
@@ -201,7 +201,7 @@ public class CCandAFragment extends Fragment
 
     public void blacklistwhitelistswitchclicked(View v)
     {
-        preferences = context.getSharedPreferences("switchstatepref",Context.MODE_PRIVATE);
+        preferences = context.getSharedPreferences("shutupsharedpref",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("blacklistwhitelistswitchstate",blacklistwhitelistswitch.isChecked());
         editor.apply();

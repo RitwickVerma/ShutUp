@@ -57,7 +57,7 @@ public class bwcontactsAdapter extends BaseAdapter
                 contactnumbers.remove(position);
                 contactphotos.remove(position);
 
-                SharedPreferences preferences = context.getSharedPreferences("switchstatepref",Context.MODE_PRIVATE);
+                SharedPreferences preferences = context.getSharedPreferences("shutupsharedpref",Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
 
                 Gson gson = new Gson();

@@ -1,14 +1,10 @@
 package com.laughingstock.ritwick.shutup.Activities;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.SeekBar;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.laughingstock.ritwick.shutup.R;
 
@@ -42,7 +38,7 @@ public class Settings extends AppCompatActivity
                 String temp="Consecutive wave threshold:  "+(float)i/10+" sec";
                 consecutivewavethresholdtext.setText(temp);
 
-                preferences = getSharedPreferences("switchstatepref",MODE_PRIVATE);
+                preferences = getSharedPreferences("shutupsharedpref",MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putInt("consecutivewavethresholdseekbarprogress",i);
                 editor.apply();
@@ -64,7 +60,7 @@ public class Settings extends AppCompatActivity
     protected void onResume()
     {
         super.onResume();
-        preferences = getSharedPreferences("switchstatepref",MODE_PRIVATE);
+        preferences = getSharedPreferences("shutupsharedpref",MODE_PRIVATE);
         consecutivewavethreshold.setProgress(preferences.getInt("consecutivewavethresholdseekbarprogress",12));
     }
 

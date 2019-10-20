@@ -13,7 +13,9 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.Vibrator;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
+
+import android.telecom.TelecomManager;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
@@ -47,7 +49,7 @@ public class RingingListenerService extends Service implements SensorEventListen
     public int onStartCommand(Intent intent, int flags, int startId)
     {
         context=getApplicationContext();
-        preferences = getSharedPreferences("switchstatepref",Context.MODE_PRIVATE);
+        preferences = getSharedPreferences("shutupsharedpref",Context.MODE_PRIVATE);
         mode = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         currringermode=mode.getRingerMode();
 
@@ -152,15 +154,23 @@ public class RingingListenerService extends Service implements SensorEventListen
     {
         try
         {
-            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            Class<?> c = Class.forName(tm.getClass().getName());
-            Method m = c.getDeclaredMethod("getITelephony");
-            m.setAccessible(true);
-            Object telephonyService = m.invoke(tm);
-            c = Class.forName(telephonyService.getClass().getName());
-            m = c.getDeclaredMethod("endCall");
-            m.setAccessible(true);
-            m.invoke(telephonyService);
+            if(Build.VERSION.SDK_INT>=28) {
+                TelecomManager tm = (TelecomManager) context.getSystemService(Context.TELECOM_SERVICE);
+                if (tm != null) {
+                    tm.endCall();
+                }
+            }
+            else {
+                TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+                Class<?> c = Class.forName(tm.getClass().getName());
+                Method m = c.getDeclaredMethod("getITelephony");
+                m.setAccessible(true);
+                Object telephonyService = m.invoke(tm);
+                c = Class.forName(telephonyService.getClass().getName());
+                m = c.getDeclaredMethod("endCall");
+                m.setAccessible(true);
+                m.invoke(telephonyService);
+            }
         }
         catch (Exception e)
         {
@@ -172,10 +182,18 @@ public class RingingListenerService extends Service implements SensorEventListen
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void answercall()
     {
-        Intent intent = new Intent(context, AnswerCall.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK
-                | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-        context.startActivity(intent);
+        if(Build.VERSION.SDK_INT>=26) {
+            TelecomManager tm = (TelecomManager) context.getSystemService(Context.TELECOM_SERVICE);
+            if (tm != null) {
+                tm.acceptRingingCall();
+            }
+        }
+        else {
+            Intent intent = new Intent(context, AnswerCall.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+            context.startActivity(intent);
+        }
 
     }
 }

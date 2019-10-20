@@ -6,10 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
+import androidx.annotation.NonNull;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,7 +60,7 @@ public class CSFragment extends Fragment
     Unbinder unbinder;
 
 
-    @Nullable
+    @NonNull
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
