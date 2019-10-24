@@ -5,8 +5,8 @@
             android:title="Help"/>
         <item
             android:title="Rate"/>
-        <item
-            android:title="Donate"/>
+<!--        <item
+            android:title="Donate"/>      -->
         <item
             android:title="About"/>
         <item

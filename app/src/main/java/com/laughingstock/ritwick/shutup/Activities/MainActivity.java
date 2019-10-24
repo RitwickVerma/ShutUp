@@ -419,12 +419,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
             alertDialog.setTitle("About:");
             alertDialog.setMessage("Created by: Ritwick Verma\nbecause he likes coding (still learning) and is a college student and is mostly free as he doesn't study.\n\nApp version: v" + versionName);
-            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Donate!", (DialogInterface dialog, int which)->
-                {
-                    Intent intent =new Intent(MainActivity.this,Donatepage.class);
-                    startActivity(intent);
-                }
-            );
+//            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Donate!", (DialogInterface dialog, int which)->
+//                {
+//                    Intent intent =new Intent(MainActivity.this,Donatepage.class);
+//                    startActivity(intent);
+//                }
+//            );
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Rate", new DialogInterface.OnClickListener()
             {
                 @Override
