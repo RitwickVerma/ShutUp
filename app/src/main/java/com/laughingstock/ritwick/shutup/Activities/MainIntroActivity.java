@@ -64,7 +64,7 @@ public class MainIntroActivity extends IntroActivity {
                 .backgroundDark(R.color.colorintro3button)
                 .scrollable(false)
                 .permissions(new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS,
-                        Manifest.permission.ANSWER_PHONE_CALLS,Manifest.permission.READ_CALL_LOG})
+                        Manifest.permission.ANSWER_PHONE_CALLS})
                 .build());
 
 
