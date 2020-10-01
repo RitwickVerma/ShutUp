@@ -29,7 +29,7 @@ Please wave your hand over the proximity sensor and not over the screen because 
 Note:
 I work perfectly on devices with near stock ROM. My dev-human is working really hard to bring compatibility to all other devices. For Xiaomi devices, you can lock me in the RAM (in recents), so that I can work well for you. Rest assured, I consume negligible RAM and battery.
 
-Keywords: proximity silent, wave to silent, proximity gestures, air gestures, silent on pickup, wave end call, wave gestures, pick up silent, call answer on wave, automatic speaker on, auto toggle speaker, speaker on when away from ear, automatic speaker toggle, end call when phone kept facing down, mute microphone, wave, phone kept flat down, blacklist.
+Keywords: proximity silent, wave to silent, proximity gestures, air gestures, silent on pickup, wave end call, wave gestures, pick up silent, call answer on wave, automatic speaker on, auto toggle speaker, speaker on when away from ear, automatic speaker toggle, end call when phone kept facing down, mute microphone, wave, phone kept flat down, blacklist,shut up,noise reduction,silence,accelerometer,proximity sensors.
 
 
 
